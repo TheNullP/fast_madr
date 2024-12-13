@@ -4,7 +4,8 @@ from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import Session
 from testcontainers.postgres import PostgresContainer
 
-from fast_madr.models import get_db, reg
+from fast_madr.models import get_db, reg, User
+from fast_madr.security import get_password_hash
 from fast_madr.main import app
 
 
@@ -42,14 +43,21 @@ def client(db_session):
 
 
 @pytest.fixture
-def client_with_user(client):
-    with client:
-        client.post(
-            "/user/",
-            json={
-                "username": "test",
-                "email": "test@test.com",
-                "password": "test",
-            },
-        )
-        yield client
+def user(db_session):
+    pwd = 'testtest'
+    user = User(
+        username='test',
+        email='test@test.com',
+        password=get_password_hash(pwd)
+        
+    )
+    db_session.add(user)
+    db_session.commit()
+    db_session.refresh(user)
+
+    user.clean_password = pwd # Monkey Patch
+
+    return user
+
+
+

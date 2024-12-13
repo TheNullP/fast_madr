@@ -11,3 +11,13 @@ class UserModel(BaseModel):
 class UserPublic(UserModel):
     username: str
     emai: str = Field(default="email@email.com")
+
+
+class BookModel(BaseModel):
+    titulo: str
+    ano: int
+
+
+class Token(BaseModel):
+    access_toke: str
+    token_type: str

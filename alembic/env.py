@@ -5,6 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 from fast_madr.models import reg
+from decouple import config as decouple_conf
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -14,6 +15,8 @@ config = context.config
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
+config.get_main_option('sqlalchemy.url', decouple_conf('DB_URL'))
 
 # add your model's MetaData object here
 # for 'autogenerate' support

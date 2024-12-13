@@ -1,9 +1,12 @@
 from http import HTTPStatus
+from typing import Annotated
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 
 from fast_madr.models import User, get_db
 from fast_madr.schema import UserModel
+from fast_madr.security import get_password_hash
+from fast_madr.security import oauth2_scheme
 
 
 router = APIRouter()
@@ -24,23 +27,27 @@ def create_user(user: UserModel, db: Session = Depends(get_db)):
     )
     if existing_user:
         raise HTTPException(status_code=400, detail="User already exists.")
-    new_user = User(username=user.username, email=user.email, password=user.password)
+    new_user = User(
+        username=user.username,
+        email=user.email,
+        password=get_password_hash(user.password),
+    )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
-    return {"username": user.username, "email": user.email, "password": user.password}
+    return {"username": user.username, "email": user.email}
 
 
 @router.put("/user/{user_id}", tags=["users"], status_code=HTTPStatus.OK)
-def update_user(user_id: int, user: UserModel, db: Session = Depends(get_db)):
+def update_user(token: Annotated[str, Depends(oauth2_scheme)], user_id: int, user: UserModel, db: Session = Depends(get_db)):
     up_user = db.get(User, user_id)
     if not up_user:
         raise HTTPException(status_code=404, detail="User not found.")
     else:
         up_user.username = user.username
         up_user.email = user.email
-        up_user.password = user.password
+        up_user.password = get_password_hash(user.password)
     db.commit()
     db.refresh(up_user)
 
@@ -48,12 +55,11 @@ def update_user(user_id: int, user: UserModel, db: Session = Depends(get_db)):
         "id": user_id,
         "username": user.username,
         "email": user.email,
-        "password": user.password,
     }
 
 
 @router.delete("/user/{user_id}", tags=["users"], status_code=HTTPStatus.OK)
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+def delete_user(token: Annotated[str, Depends(oauth2_scheme)], user_id: int, db: Session = Depends(get_db)):
     existing_user = db.get(User, user_id)
     if not existing_user:
         raise HTTPException(status_code=404, detail="User not found.")

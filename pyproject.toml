@@ -16,10 +16,14 @@ pytest = "^8.3.3"
 testcontainers = {extras = ["postgres"], version = "^4.8.1"}
 alembic = "^1.13.3"
 sqlacodegen = "3.0.0rc1"
+pwdlib = {extras = ["argon2"], version = "^0.2.1"}
+python-multipart = "^0.0.12"
+pyjwt = "^2.9.0"
+python-decouple = "^3.8"
 
 [tool.taskipy.tasks]
 run = 'fastapi dev fast_madr/main.py'
-test = 'pytest -vv -s'
+test = 'pytest -vv'
 
 
 [build-system]

@@ -21,21 +21,20 @@ def test_adicionar_usuario(client):
         },
     )
 
-    assert response.status_code == HTTPStatus.OK
+    assert response.status_code == HTTPStatus.CREATED
     assert response.json() == {
         "username": "test",
         "email": "test@test.com",
-        "password": "test",
     }
 
 
-def test_adicionar_usuario_existente(client_with_user):
-    response = client_with_user.post(
+def test_adicionar_usuario_existente(client, user):
+    response = client.post(
         "/user/",
         json={
-            "username": "test",
-            "email": "test@test.com",
-            "password": "test",
+            "username": user.username,
+            "email": user.email,
+            "password": user.password,
         },
     )
 
@@ -43,8 +42,8 @@ def test_adicionar_usuario_existente(client_with_user):
     assert response.json() == {"detail": "User already exists."}
 
 
-def test_atualizar_usuario(client_with_user):
-    response = client_with_user.put(
+def test_atualizar_usuario(client, user):
+    response = client.put(
         "/user/1",
         json={
             "username": "test_modificated",
@@ -58,13 +57,12 @@ def test_atualizar_usuario(client_with_user):
         "id": 1,
         "username": "test_modificated",
         "email": "modificated@test.com",
-        "password": "test",
     }
 
 
-def test_atualizar_usuario_nao_encontrado(client_with_user):
-    response = client_with_user.put(
-        "/user/2",
+def test_atualizar_usuario_nao_encontrado(client):
+    response = client.put(
+        "/user/1",
         json={
             "username": "test_modificated",
             "email": "modificated@test.com",
@@ -76,15 +74,15 @@ def test_atualizar_usuario_nao_encontrado(client_with_user):
     assert response.json() == {"detail": "User not found."}
 
 
-def test_deletar_usuario(client_with_user):
-    response = client_with_user.delete("/user/1")
+def test_deletar_usuario(client, user):
+    response = client.delete("/user/1")
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {"detail": "User deleted."}
 
 
-def test_deletar_usuario_nao_encontrado(client_with_user):
-    response = client_with_user.delete("/user/2")
+def test_deletar_usuario_nao_encontrado(client, user):
+    response = client.delete("/user/2")
 
     assert response.status_code == HTTPStatus.NOT_FOUND
     assert response.json() == {"detail": "User not found."}
