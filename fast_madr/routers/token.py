@@ -2,26 +2,34 @@ from typing import Annotated
 from fastapi import APIRouter
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
+from fast_madr.schema import LoginModel
+from fast_madr.security import UserLogin, oauth2_scheme, token_verify
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from fast_madr.models import User, get_db
-from fast_madr.security import create_access_token, verify_password
 
 router = APIRouter()
 
 
-@router.post("/token",  tags=['token'])
-def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+@router.post('/user/token', tags=['token'])
+def user_login(
+    form_access: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
-    user = db.scalar(select(User).where(User.email == form_data.username))
+    user = LoginModel(
+        username=form_access.username,
+        password=form_access.password
+    )
 
-    if not user or not verify_password(form_data.password, user.password):
-        raise HTTPException(status_code=400, detail="Incorrect email or password.")
+    ul = UserLogin(db=db)
+    data = ul.user_login(user=user)
+
+    return data
 
 
-    access_token = create_access_token(data={'sub': user.email})
-
-    return{'access_token': access_token, 'token_type': 'bearer'}
+@router.get('/test', tags=['token'])
+def  test_access(
+    token: User = Depends(token_verify)
+):
+    return 'Its Works.'

@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fast_madr.security import token_verify
 
 from fast_madr.models import Book, User, get_db
 from fast_madr.schema import BookModel
@@ -37,7 +38,10 @@ def create_book(book: Book, user_id: int, db: Session = Depends(get_db)):
 
 @router.put("/book/{user_id}/{book_id}", tags=["books"])
 def update_book(
-    book_id: int, user_id: int, book: BookModel, db: Session = Depends(get_db)
+    book_id: int, user_id: int,
+    book: BookModel,
+    db: Session = Depends(get_db),
+    token: User = Depends(token_verify)
 ):
     existed_user_and_book = (
         db.query(Book).where(Book.id == book_id and Book.id_user == user_id).first()
@@ -55,7 +59,12 @@ def update_book(
 
 
 @router.delete("/book/{user_id}/{book_id}", tags=["books"])
-def delete_book(book_id: int, user_id: int, db: Session = Depends(get_db)):
+def delete_book(
+    book_id: int,
+    user_id: int,
+    db: Session = Depends(get_db),
+    token: User = Depends(token_verify)
+):
     existed_user_and_book = (
         db.query(Book).where(Book.id == book_id and Book.id_user == user_id).first()
     )
