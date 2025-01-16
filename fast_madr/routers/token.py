@@ -1,13 +1,11 @@
-from typing import Annotated
 from fastapi import APIRouter
-from fastapi import Depends, HTTPException
+from fastapi import Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from fast_madr.schema import LoginModel
-from fast_madr.security import UserLogin, oauth2_scheme, token_verify
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from fast_madr.models import User, get_db
+from fast_madr.schema import LoginModel
+from fast_madr.security import UserLogin, token_verify
 
 router = APIRouter()
 

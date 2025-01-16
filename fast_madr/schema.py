@@ -25,3 +25,7 @@ class Token(BaseModel):
 class LoginModel(BaseModel):
     username: str
     password: str
+
+class UserInfo(BaseModel):
+    username: str
+    email: str

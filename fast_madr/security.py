@@ -11,7 +11,7 @@ from passlib.context import CryptContext
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from fast_madr.schema import LoginModel, UserModel
+from fast_madr.schema import LoginModel, UserInfo, UserModel
 
 
 ALGORITHM=config('ALGORITHM')
@@ -68,7 +68,7 @@ class UserLogin:
 
         return{
             'access_token': access_token,
-            'exp': exp
+            'token_type': 'bearer'
         } 
 
     def verify_token(self, access_token):
@@ -100,6 +100,7 @@ class UserLogin:
                 detail='Invalid Access Token.'
             )
         return user_on_db
+
 
 
 def token_verify(

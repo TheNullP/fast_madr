@@ -1,25 +1,25 @@
 from http import HTTPStatus
-from typing import Annotated
-from fastapi import Depends, HTTPException, APIRouter
-from fastapi.responses import JSONResponse
+from fastapi import Depends, HTTPException, APIRouter, Request
+from fastapi.responses import HTMLResponse, JSONResponse
 from sqlalchemy.orm import Session
 
 from fast_madr.models import User, get_db
 from fast_madr.schema import UserModel
 from fast_madr.security import UserLogin, token_verify
-from fast_madr.security import oauth2_scheme, crypt_context
+from fast_madr.security import crypt_context
 
 
-router = APIRouter()
+
+router = APIRouter(prefix='/user')
 
 
-@router.get("/users/", tags=["users"], status_code=HTTPStatus.OK)
+@router.get("/search", tags=["user"], status_code=HTTPStatus.OK)
 def read_users(db: Session = Depends(get_db)):
     q = db.query(User).order_by(User.id).all()
     return q
 
 
-@router.post("/user/", tags=["users"], status_code=HTTPStatus.CREATED)
+@router.post("/register", tags=["user"], status_code=HTTPStatus.CREATED)
 def create_user(user: UserModel, db: Session = Depends(get_db)):
     ul = UserLogin(db=db)
     ul.user_register(user=user)
@@ -30,7 +30,7 @@ def create_user(user: UserModel, db: Session = Depends(get_db)):
     )
 
 
-@router.put("/user/{user_id}", tags=["users"], status_code=HTTPStatus.OK)
+@router.put("/update/{user_id}", tags=["user"], status_code=HTTPStatus.OK)
 def update_user(
     user_id: int,
     user: UserModel,
@@ -54,7 +54,7 @@ def update_user(
     }
 
 
-@router.delete("/user/{user_id}", tags=["users"], status_code=HTTPStatus.OK)
+@router.delete("/delete/{user_id}", tags=["user"], status_code=HTTPStatus.OK)
 def delete_user(
     user_id: int,
     db: Session = Depends(get_db),
@@ -66,3 +66,10 @@ def delete_user(
     db.delete(existing_user)
     db.commit()
     return {"detail": "User deleted."}
+
+
+@router.get('/profile', response_class=HTMLResponse)
+async def get_profile():
+    with open('fast_madr/templates/profile.html') as file:
+        html = file.read()
+        return HTMLResponse(content=html, status_code=200)
