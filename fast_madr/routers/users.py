@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from sqlalchemy.orm import Session
 
 from fast_madr.models import User, get_db
-from fast_madr.schema import UserModel
+from fast_madr.schema import UserInfo, UserModel
 from fast_madr.security import UserLogin, token_verify
 from fast_madr.security import crypt_context
 
@@ -73,3 +73,20 @@ async def get_profile():
     with open('fast_madr/templates/profile.html') as file:
         html = file.read()
         return HTMLResponse(content=html, status_code=200)
+
+@router.get('/info_user')
+def get_user_infor(
+    user: User = Depends(token_verify),
+    db: Session = Depends(get_db),
+):
+    ul  = UserLogin(db=db)
+    infor_user = ul.info_user(user_auth=user)
+
+    infor_user = UserInfo(
+        username=infor_user.username,
+        email=infor_user.email
+    )
+
+    return infor_user
+
+

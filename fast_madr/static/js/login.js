@@ -4,10 +4,10 @@ if (!token){
 	//redireciona para o login caso nao tenha token
 	window.location.href = '/';
 } else {
-	fetch(/* '/user/userinf' */, {
+	fetch('/user/info_user', {
 		headers:{
 			accept: 'application/json',
-			Authorization: 'Bearer ${token}', // add o token ao cabecalho de auth
+			Authorization: `Bearer ${token}`, // add o token ao cabecalho de auth
 		},
 	})
 		.then( (response)=> {
@@ -18,7 +18,7 @@ if (!token){
 		})
 		.then((data)=>{
 			//info do usuario
-			document.getElementById('user-info').innerText = 'Usuário: ${data.username}';
+			document.getElementById('user-info').innerText = `Usuário: ${data.username}`;
 		})
 		.catch((error) => {
 			console.error(error);

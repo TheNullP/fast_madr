@@ -101,6 +101,11 @@ class UserLogin:
             )
         return user_on_db
 
+    def info_user(self, user_auth):
+
+        user_db = self.db.query(User).filter_by(username=user_auth.username).first()
+
+        return user_db
 
 
 def token_verify(
