@@ -5,21 +5,21 @@ from decouple import config
 from fastapi import Depends
 from fastapi.exceptions import HTTPException
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt, JWTError
-from fast_madr.models import User, get_db
+from fastapi.templating import Jinja2Templates
+from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from fast_madr.models import User, get_db
 from fast_madr.schema import LoginModel, UserInfo, UserModel
-
 
 ALGORITHM=config('ALGORITHM')
 SECRET_KEY=config('SECRET_KEY')
 ACCESS_TOKEN_EXPIRE_MINUTES=config('ACCESS_TOKEN_EXPIRE_MINUTES')
 crypt_context = CryptContext(schemes=['sha256_crypt'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='user/token')
-
+templates = Jinja2Templates(directory='fast_madr/templates')
 
 class UserLogin:
     def __init__(self, db: Session):

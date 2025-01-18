@@ -26,7 +26,7 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
 
 		localStorage.setItem('access_token', token) // Armazena token no localStorage
 
-		window.location.href = '/user/profile';
+		window.location.href = '/user/login';
 
 	} catch (error) {
 		console.error('Erro ao fazer login:', error);
