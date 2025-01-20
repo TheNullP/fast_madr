@@ -22,9 +22,11 @@ class Token(BaseModel):
     access_toke: str
     token_type: str
 
+
 class LoginModel(BaseModel):
     username: str
     password: str
+
 
 class UserInfo(BaseModel):
     username: str

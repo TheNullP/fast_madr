@@ -4,9 +4,24 @@ body{
   padding: 0;
 }
 header{
-  background-color: #333;
+  background-color: #000;
+  color: #fff;
   padding: 10px 20px;
 }
+header ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+header li{
+  margin-right: 20px;
+}
+header a{
+  color: #fff;
+  text-decoration: none;
+}
+
 
 nav ul{
   list-style: none;
@@ -14,27 +29,70 @@ nav ul{
   padding: 0;
   display: flex;
   justify-content: flex-end;
-
 }
 nav ul li{
   margin-left: 20px;
-
 }
-
 nav ul li a {
   color: #FFF;
   text-decoration: none;
   font-size: 16px;
-
 }
 nav a{
   color: #FFF;
   text-decoration: none;
-
   margin-right: 15px;
 }
-
 nav ul li a:houver {
   text-decoration: underline;
+}
 
+
+main{
+  padding: 20px;
+}
+
+
+#books-contianer{
+  display: grip;
+  grip-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.book{
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.book img{
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.book h3{
+  font-size: 16px;
+  margin: 10px 0 5px;
+}
+.book p{
+  font-size: 14px;
+  margin: 0;
+}
+
+
+#pagination{
+  margin-top: 20px;
+  text-align: center;
+}
+#pagination button{
+  margin: 0 5px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#pagination button:hover{
+  background-color: #444;
 }

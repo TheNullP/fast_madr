@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from testcontainers.postgres import PostgresContainer
 
 from fast_madr.models import get_db, reg, User
-from fast_madr.security import get_password_hash
+from fast_madr.security import crypt_context
 from fast_madr.main import app
 
 
@@ -48,7 +48,7 @@ def user(db_session):
     user = User(
         username='test',
         email='test@test.com',
-        password=get_password_hash(pwd)
+        password=crypt_context(pwd)
         
     )
     db_session.add(user)

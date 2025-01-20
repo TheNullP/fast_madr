@@ -18,12 +18,11 @@ if (!token){
 		})
 		.then((data)=>{
 			//info do usuario
-			document.getElementById('user-info').innerText = `Usuário: ${data.username}`;
+			document.getElementById('user-info').innerText = `Bem-vindo, Usuário ${data.username}`;
 		})
 		.catch((error) => {
 			console.error(error);
 			alert('Session expired. Log in again.');
 			window.location.href = '/';
 		});
-
 }

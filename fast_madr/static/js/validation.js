@@ -24,9 +24,9 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
 		const token = data.access_token; //pega o token retornado pela API
 
 
-		localStorage.setItem('access_token', token) // Armazena token no localStorage
+		localStorage.setItem('access_token', token); // Armazena token no localStorage
 
-		window.location.href = '/user/login';
+		window.location.href = '/user/profile';
 
 	} catch (error) {
 		console.error('Erro ao fazer login:', error);
