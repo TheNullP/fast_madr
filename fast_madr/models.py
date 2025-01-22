@@ -18,8 +18,8 @@ class User:
 
 
 @reg.mapped_as_dataclass
-class Novelist:
-    __tablename__ = "novelists"
+class Author:
+    __tablename__ = "author"
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     nome: Mapped[str] = mapped_column(unique=True)
 
@@ -30,7 +30,7 @@ class Book:
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     titulo: Mapped[str] = mapped_column(unique=True)
     ano: Mapped[int]
-    id_author: Mapped[int] = mapped_column(ForeignKey("novelists.id"))
+    author: Mapped[str] 
     id_user: Mapped[int] = mapped_column(ForeignKey("users.id"))
 
 

@@ -1,13 +1,12 @@
 from http import HTTPStatus
-from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from fast_madr.security import token_verify
 
-from fast_madr.models import Book, User, get_db
-from fast_madr.schema import BookModel
+from fast_madr.models import Author, Book, User, get_db
+from fast_madr.schema import BookModel, PaginatedBooksResponse
+from fast_madr.security import token_verify
 
 
 router = APIRouter()
@@ -21,15 +20,20 @@ def read_books(db: Session = Depends(get_db)):
 
 
 @router.post("/book/{user_id}/", tags=["books"], status_code=HTTPStatus.CREATED)
-def create_book( book: BookModel, author_id: int, db: Session = Depends(get_db),user_auth: User = Depends(token_verify),):
-    exists_user = db.get(User, user_auth.id)
+def create_book( book: BookModel, name_author: str, db: Session = Depends(get_db),user_auth: User = Depends(token_verify),):
+    exists_author = db.query(Author).filter_by(nome=name_author).first()
+    exists_book = db.query(Book).filter_by(titulo=book.titulo).first()
 
-    if not exists_user:
-        raise HTTPException(status_code=404, detail="User not found.")
+    if exists_author is None:
+        raise HTTPException(status_code=404, detail="Author not found.")
+
+    if exists_book:
+        raise HTTPException(status_code=400, detail="Book already exists.")
+
     new_book = Book(
         titulo=book.titulo,
         ano=book.ano,
-        id_author=author_id,
+        author=exists_author.nome,
         id_user=user_auth.id,
     )
     db.add(new_book)
@@ -84,10 +88,12 @@ def delete_book(
 
     return {"detail": "Book deleted."}
 
-router.get('/books', response_model=List[dict])
+@router.get("/books", response_model=PaginatedBooksResponse, tags=["books"])
 def get_books(page: int =1, per_page: int = 10, db: Session= Depends(get_db)):
-    books = db.query(Book).all()
-
     start = (page - 1) * per_page
-    end = start + per_page
-    return books[start:end]
+
+    books = db.query(Book).offset(start).limit(per_page).all()
+
+    total_books = db.query(Book).count()
+
+    return {'books': books, 'total_books': total_books}
