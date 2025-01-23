@@ -2,11 +2,14 @@ body{
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f0f0f5;
 }
+
 header{
-  background-color: #000;
+  background-color: #363636;
   color: #fff;
   padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 header ul{
   list-style: none;
@@ -17,9 +20,9 @@ header ul{
 header li{
   margin-right: 20px;
 }
-header a{
+header a:hover{
   color: #fff;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 
@@ -53,7 +56,7 @@ main{
 }
 
 
-#books-contianer{
+#books-container{
   display: grip;
   grip-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
@@ -63,10 +66,17 @@ main{
   padding: 10px;
   text-align: center;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.book:hover{
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
 }
 .book h3{
-  font-size: 16px;
+  font-size: 16px5;;
+  margin: 10px 0 5px;
   margin: 10px 0 5px;
 }
 .book p{
@@ -90,4 +100,8 @@ main{
 }
 #pagination button:hover{
   background-color: #444;
+}
+#pagination button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
 }
