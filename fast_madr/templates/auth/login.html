@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Page Test</title>
+    <link rel="stylesheet" href="/static/css/login.css">
   </head>
 
   <body>
     <div>
-      <h2><span style="color: blue">Entrar</span></h2>
       <form id="loginForm" action="/user/token" method="POST">
+      <h2><span style="color: blue">Entrar</span></h2>
         <div>
           <label for="username">Username:</label>
           <input id='username' type="text" name="username" required />
@@ -18,10 +19,13 @@
           <label for="password">Password:</label>
           <input id='password'  type="password" name="password" required />
         </div>
-        <button type="submit">Enviar</button>
+        <button type="submit" class="button">Entrar</button>
+        <a href="/" class="button">Voltar</a>
+
         <p id="errorMessage" style="display: none"></p>
       </form>
     </div>
+
 
     <script src="/static/js/validation.js"></script>
   </body>
