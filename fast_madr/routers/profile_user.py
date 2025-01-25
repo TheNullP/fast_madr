@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 
-from fast_madr.models import User, get_db
-from fast_madr.schema import UserInfo
-from fast_madr.security import UserLogin, token_verify, templates
+from fast_madr.core.database import User, get_db
+from fast_madr.schemas.user_schema import UserInfo
+from fast_madr.core.security import UserLogin, token_verify, templates
 
 router = APIRouter(prefix='/user')
 

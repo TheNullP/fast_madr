@@ -3,9 +3,9 @@ from fastapi import Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from fast_madr.models import User, get_db
-from fast_madr.schema import LoginModel
-from fast_madr.security import UserLogin, token_verify
+from fast_madr.core.database import User, get_db
+from fast_madr.schemas.user_schema import LoginModel
+from fast_madr.core.security import UserLogin, token_verify
 
 router = APIRouter()
 

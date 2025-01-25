@@ -4,10 +4,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import  JSONResponse
 from sqlalchemy.orm import Session
 
-from fast_madr.models import User, get_db
-from fast_madr.schema import  UserModel
-from fast_madr.security import UserLogin, token_verify
-from fast_madr.security import crypt_context
+from fast_madr.core.database import User, get_db
+from fast_madr.schemas.user_schema import  UserModel
+from fast_madr.core.security import UserLogin, token_verify, crypt_context
 
 
 

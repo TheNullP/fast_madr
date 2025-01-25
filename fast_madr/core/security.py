@@ -11,8 +11,8 @@ from passlib.context import CryptContext
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from fast_madr.models import User, get_db
-from fast_madr.schema import LoginModel, UserModel
+from fast_madr.core.database import User, get_db
+from fast_madr.schemas.user_schema import LoginModel, UserModel
 
 ALGORITHM=config('ALGORITHM')
 SECRET_KEY=config('SECRET_KEY')

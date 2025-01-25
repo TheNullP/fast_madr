@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
-from fast_madr.security import templates
+from fast_madr.core.security import templates
 from fast_madr.routers import books, profile_user, token, users
 
 
