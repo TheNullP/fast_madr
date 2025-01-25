@@ -1,25 +1,22 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from decouple import config
 from fastapi import Depends
 from fastapi.exceptions import HTTPException
-from fastapi.security import OAuth2PasswordBearer
-from fastapi.templating import Jinja2Templates
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from fast_madr.core.config import (
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    ALGORITHM,
+    SECRET_KEY,
+    crypt_context,
+    oauth2_scheme,
+)
 from fast_madr.core.database import User, get_db
 from fast_madr.schemas.user_schema import LoginModel, UserModel
 
-ALGORITHM=config('ALGORITHM')
-SECRET_KEY=config('SECRET_KEY')
-ACCESS_TOKEN_EXPIRE_MINUTES=config('ACCESS_TOKEN_EXPIRE_MINUTES')
-crypt_context = CryptContext(schemes=['sha256_crypt'])
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='user/token')
-templates = Jinja2Templates(directory='fast_madr/templates')
 
 class UserLogin:
     def __init__(self, db: Session):

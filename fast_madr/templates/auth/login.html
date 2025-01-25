@@ -4,11 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Page Test</title>
-    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/form_register_and_login.css">
+    <link rel="stylesheet" href="/static/css/header.css">
   </head>
-
   <body>
-    <div>
+
+    <header>
+     <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li> <a href="/user/login"> Login</a></li>
+        <li><a href="/user/register">Registra-se</a></li>
+      </ul>
+     </nav> 
+    </header>
+
+    <div id="divForm">
       <form id="loginForm" action="/user/token" method="POST">
       <h2><span style="color: blue">Entrar</span></h2>
         <div>
@@ -20,8 +31,6 @@
           <input id='password'  type="password" name="password" required />
         </div>
         <button type="submit" class="button">Entrar</button>
-        <a href="/" class="button">Voltar</a>
-
         <p id="errorMessage" style="display: none"></p>
       </form>
     </div>

@@ -1,5 +1,8 @@
-
 body{
+  margin: 0;
+}
+
+#divForm{
   display: flex;
   justify-content: center;
   align-items: center;
