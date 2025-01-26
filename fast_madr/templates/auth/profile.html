@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Perfil</title>
     <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="styleSheet" href="/static/css/profile.css">
   </head>
   <body>
 
@@ -12,8 +13,7 @@
      <nav>
       <ul>
         <li><a href="/">Home</a></li>
-        <li> <a href="/user/login"> Login</a></li>
-        <li><a href="/user/register">Registra-se</a></li>
+        <li id="nav-login"></li>
       </ul>
      </nav> 
     </header>
@@ -21,6 +21,17 @@
     <h1 id='user-info'></h1>
     <p>Este é o seu Perfil.</p>
 
-<script src="/static/js/login.js"> </script>
+    <div>
+      <h3>Livros Adicionados:</h3>
+    </div>
+
+    <div>
+      <button type="click" id="logout">Logout</button>
+    </div>
+
+
+    <script src="/static/js/nav-logged-user.js"> </script>
+    <script src="/static/js/login.js"> </script>
+    <script src="/static/js/profile.js"> </script>
   </body>
 </html>

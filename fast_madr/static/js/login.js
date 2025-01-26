@@ -25,6 +25,6 @@ if (!token) {
 		.catch((error) => {
 			console.error(error);
 			alert("Session expired. Log in again.");
-			window.location.href = "/";
+			window.location.href = "/user/login";
 		});
 }

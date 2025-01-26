@@ -1,3 +1,7 @@
+// document.addEventListener("DOMContentLoaded", () =>{
+// 	const loader = await fetch();
+// });
+
 document
 	.getElementById("loginForm")
 	.addEventListener("submit", async (event) => {
@@ -24,7 +28,9 @@ document
 
 			const data = await response.json(); //converte resposta da API em JSON
 			const token = data.access_token; //pega o token retornado pela API
+			const user = { name: username };
 
+			localStorage.setItem("loggedUser", JSON.stringify(user)); // armazena o nome do usuario
 			localStorage.setItem("access_token", token); // Armazena token no localStorage
 
 			window.location.href = "/user/profile";
@@ -33,3 +39,7 @@ document
 			alert("Ocorreu um erro ao tentar fazer login.");
 		}
 	});
+
+document.getElementById("register").addEventListener("click", async (click) => {
+	window.location.href = "/user/register";
+});
