@@ -6,7 +6,7 @@ user = UserModel
 
 def test_adicionar_usuario(client):
     response = client.post(
-        "/user/",
+        "/user/create",
         json={
             "username": "test",
             "email": "test@test.com",
@@ -15,67 +15,74 @@ def test_adicionar_usuario(client):
     )
 
     assert response.status_code == HTTPStatus.CREATED
-    assert response.json() == {
-        "username": "test",
-        "email": "test@test.com",
-    }
+    assert response.json() == {'msg': 'success.'}
 
 
-# def test_adicionar_usuario_existente(client, user):
-#     response = client.post(
-#         "/user/",
-#         json={
-#             "username": user.username,
-#             "email": user.email,
-#             "password": user.password,
-#         },
-#     )
-#
-#     assert response.status_code == HTTPStatus.BAD_REQUEST
-#     assert response.json() == {"detail": "User already exists."}
-#
-#
-# def test_atualizar_usuario(client, user):
-#     response = client.put(
-#         "/user/1",
-#         json={
-#             "username": "test_modificated",
-#             "email": "modificated@test.com",
-#             "password": "test",
-#         },
-#     )
-#
-#     assert response.status_code == HTTPStatus.OK
-#     assert response.json() == {
-#         "id": 1,
-#         "username": "test_modificated",
-#         "email": "modificated@test.com",
-#     }
-#
-#
-# def test_atualizar_usuario_nao_encontrado(client):
-#     response = client.put(
-#         "/user/1",
-#         json={
-#             "username": "test_modificated",
-#             "email": "modificated@test.com",
-#             "password": "test",
-#         },
-#     )
-#
-#     assert response.status_code == HTTPStatus.NOT_FOUND
-#     assert response.json() == {"detail": "User not found."}
-#
-#
-# def test_deletar_usuario(client, user):
-#     response = client.delete("/user/1")
-#
-#     assert response.status_code == HTTPStatus.OK
-#     assert response.json() == {"detail": "User deleted."}
-#
-#
-# def test_deletar_usuario_nao_encontrado(client, user):
-#     response = client.delete("/user/2")
-#
-#     assert response.status_code == HTTPStatus.NOT_FOUND
-#     assert response.json() == {"detail": "User not found."}
+def test_adicionar_usuario_existente(client, user):
+    response = client.post(
+        "/user/create",
+        json={
+            "username": user.username,
+            "email": user.email,
+            "password": user.password,
+        },
+    )
+
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json() == {"detail": "User or Email already exists."}
+
+
+def test_atualizar_usuario(client, user, access_token):
+    response = client.put(
+        "/user/update/",
+        headers={
+            'Authorization': f'Bearer {access_token["access_token"]}'
+        },
+        json={
+            "username": "test_modificated",
+            "email": "modificated@test.com",
+            "password": "test",
+        },
+    )
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {'msg': 'success.'}
+
+
+def test_atualizar_usuario_nao_encontrado(client, access_token):
+    response = client.put(
+        "/user/update/2",
+        headers={
+            'Authorization': f'Bearer {access_token["access_token"]}'
+
+        },
+        json={
+            "username": "test_modificated",
+            "email": "modificated@test.com",
+            "password": "test",
+        },
+    )
+
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() == {"detail": "Not Found"}
+
+
+def test_deletar_usuario(client, access_token):
+    response = client.delete(
+        "/user/delete",
+        headers={
+            'Authorization': f'Bearer {access_token["access_token"]}'
+        },
+
+    )
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {"detail": "User deleted."}
+
+
+def test_deletar_usuario_nao_autenticado(client):
+    response = client.delete("/user/delete")
+
+    assert response.status_code == 401
+    assert response.json() == {'detail':'Not authenticated'}
+

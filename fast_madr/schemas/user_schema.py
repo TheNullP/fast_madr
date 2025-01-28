@@ -3,9 +3,9 @@ from pydantic.fields import Field
 
 
 class UserModel(BaseModel):
-    username: str
+    username: str = None
     email: str = Field(default="email@email.com")
-    password: str
+    password: str = None
 
 
 class UserPublic(UserModel):

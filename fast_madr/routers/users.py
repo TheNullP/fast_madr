@@ -25,45 +25,41 @@ def create_user(user: UserModel, db: Session = Depends(get_db)):
     ul.user_register(user=user)
 
     return JSONResponse(
-        content={'msg': 'success'},
+        content={'msg': 'success.'},
         status_code=201,
     )
 
 
-@router.put("/update/{user_id}", tags=["user"], status_code=HTTPStatus.OK)
+@router.put("/update/", tags=["user"], status_code=HTTPStatus.OK)
 def update_user(
-    user_id: int,
     user: UserModel,
     db: Session = Depends(get_db),
-    token: User = Depends(token_verify),
+    auth_user: User = Depends(token_verify),
 ):
-    up_user = db.get(User, user_id)
-    if not up_user:
-        raise HTTPException(status_code=404, detail="User not found.")
+    user_on_db = db.query(User).filter_by(username=user.username).first()
+    if user_on_db:
+        return JSONResponse(
+            content={'msg': 'User already exists.'},
+            status_code=400
+        )
     else:
-        up_user.username = user.username
-        up_user.email = user.email
-        up_user.password = crypt_context.hash(user.password)
-    db.commit()
-    db.refresh(up_user)
+        user_update = db.query(User).filter_by(username=auth_user.username).first()
+        user_update.username=user.username
+        user_update.email=user.email
+        user_update.password=crypt_context.hash(user.password)
+        db.commit()
 
-    return {
-        "id": user_id,
-        "username": user.username,
-        "email": user.email,
-    }
+    return JSONResponse(
+        content={'msg':'success.'},
+        status_code=200
+    )
 
-
-@router.delete("/delete/{user_id}", tags=["user"], status_code=HTTPStatus.OK)
+@router.delete("/delete", tags=["user"], status_code=HTTPStatus.OK)
 def delete_user(
-    user_id: int,
     db: Session = Depends(get_db),
-    token: User = Depends(token_verify),
+    auth_user: User = Depends(token_verify),
 ):
-    existing_user = db.get(User, user_id)
-    if not existing_user:
-        raise HTTPException(status_code=404, detail="User not found.")
-    db.delete(existing_user)
+    db.delete(auth_user)
     db.commit()
     return {"detail": "User deleted."}
 
