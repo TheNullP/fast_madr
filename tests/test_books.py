@@ -2,21 +2,24 @@ from http import HTTPStatus
 
 
 def test_lista_de_livros(client):
-    response = client.get("/books/")
+    response = client.get("/read-book")
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == []
 
 
-def test_criando_livro(client, user):
+def test_criando_livro(client, access_token, user):
     response = client.post(
-        "/book/1/",
+        "/create_book",
+        headers={
+            'Authorization': f'Bearer {access_token["access_token"]}',
+        },
         json={
             "titulo": "test",
             "ano": 1999,
-            "id_user": 1,
+            "author": "Stephen king",
         },
     )
 
     assert response.status_code == HTTPStatus.CREATED
-    assert response.json() == {"titulo": "test", "ano": 1999, "id_user": 1}
+    assert response.json() == {"msg": "success."}

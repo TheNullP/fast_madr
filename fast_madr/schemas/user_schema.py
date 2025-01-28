@@ -26,3 +26,6 @@ class LoginModel(BaseModel):
 class UserInfo(BaseModel):
     username: str
     email: str
+    number_of_books: int
+    created_books: list 
+

@@ -19,13 +19,9 @@ def read_books(db: Session = Depends(get_db)):
     return q
 
 
-@router.post("/book/{user_id}/", tags=["books"], status_code=HTTPStatus.CREATED)
-def create_book( book: BookModel, name_author: str, db: Session = Depends(get_db),user_auth: User = Depends(token_verify),):
-    exists_author = db.query(Author).filter_by(nome=name_author).first()
+@router.post("/create_book", tags=["books"], status_code=HTTPStatus.CREATED)
+def create_book( book: BookModel, db: Session = Depends(get_db),user_auth: User = Depends(token_verify),):
     exists_book = db.query(Book).filter_by(titulo=book.titulo).first()
-
-    if exists_author is None:
-        raise HTTPException(status_code=404, detail="Author not found.")
 
     if exists_book:
         raise HTTPException(status_code=400, detail="Book already exists.")
@@ -33,7 +29,7 @@ def create_book( book: BookModel, name_author: str, db: Session = Depends(get_db
     new_book = Book(
         titulo=book.titulo,
         ano=book.ano,
-        author=exists_author.nome,
+        author=book.author,
         id_user=user_auth.id,
     )
     db.add(new_book)

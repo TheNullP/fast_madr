@@ -4,8 +4,8 @@ from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import Session
 from testcontainers.postgres import PostgresContainer
 
-from fast_madr.models import get_db, reg, User
-from fast_madr.security import crypt_context
+from fast_madr.core.database import get_db, reg, User
+from fast_madr.core.config import crypt_context
 from fast_madr.main import app
 
 
@@ -48,8 +48,7 @@ def user(db_session):
     user = User(
         username='test',
         email='test@test.com',
-        password=crypt_context(pwd)
-        
+        password=crypt_context.hash(pwd)
     )
     db_session.add(user)
     db_session.commit()
@@ -59,5 +58,19 @@ def user(db_session):
 
     return user
 
-
+@pytest.fixture
+def access_token(client, user):
+    response = client.post(
+        '/user/token',
+        headers={
+            'accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded' # necessario p/ post com data
+        },
+        data={
+            'username': user.username,
+            'password': user.clean_password,
+        }
+    )
+    assert response.status_code == 200
+    return response.json()
 

@@ -14,8 +14,8 @@ from fast_madr.core.config import (
     crypt_context,
     oauth2_scheme,
 )
-from fast_madr.core.database import User, get_db
-from fast_madr.schemas.user_schema import LoginModel, UserModel
+from fast_madr.core.database import Book, User, get_db
+from fast_madr.schemas.user_schema import LoginModel, UserInfo, UserModel
 
 
 class UserLogin:
@@ -101,8 +101,17 @@ class UserLogin:
     def info_user(self, user_auth):
 
         user_db = self.db.query(User).filter_by(username=user_auth.username).first()
+        name_created_books = self.db.query(Book).filter_by(id_user=user_db.id).all()
+        created_books = len(name_created_books)
+            
+        info = UserInfo(
+            username=user_db.username,
+            email=user_db.email,
+            number_of_books=created_books,
+            created_books=name_created_books
+        )
 
-        return user_db
+        return info
 
 
 def token_verify(

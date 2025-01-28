@@ -30,10 +30,5 @@ def get_user_infor(
     ul  = UserLogin(db=db)
     infor_user = ul.info_user(user_auth=user)
 
-    infor_user = UserInfo(
-        username=infor_user.username,
-        email=infor_user.email,
-    )
-
     return infor_user
 
