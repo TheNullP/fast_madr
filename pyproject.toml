@@ -6,12 +6,11 @@ authors = ["Mfreitas0 <mfreitasc0@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 fastapi = {extras = ["standard"], version = "^0.115.0"}
 sqlalchemy = "^2.0.35"
 taskipy = "^1.13.0"
 pydantic = "^2.9.2"
-psycopg = "^3.2.2"
 pytest = "^8.3.3"
 testcontainers = {extras = ["postgres"], version = "^4.8.1"}
 alembic = "^1.13.3"
@@ -23,6 +22,8 @@ python-decouple = "^3.8"
 passlib = "^1.7.4"
 python-jose = "^3.3.0"
 jinja2 = "^3.1.5"
+uvicorn = "^0.34.0"
+psycopg = "^3.2.4"
 
 [tool.taskipy.tasks]
 run = 'fastapi dev fast_madr/main.py'
