@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-container
+    restart: always
+    environment:
+        POSTGRES_USER: app_user
+        POSTGRES_PASSWORD: app_password
+        POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    networks:
+      - app-networks
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    # healthcheck:
+    #   test: ["CMD", "pg_isready", "-U", "app_user"]
+    #   interval: 5s
+    #   retries: 5
+
+  app:
+    build: .
+    container_name: fastapi-container
+    restart: always 
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - app-networks
+    environment:
+        DB_URL: postgresql+psycopg://app_user:app_password@db:5432/app_db
+
+
+networks:
+  app-networks:
+
+volumes:
+  pg_data:
