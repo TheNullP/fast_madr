@@ -3,3 +3,11 @@ body {
   padding: 0;
   background-color: #c0c0c0;
 }
+
+img {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  width: 70;
+  height: 70;
+}

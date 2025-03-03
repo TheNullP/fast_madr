@@ -1,15 +1,16 @@
-body{
+body {
   margin: 0;
   background-color: #808080;
 }
 
 
-#books-container{
+#books-container {
   display: grip;
   grip-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
 }
-.book{
+
+.book {
   border: 1px solid #ccc;
   padding: 10px;
   text-align: center;
@@ -18,26 +19,31 @@ body{
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
 }
-.book:hover{
+
+.book:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
 }
-.book h3{
-  font-size: 16px5;;
+
+.book h3 {
+  font-size: 16px5;
+  ;
   margin: 10px 0 5px;
   margin: 10px 0 5px;
 }
-.book p{
+
+.book p {
   font-size: 14px;
   margin: 0;
 }
 
 
-#pagination{
+#pagination {
   margin-top: 20px;
   text-align: center;
 }
-#pagination button{
+
+#pagination button {
   margin: 0 5px;
   padding: 10px 15px;
   border: none;
@@ -46,9 +52,11 @@ body{
   border-radius: 5px;
   cursor: pointer;
 }
-#pagination button:hover{
+
+#pagination button:hover {
   background-color: #444;
 }
+
 #pagination button:disabled {
   background-color: #555;
   cursor: not-allowed;

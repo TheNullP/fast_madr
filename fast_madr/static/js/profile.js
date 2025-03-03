@@ -27,6 +27,9 @@ if (!token) {
 				window.location.href = "/";
 			});
 
+			if (data.profile_picture) {
+				document.getElementById("profile-picture").src = data.profile_picture;
+
 			document.getElementById(
 				"number_of_books",
 			).innerText = `${data.number_of_books}`;

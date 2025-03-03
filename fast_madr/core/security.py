@@ -104,6 +104,9 @@ class UserLogin:
         name_created_books = self.db.query(Book).filter_by(id_user=user_db.id).all()
         created_books = len(name_created_books)
             
+        if user_db.profile_picture is None:
+            user_db.profile_picture = "/static/image/default.png"
+
         info = UserInfo(
             username=user_db.username,
             email=user_db.email,
