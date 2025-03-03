@@ -4,7 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from fast_madr.models import reg
+from fast_madr.core.database import reg
 from decouple import config as decouple_conf
 
 # this is the Alembic Config object, which provides

@@ -83,7 +83,7 @@ class UserLogin:
                 status_code=401,
                 detail='Invalid Access Token.'
             )
-        except jwt.IntegrityError:
+        except IntegrityError:
             raise HTTPException(
                 status_code=401,
                 detail='Invalid Access Token.'
@@ -108,7 +108,8 @@ class UserLogin:
             username=user_db.username,
             email=user_db.email,
             number_of_books=created_books,
-            created_books=name_created_books
+            created_books=name_created_books,
+            profile_picture=user_db.profile_picture,
         )
 
         return info

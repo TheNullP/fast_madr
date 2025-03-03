@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column, registry, sessionmaker
-from sqlalchemy import ForeignKey, create_engine
+from sqlalchemy import ForeignKey, create_engine, String
 from decouple import config
 
 
@@ -15,6 +15,7 @@ class User:
     username: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
+    profile_picture: Mapped[str] = mapped_column(String, init=False, nullable=True)
 
 
 @reg.mapped_as_dataclass

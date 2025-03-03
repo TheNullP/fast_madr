@@ -28,4 +28,5 @@ class UserInfo(BaseModel):
     email: str
     number_of_books: int
     created_books: list 
+    profile_picture: str
 
