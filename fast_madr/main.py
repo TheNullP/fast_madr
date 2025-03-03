@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
 from fast_madr.core.config import templates
-from fast_madr.routers import books, profile_user, token, users
+from fast_madr.routers import books, profile_user, token, users, upload
 
 
 
@@ -14,6 +14,7 @@ app.include_router(users.router)
 app.include_router(books.router)
 app.include_router(token.router)
 app.include_router(profile_user.router)
+app.include_router(upload.router)
 
 
 app.mount("/static", StaticFiles(directory='fast_madr/static'), name='static')

@@ -2,6 +2,7 @@ from decouple import config
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.templating import Jinja2Templates
 from passlib.context import CryptContext
+import cloudinary
 
 
 
@@ -12,3 +13,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES=config('ACCESS_TOKEN_EXPIRE_MINUTES')
 crypt_context = CryptContext(schemes=['sha256_crypt'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='user/token')
 templates = Jinja2Templates(directory='fast_madr/templates')
+
+#configura o Cloudinary
+cloudinary.config(
+    cloud_name=config("CLOUDINARY_CLOUD_NAME"),
+    api_key=int(config("CLOUDINARY_API_KEY")),
+    api_secret=config("CLOUDINARY_API_SECRET")
+)

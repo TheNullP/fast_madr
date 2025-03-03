@@ -35,5 +35,6 @@ if (!token) {
 			console.error(error);
 			alert("Session expired. Log in again.");
 			window.location.href = "/user/login";
+			localStorage.removeItem("access_token");
 		});
 }
