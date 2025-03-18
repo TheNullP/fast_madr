@@ -1,8 +1,14 @@
+body {
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
 header {
-  background-color: #363636;
+  background: #333;
   color: #fff;
   padding: 10px 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 9px 0;
 }
 
 header nav ul {
@@ -15,15 +21,16 @@ header nav ul {
 
 header nav ul li {
   margin-left: 20px;
+  margin: 0 15px;
 }
 
 header nav ul li a {
   color: #FFF;
   text-decoration: none;
   font-size: 16px;
+  font-weight: bolder;
 }
 
 header nav ul li a:hover {
   text-decoration: underline;
 }
-

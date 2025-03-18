@@ -63,4 +63,3 @@ def delete_user(
     db.commit()
     return {"detail": "User deleted."}
 
-

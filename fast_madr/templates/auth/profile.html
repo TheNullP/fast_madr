@@ -6,6 +6,7 @@
     <title>Perfil</title>
     <link rel="stylesheet" href="/static/css/header.css">
     <link rel="styleSheet" href="/static/css/profile.css">
+    <link rel="styleSheet" href="/static/css/create_book.css">
   </head>
   <body>
 
@@ -18,11 +19,17 @@
      </nav> 
     </header>
 
-    <h1 id='user-info'></h1>
-    <img id="profile-picture" src="">
-    <p>Este é o seu Perfil.</p>
+    <div id="profile-container">
+      <label for="upload-photo">
+        <img id="profile-picture" src="" alt="foto de perfil">
+      </label>
+      <input type="file" id="upload-photo" accept="image/*" style="display: none;">
+      <h1 id='user-info'></h1>
+    </div>
 
-    <div>
+
+    <div id="books">
+      <p>Este é o seu Perfil.</p>
       <h3>Livros Adicionados: </h3>
       <p id="number_of_books"></p>
     </div>
@@ -30,17 +37,35 @@
     <h3>Livros:</h3>
     <div id="created_books"> </div>
 
-    <div>
-      <label for="create_book">Adicionar livro </label>
-      <button type="click" color='red'>Novo</button>
+
+
+    <button id="open-modal">Novo Livro</button>
+    <div id="book-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Adicionar Novo Livro</h2>
+        <form id="book-form">
+          <label for="title">Título:</label>
+          <input type="text" id="title" required placeholder="Digite o titulo do Livro.">
+
+          <label for="author" id="author">Autor:</label>
+          <input type="text" id="author" required placeholder="Digite o nome do Autor.">
+          
+          <label for="year">Ano:</label>
+          <input type="number" id="year" required placeholder="Digite o ano do livro.">
+
+          <button type="submit">Adicionar</button>
+        </form>
+      </div>
     </div>
 
-    <div>
+    <div id="container-logout">
       <button type="click" id="logout">Logout</button>
     </div>
 
 
     <script src="/static/js/nav-logged-user.js"> </script>
     <script src="/static/js/profile.js"> </script>
+    <script src="/static/js/create_book.js"> </script>
   </body>
 </html>
