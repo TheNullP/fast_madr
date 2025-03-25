@@ -46,17 +46,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     const profilePicture = document.getElementById("profile-picture");
     const uploadPhoto = document.getElementById("upload-photo");
 
-    profilePicture.addEventListener("click", function () {
+    profilePicture.addEventListener("mousedown", function (e) {
+        e.preventDefault();
+        // console.log("Imagem clicada - seletor aberto")
         uploadPhoto.click();
     });
 
     uploadPhoto.addEventListener("change", async function (event) {
         if (!event.target.files || event.target.files.length === 0) {
-            console.warn("Nenhum arquivo selecionado.");
+            // console.warn("Nenhum arquivo selecionado.");
             return;
         }
 
         const file = event.target.files[0];
+        console.log("Arquivo selecionado:", file.name);
+
 
         // Atualiza o preview da imagem antes do upload
         const reader = new FileReader();
@@ -64,7 +68,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             profilePicture.src = e.target.result;
         };
         reader.readAsDataURL(file);
-        uploadPhoto.value = "";  // reseta o input para permitir outra selecao
 
         // Cria o FormData para enviar a imagem
         const formData = new FormData();
@@ -77,8 +80,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 headers: { Authorization: `Bearer ${token}` }, // Adiciona o token ao envio da imagem
             });
 
+            if (!response.ok){
+                throw new Error(`Erro na requisição: ${response.status}`)
+            }
+
             const data = await response.json();
-            console.log("Upload realizado com sucesso:", data);
+            console.log("Upload realizado com sucesso.");
 
             if (data.url) {
                 profilePicture.src = data.url;
@@ -89,7 +96,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         } catch (error) {
             console.error("Erro no upload:", error);
             alert("Erro ao enviar a imagem. Tente novamente.");
+        } finally {
+            setTimeout(() => {
+                console.log("Resetando input após o upload...")
+                uploadPhoto.value = "";  // reseta o input para permitir outra selecao
+            }, 100); // pequeno atraso para evitar comportamento estranho no nav
         }
+
     });
 });
 

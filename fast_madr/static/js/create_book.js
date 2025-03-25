@@ -17,9 +17,37 @@ window.addEventListener("click", (e) =>{
   }
 });
 
-document.getElementById("book-form").addEventListener("submit", (e) =>{
+
+document.getElementById("book-form").addEventListener("submit",  async (e) => {
   e.preventDefault();
 
-  alert("Livro Adicionado!")
-  modal.style.display = "none";
-})
+  const title = document.getElementById("title").value;
+  const author = document.getElementById("author").value;
+  const year = parseInt(document.getElementById("year").value, 10);
+  const access_token = localStorage.getItem("access_token");
+
+  try {
+
+    const response = await fetch("/create_book",{
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${access_token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "titulo": title,
+        "ano": year,
+        "author": author
+      }),
+    })
+
+    if (!response.ok){
+      throw new Error(`Erro na requisição: ${response.status}`)
+    }
+    alert("success.")
+    modal.style.display = "none";
+
+  } catch (error){
+    alert(error)   
+  }
+});

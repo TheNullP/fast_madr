@@ -3,7 +3,6 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import User, get_db
-from fast_madr.schemas.user_schema import UserInfo
 from fast_madr.core.security import UserLogin, token_verify
 from fast_madr.core.config import templates
 
@@ -31,4 +30,3 @@ def get_user_infor(
     infor_user = ul.info_user(user_auth=user)
 
     return infor_user
-

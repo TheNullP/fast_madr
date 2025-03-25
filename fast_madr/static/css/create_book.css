@@ -24,6 +24,24 @@
   padding: 20px;
   width: 50%;
   border-radius: 8px;
+  box-sizing: border-box;
+}
+
+label {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 16px;
+  margin-bottom: 0;
+  width: 30%;
+}
+
+input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  /* Garante que os inputs ocupem toda a largura disponível */
 }
 
 .close {
@@ -38,9 +56,38 @@
   color: red;
 }
 
+#open-modal {
+  padding: 10px 15px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+  width: auto;
+}
+
+#open-modal:hover {
+  background-color: greenyellow;
+}
+
+#book-form {
+  display: flex;
+  flex-direction: column;
+  /* Faz o formulário ocupar 1 coluna */
+  gap: 15px;
+  /* Espaço entre os campos */
+}
 
 @media (max-width: 768px) {
   .modal-content {
     width: 80%;
+    /* Torna o modal mais estrito em dispositivos moveis*/
+  }
+
+  .form-container {
+    gap: 10px;
+    /* menos espaco entre os campos em telas menores*/
   }
 }

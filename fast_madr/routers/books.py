@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from fast_madr.core.database import Author, Book, User, get_db
+from fast_madr.core.database import Book, User, get_db
 from fast_madr.schemas.book_schema import BookModel, PaginatedBooksResponse
 from fast_madr.core.security import token_verify
 

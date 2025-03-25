@@ -1,10 +1,12 @@
+/* Definindo o layout básico da página */
 body {
   margin: 0;
   padding: 0;
   background-color: #c0c0c0;
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
+  /* Corrigindo alinhamento para o início da página */
   height: 100vh;
   font-family: Arial, sans-serif;
 }
@@ -18,9 +20,7 @@ header {
 #profile-container {
   display: flex;
   align-items: center;
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  gap: 15px;
 }
 
 #profile-picture {
@@ -29,9 +29,8 @@ header {
   border-radius: 50%;
   border: 3px solid #444;
   object-fit: cover;
-  margin-top: 15px;
   cursor: pointer;
-  transition: opacity 0.3;
+  transition: opacity 0.3s;
 }
 
 #profile-picture:hover {
@@ -43,12 +42,7 @@ header {
   font-weight: bold;
   color: #333;
   margin: 0;
-  margin-top: 30px;
-  margin-left: 10px;
-}
-
-p {
-  color: #666;
+  white-space: nowrap;
 }
 
 #books {
@@ -62,9 +56,11 @@ div {
 }
 
 #logout {
-  bottom: 1px;
+  margin-top: 20px;
+  /* Para não colidir com outros elementos */
 }
 
+/* Estilo do botão */
 button {
   padding: 10px 15px;
   background-color: #d9534f;
@@ -73,6 +69,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  display: inline-block;
 }
 
 button:hover {

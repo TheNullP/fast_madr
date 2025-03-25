@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from fastapi import File, UploadFile, HTTPException
-import cloudinary.uploader
+from urllib.parse import urlparse
 from sqlalchemy.orm import Session
+import cloudinary.uploader
 from fast_madr.core.config import cloudinary
 from fast_madr.core.security import token_verify
 from fast_madr.core.database import User, get_db
@@ -11,6 +12,21 @@ router = APIRouter()
 
 MAX_FILE_SIZE =2 * 1024 * 1024 #2BM em bytes
 ALLOWED_EXTENSIONS = {"image/jpeg", "image/png", "image/jpg"}
+
+
+def get_public_id(image_url: str):
+
+    parsed_url = urlparse(image_url)
+
+    path = parsed_url.path
+
+    path_parts = path.split("/")
+
+    public_id = "/".join(path_parts[5:])
+
+    public_id =  public_id.rsplit(".", 1)[0]
+
+    return public_id
 
 @router.post("/upload/profile-picture/")
 async def upload_profile_picture(
@@ -32,6 +48,8 @@ async def upload_profile_picture(
 
     try: 
         # upload para o cloudinary
+        public_id = get_public_id(auth_user.profile_picture)
+        cloudinary.uploader.destroy(public_id)
         result = cloudinary.uploader.upload(file.file, folder="media/profile_pictures/")
         profile_url = result["secure_url"]
 
