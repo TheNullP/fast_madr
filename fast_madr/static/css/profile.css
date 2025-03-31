@@ -2,7 +2,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #c0c0c0;
+  background: linear-gradient(to right, #4a90e2, #9b59b6);
   display: flex;
   flex-direction: column;
   align-items: flex-start;

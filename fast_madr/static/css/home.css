@@ -1,18 +1,21 @@
 body {
   margin: 0;
-  background-color: #808080;
+  background: linear-gradient(to right, #4a90e2, #4b443a);
 }
 
 
 #books-container {
   display: grip;
-  grip-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  justify-items: center;
 }
 
 .book {
   border: 1px solid #ccc;
   padding: 10px;
+  width: 80%;
+  height: 200px;
   text-align: center;
   border-radius: 5px;
   background-color: #fff;

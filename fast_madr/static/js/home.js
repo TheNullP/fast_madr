@@ -29,7 +29,7 @@ function renderPagination(currentPage, totalPages) {
 	const paginationContainer = document.getElementById("pagination");
 	paginationContainer.innerHTML = "";
 
-	for (let i = 1; i < totalPages; i++) {
+	for (let i = 1; i <= totalPages; i++) {
 		const button = document.createElement("button");
 		button.textContent = i;
 		button.disabled = i === currentPage;
@@ -39,12 +39,12 @@ function renderPagination(currentPage, totalPages) {
 }
 
 async function loadBooks(page = 1) {
-	const perPage = 2;
+	const perPage = 5;
 	const { books, total_books } = await fetchBooks(page, perPage);
 	renderBooks(books);
 
 	const totalPages = Math.ceil(total_books / perPage);
-	renderPagination(page, total_books);
+	renderPagination(page, totalPages);
 }
 
 // Inicializa a pagina ao carregar o DOM

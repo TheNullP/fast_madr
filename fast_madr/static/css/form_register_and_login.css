@@ -1,18 +1,18 @@
-body{
+body {
   margin: 0;
 }
 
-#divForm{
+#divForm {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: #c0c0c0;
+  background: linear-gradient(to right, #4a90e2, #4b443a);
 }
 
 
-#loginForm{
+#loginForm {
   background-color: #808080;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
@@ -22,7 +22,7 @@ body{
 }
 
 
-.button{
+.button {
   display: inline-block;
   padding: 5px 16px;
   background-color: #007bff;
@@ -34,13 +34,14 @@ body{
   border: 1px solid #0056b3;
   cursor: pointer;
 }
-.button:hover{
+
+.button:hover {
   background-color: #0056b3;
   border-color: #003f7f;
 }
 
 
-label{
+label {
   width: 100px;
   text-align: right;
   margin-right: 10px;
@@ -48,7 +49,7 @@ label{
 }
 
 
-input{
+input {
   flex: 1;
   padding: 8px;
   width: 300px;
@@ -64,7 +65,7 @@ input:focus {
 }
 
 
-#do_you_have_registration{
+#do_you_have_registration {
   color: #fff;
   background-color: #333;
 }
