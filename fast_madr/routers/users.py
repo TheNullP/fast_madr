@@ -1,13 +1,12 @@
 from http import HTTPStatus
 
 from fastapi import APIRouter, Depends
-from fastapi.responses import  JSONResponse
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import User, get_db
-from fast_madr.schemas.user_schema import  UserModel
+from fast_madr.schemas.user_schema import UserModel
 from fast_madr.core.security import UserLogin, token_verify, crypt_context
-
 
 
 router = APIRouter(prefix='/user')
@@ -43,16 +42,18 @@ def update_user(
             status_code=400
         )
     else:
-        user_update = db.query(User).filter_by(username=auth_user.username).first()
-        user_update.username=user.username
-        user_update.email=user.email
-        user_update.password=crypt_context.hash(user.password)
+        user_update = db.query(User).filter_by(
+            username=auth_user.username).first()
+        user_update.username = user.username
+        user_update.email = user.email
+        user_update.password = crypt_context.hash(user.password)
         db.commit()
 
     return JSONResponse(
-        content={'msg':'success.'},
+        content={'msg': 'success.'},
         status_code=200
     )
+
 
 @router.delete("/delete", tags=["user"], status_code=HTTPStatus.OK)
 def delete_user(
@@ -62,4 +63,3 @@ def delete_user(
     db.delete(auth_user)
     db.commit()
     return {"detail": "User deleted."}
-

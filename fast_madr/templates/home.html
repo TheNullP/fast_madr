@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Acervo de Livros</title>
-    <link href="/static/css/home.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/header.css">
-  </head>
-  <body>
 
-    <header>
-     <nav>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acervo de Livros</title>
+  <link href="/static/css/home.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/header.css">
+</head>
+
+<body>
+  <header>
+    <nav>
       <ul>
         <li><a href="/">Home</a></li>
         <li id="nav-login"></li>
       </ul>
-     </nav> 
-    </header>
+    </nav>
+  </header>
+  <main>
+    <h1>Bem-vindo ao Acervo de Livros</h1>
+    <div id="books-container">
+      <!-- livros carregados dinamicamente -->
+    </div>
+    <div id="pagination">
+      <!-- botoes de navegacao -->
+    </div>
+  </main>
+  <script src="/static/js/nav-logged-user.js">
+  </script>
+  <script src="static/js/home.js">
+  </script>
+</body>
 
-    <main>
-
-      <h1>Bem-vindo ao Acervo de Livros</h1>
-      <div id="books-container">
-        <!-- livros carregados dinamicamente -->
-      </div>
-      <div id="pagination">
-        <!-- botoes de navegacao -->
-      </div>
-
-    </main>
-
-    <script src="/static/js/nav-logged-user.js"> </script>
-    <script src="static/js/home.js"> </script>
-  </body>
 </html>

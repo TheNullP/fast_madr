@@ -1,12 +1,9 @@
 from fastapi import FastAPI, Request
-from fastapi import  Request
-from fastapi.responses import HTMLResponse
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
 from fast_madr.core.config import templates
 from fast_madr.routers import books, profile_user, token, users, upload
-
 
 
 app = FastAPI()

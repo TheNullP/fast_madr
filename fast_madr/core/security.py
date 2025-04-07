@@ -40,9 +40,9 @@ class UserLogin:
                 detail='User or Email already exists.'
             )
 
-
-    def user_login(self, user: LoginModel, exp: int = ACCESS_TOKEN_EXPIRE_MINUTES ):
-        user_on_db = self.db.query(User).filter_by(username=user.username).first()
+    def user_login(self, user: LoginModel, exp: int = ACCESS_TOKEN_EXPIRE_MINUTES):
+        user_on_db = self.db.query(User).filter_by(
+            username=user.username).first()
 
         if user_on_db is None:
             raise HTTPException(
@@ -63,15 +63,16 @@ class UserLogin:
 
         access_token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
-        return{
+        return {
             'access_token': access_token,
             'token_type': 'bearer'
-        } 
+        }
 
     def verify_token(self, access_token):
-        try:    
-            token = jwt.decode(access_token, SECRET_KEY, algorithms=[ALGORITHM])
-        
+        try:
+            token = jwt.decode(access_token, SECRET_KEY,
+                               algorithms=[ALGORITHM])
+
         except jwt.ExpiredSignatureError:
             raise HTTPException(
                 status_code=401,
@@ -89,7 +90,8 @@ class UserLogin:
                 detail='Invalid Access Token.'
             )
 
-        user_on_db = self.db.query(User).filter_by(username=token['usr']).first()
+        user_on_db = self.db.query(User).filter_by(
+            username=token['usr']).first()
 
         if user_on_db is None:
             raise HTTPException(
@@ -100,10 +102,12 @@ class UserLogin:
 
     def info_user(self, user_auth):
 
-        user_db = self.db.query(User).filter_by(username=user_auth.username).first()
-        name_created_books = self.db.query(Book).filter_by(id_user=user_db.id).all()
+        user_db = self.db.query(User).filter_by(
+            username=user_auth.username).first()
+        name_created_books = self.db.query(
+            Book).filter_by(id_user=user_db.id).all()
         created_books = len(name_created_books)
-            
+
         if user_db.profile_picture is None:
             user_db.profile_picture = "/static/image/default.png"
 

@@ -15,7 +15,8 @@ class User:
     username: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
-    profile_picture: Mapped[str] = mapped_column(String, init=False, nullable=True)
+    profile_picture: Mapped[str] = mapped_column(
+        String, init=False, nullable=True)
 
 
 @reg.mapped_as_dataclass
@@ -31,7 +32,7 @@ class Book:
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     titulo: Mapped[str] = mapped_column(unique=True)
     ano: Mapped[int]
-    author: Mapped[str] 
+    author: Mapped[str]
     id_user: Mapped[int] = mapped_column(ForeignKey("users.id"))
 
 

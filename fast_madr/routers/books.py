@@ -13,14 +13,14 @@ router = APIRouter()
 
 
 @router.get("/read-book", tags=["books"])
-def read_books(db: Session = Depends(get_db)): 
+def read_books(db: Session = Depends(get_db)):
     q = db.query(Book).order_by(Book.id).all()
 
     return q
 
 
 @router.post("/create_book", tags=["books"], status_code=HTTPStatus.CREATED)
-def create_book( book: BookModel, db: Session = Depends(get_db),user_auth: User = Depends(token_verify),):
+def create_book(book: BookModel, db: Session = Depends(get_db), user_auth: User = Depends(token_verify),):
     exists_book = db.query(Book).filter_by(titulo=book.titulo).first()
 
     if exists_book:
@@ -44,13 +44,14 @@ def create_book( book: BookModel, db: Session = Depends(get_db),user_auth: User 
 
 @router.put("/book/{user_id}/{book_id}", tags=["books"])
 def update_book(
-    book_id: int, 
+    book_id: int,
     book: BookModel,
     db: Session = Depends(get_db),
     user_auth: User = Depends(token_verify)
 ):
     existed_user_and_book = (
-        db.query(Book).where(Book.id == book_id and Book.id_user == user_auth.id).first()
+        db.query(Book).where(
+            Book.id == book_id and Book.id_user == user_auth.id).first()
     )
     if not existed_user_and_book:
         raise HTTPException(status_code=404, detail="Book or User not found.")
@@ -74,7 +75,8 @@ def delete_book(
     user_auth: User = Depends(token_verify)
 ):
     existed_user_and_book = (
-        db.query(Book).where(Book.id == book_id and Book.id_user == user_auth.id).first()
+        db.query(Book).where(
+            Book.id == book_id and Book.id_user == user_auth.id).first()
     )
 
     if not existed_user_and_book:
@@ -84,8 +86,9 @@ def delete_book(
 
     return {"detail": "Book deleted."}
 
+
 @router.get("/books", response_model=PaginatedBooksResponse, tags=["books"])
-def get_books(page: int =1, per_page: int = 10, db: Session= Depends(get_db)):
+def get_books(page: int = 1, per_page: int = 10, db: Session = Depends(get_db)):
     start = (page - 1) * per_page
 
     books = db.query(Book).offset(start).limit(per_page).all()

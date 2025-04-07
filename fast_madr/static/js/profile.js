@@ -23,10 +23,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Atualiza as informações do usuário
         document.getElementById("user-info").innerText = `${data.username}`;
-        document.getElementById("number_of_books").innerText = `${data.number_of_books}`;
+        document.getElementById("number_of_books").innerText =
+            `${data.number_of_books}`;
 
         if (data.profile_picture) {
-            document.getElementById("profile-picture").src = data.profile_picture;
+            document.getElementById("profile-picture").src =
+                data.profile_picture;
         }
 
         // Evento de logout
@@ -34,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             localStorage.removeItem("access_token");
             window.location.href = "/";
         });
-
     } catch (error) {
         console.error(error);
         alert("Sessão expirada. Faça login novamente.");
@@ -61,7 +62,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         const file = event.target.files[0];
         console.log("Arquivo selecionado:", file.name);
 
-
         // Atualiza o preview da imagem antes do upload
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -80,8 +80,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 headers: { Authorization: `Bearer ${token}` }, // Adiciona o token ao envio da imagem
             });
 
-            if (!response.ok){
-                throw new Error(`Erro na requisição: ${response.status}`)
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
             }
 
             const data = await response.json();
@@ -92,17 +92,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             } else {
                 console.warn("Erro ao obter a URL da imagem.");
             }
-
         } catch (error) {
             console.error("Erro no upload:", error);
             alert("Erro ao enviar a imagem. Tente novamente.");
         } finally {
             setTimeout(() => {
-                console.log("Resetando input após o upload...")
-                uploadPhoto.value = "";  // reseta o input para permitir outra selecao
+                console.log("Resetando input após o upload...");
+                uploadPhoto.value = ""; // reseta o input para permitir outra selecao
             }, 100); // pequeno atraso para evitar comportamento estranho no nav
         }
-
     });
 });
-

@@ -39,7 +39,7 @@ function renderPagination(currentPage, totalPages) {
 }
 
 async function loadBooks(page = 1) {
-	const perPage = 5;
+	const perPage = 6;
 	const { books, total_books } = await fetchBooks(page, perPage);
 	renderBooks(books);
 
