@@ -49,17 +49,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     profilePicture.addEventListener("mousedown", function (e) {
         e.preventDefault();
-        // console.log("Imagem clicada - seletor aberto")
         uploadPhoto.click();
     });
 
     uploadPhoto.addEventListener("change", async function (event) {
         if (!event.target.files || event.target.files.length === 0) {
-            // console.warn("Nenhum arquivo selecionado.");
+            console.warn("Nenhum arquivo selecionado.");
             return;
         }
 
-        const file = event.target.files[0];
+        const file = uploadPhoto.files[0];
         console.log("Arquivo selecionado:", file.name);
 
         // Atualiza o preview da imagem antes do upload
@@ -76,8 +75,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         try {
             const response = await fetch("/upload/profile-picture/", {
                 method: "POST",
-                body: formData,
                 headers: { Authorization: `Bearer ${token}` }, // Adiciona o token ao envio da imagem
+                body: formData,
             });
 
             if (!response.ok) {

@@ -48,8 +48,9 @@ async def upload_profile_picture(
 
     try: 
         # upload para o cloudinary
-        public_id = get_public_id(auth_user.profile_picture)
-        cloudinary.uploader.destroy(public_id)
+        public_id = get_public_id(auth_user.profile_picture) if auth_user.profile_picture else None
+        if public_id:
+            cloudinary.uploader.destroy(public_id)
         result = cloudinary.uploader.upload(file.file, folder="media/profile_pictures/")
         profile_url = result["secure_url"]
 
