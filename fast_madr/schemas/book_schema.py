@@ -14,7 +14,6 @@ class BookResponse(BaseModel):
     author: str
     id_user: int
 
-
 class PaginatedBooksResponse(BaseModel):
     books: List[BookResponse]
     total_books: int

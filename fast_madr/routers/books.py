@@ -19,27 +19,31 @@ def read_books(db: Session = Depends(get_db)):
     return q
 
 
-@router.post("/create_book", tags=["books"], status_code=HTTPStatus.CREATED)
-def create_book(book: BookModel, db: Session = Depends(get_db), user_auth: User = Depends(token_verify),):
-    exists_book = db.query(Book).filter_by(titulo=book.titulo).first()
-
-    if exists_book:
-        raise HTTPException(status_code=400, detail="Book already exists.")
-
-    new_book = Book(
-        titulo=book.titulo,
-        ano=book.ano,
-        author=book.author,
-        id_user=user_auth.id,
-    )
-    db.add(new_book)
-    db.commit()
-    db.refresh(new_book)
-
-    return JSONResponse(
-        content={'msg': 'success.'},
-        status_code=201,
-    )
+# @router.post("/create_book", tags=["books"], status_code=HTTPStatus.CREATED)
+# def create_book(
+#     book: BookModel,
+#     db: Session = Depends(get_db),
+#     user_auth: User = Depends(token_verify),
+# ):
+#     exists_book = db.query(Book).filter_by(titulo=book.titulo).first()
+#
+#     if exists_book:
+#         raise HTTPException(status_code=400, detail="Book already exists.")
+#
+#     new_book = Book(
+#         titulo=book.titulo,
+#         ano=book.ano,
+#         author=book.author,
+#         id_user=user_auth.id,
+#     )
+#     db.add(new_book)
+#     db.commit()
+#     db.refresh(new_book)
+#
+#     return JSONResponse(
+#         content={'msg': 'success.'},
+#         status_code=201,
+#     )
 
 
 @router.put("/book/{user_id}/{book_id}", tags=["books"])

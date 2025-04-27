@@ -1,11 +1,16 @@
-from fastapi import APIRouter, Depends
-from fastapi import File, UploadFile, HTTPException
 from urllib.parse import urlparse
-from sqlalchemy.orm import Session
+from http import HTTPStatus
+
 import cloudinary.uploader
+from fastapi import APIRouter, Depends, Form
+from fastapi import File, HTTPException, UploadFile
+from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
+
 from fast_madr.core.config import cloudinary
+from fast_madr.core.database import Book, User, get_db
 from fast_madr.core.security import token_verify
-from fast_madr.core.database import User, get_db
+from fast_madr.schemas.book_schema import BookResponse, BookModel
 
 
 router = APIRouter()
@@ -63,3 +68,37 @@ async def upload_profile_picture(
         return {"url": profile_url}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/create_book", tags=["books"], status_code=HTTPStatus.CREATED)
+def create_book(
+    titulo: str = Form(...),
+    ano: int = Form(...),
+    author: str = Form(...),
+    file: UploadFile = File(...), 
+    db: Session = Depends(get_db),
+    user_auth: User = Depends(token_verify),
+):
+    exists_book = db.query(Book).filter_by(titulo=titulo).first()
+
+    if exists_book:
+        raise HTTPException(status_code=400, detail="Book already exists.")
+
+    result = cloudinary.uploader.upload(file.file, folder="/media/book/")
+    book_url = result["secure_url"]
+
+    new_book = Book(
+        titulo=titulo,
+        ano=ano,
+        author=author,
+        id_user=user_auth.id,
+        file_book=book_url
+    )
+    db.add(new_book)
+    db.commit()
+    db.refresh(new_book)
+
+    return JSONResponse(
+        content={'msg': 'success.'},
+        status_code=201,
+    )
