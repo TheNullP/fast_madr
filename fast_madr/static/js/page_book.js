@@ -9,7 +9,12 @@ document.getElementById("books-container").addEventListener("click", (e) => {
     console.log(book);
 
     const title = document.getElementById("title");
+    const author = document.getElementById("author");
+    const year = document.getElementById("year");
+
     title.innerText = book.dataset.title;
+    author.innerText = book.dataset.author;
+    year.innerText = book.dataset.ano;
   }
 });
 
