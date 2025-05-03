@@ -15,6 +15,12 @@ function renderBooks(books) {
 	books.forEach((book) => {
 		const bookElement = document.createElement("div");
 		bookElement.classList.add("book");
+
+		bookElement.setAttribute("data-title", book.titulo);
+		bookElement.setAttribute("data-author", book.author);
+		bookElement.setAttribute("data-ano", book.ano);
+
+
 		bookElement.innerHTML = `
       <h2>${book.titulo}</h2>
       <p>Autor: ${book.author}</p>
