@@ -87,7 +87,9 @@ def create_book(
     exists_book = db.query(Book).filter_by(titulo=titulo).first()
 
     if exists_book:
-        raise HTTPException(status_code=400, detail='Book already exists.')
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST, detail='Book already exists.'
+        )
 
     result = cloudinary.uploader.upload(file.file, folder='/media/book/')
     book_url = result['secure_url']
@@ -99,6 +101,7 @@ def create_book(
         id_user=user_auth.id,
         file_book=book_url,
     )
+
     db.add(new_book)
     db.commit()
     db.refresh(new_book)

@@ -8,18 +8,25 @@ def test_lista_de_livros(client):
     assert response.json() == []
 
 
-def test_criando_livro(client, access_token, user):
+def test_livro_ja_criado(client, access_token, book, user):
     response = client.post(
         '/create_book',
         headers={
             'Authorization': f'Bearer {access_token["access_token"]}',
         },
-        json={
+        data={
             'titulo': 'test',
             'ano': 1999,
-            'author': 'Stephen king',
+            'author': 'test',
+            'id_user': book.id_user,
+        },
+        files={
+            'file': open(
+                '/home/marcos/Documentos/computer_science/repositorios/fast_madr/fast_madr/static/image/default.png',
+                'rb',
+            )
         },
     )
 
-    assert response.status_code == HTTPStatus.CREATED
-    assert response.json() == {'msg': 'success.'}
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json() == {'detail': 'Book already exists.'}

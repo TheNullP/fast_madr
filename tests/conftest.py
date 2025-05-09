@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.engine import create_engine
@@ -5,7 +7,7 @@ from sqlalchemy.orm import Session
 from testcontainers.postgres import PostgresContainer
 
 from fast_madr.core.config import crypt_context
-from fast_madr.core.database import User, get_db, reg
+from fast_madr.core.database import Book, User, get_db, reg
 from fast_madr.main import app
 
 
@@ -65,12 +67,30 @@ def access_token(client, user):
         '/user/token',
         headers={
             'accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded',  # necessario p/ post com data
+            'Content-Type': 'application/x-www-form-urlencoded',
+            # necessario p/ post com data
         },
         data={
             'username': user.username,
             'password': user.clean_password,
         },
     )
-    assert response.status_code == 200
+    assert response.status_code == HTTPStatus.OK
     return response.json()
+
+
+@pytest.fixture
+def book(db_session, client, user):
+    book = Book(
+        titulo='test',
+        ano=1999,
+        author='test',
+        id_user=user.id,
+        file_book='/home/Documentos/books/book.pdf',
+    )
+
+    db_session.add(book)
+    db_session.commit()
+    db_session.refresh(book)
+
+    return book
