@@ -4,14 +4,14 @@ from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import Session
 from testcontainers.postgres import PostgresContainer
 
-from fast_madr.core.database import get_db, reg, User
 from fast_madr.core.config import crypt_context
+from fast_madr.core.database import User, get_db, reg
 from fast_madr.main import app
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def engine():
-    with PostgresContainer("postgres:16", driver="psycopg") as postgres:
+    with PostgresContainer('postgres:16', driver='psycopg') as postgres:
         _engine = create_engine(postgres.get_connection_url())
 
         with _engine.begin():
@@ -48,15 +48,16 @@ def user(db_session):
     user = User(
         username='test',
         email='test@test.com',
-        password=crypt_context.hash(pwd)
+        password=crypt_context.hash(pwd),
     )
     db_session.add(user)
     db_session.commit()
     db_session.refresh(user)
 
-    user.clean_password = pwd # Monkey Patch
+    user.clean_password = pwd  # Monkey Patch
 
     return user
+
 
 @pytest.fixture
 def access_token(client, user):
@@ -64,13 +65,12 @@ def access_token(client, user):
         '/user/token',
         headers={
             'accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded' # necessario p/ post com data
+            'Content-Type': 'application/x-www-form-urlencoded',  # necessario p/ post com data
         },
         data={
             'username': user.username,
             'password': user.clean_password,
-        }
+        },
     )
     assert response.status_code == 200
     return response.json()
-

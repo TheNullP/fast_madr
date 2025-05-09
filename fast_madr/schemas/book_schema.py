@@ -1,5 +1,6 @@
-from typing_extensions import List
 from pydantic import BaseModel
+from typing_extensions import List
+
 
 class BookModel(BaseModel):
     titulo: str
@@ -14,7 +15,7 @@ class BookResponse(BaseModel):
     author: str
     id_user: int
 
+
 class PaginatedBooksResponse(BaseModel):
     books: List[BookResponse]
     total_books: int
-

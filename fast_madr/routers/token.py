@@ -1,11 +1,10 @@
-from fastapi import APIRouter
-from fastapi import Depends
+from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import User, get_db
-from fast_madr.schemas.user_schema import LoginModel
 from fast_madr.core.security import UserLogin, token_verify
+from fast_madr.schemas.user_schema import LoginModel
 
 router = APIRouter()
 
@@ -16,8 +15,7 @@ def user_login(
     db: Session = Depends(get_db),
 ):
     user = LoginModel(
-        username=form_access.username,
-        password=form_access.password
+        username=form_access.username, password=form_access.password
     )
 
     ul = UserLogin(db=db)
@@ -27,7 +25,5 @@ def user_login(
 
 
 @router.get('/test', tags=['token'])
-def  test_access(
-    token: User = Depends(token_verify)
-):
+def test_access(token: User = Depends(token_verify)):
     return 'Its Works.'

@@ -4,13 +4,13 @@ from pydantic.fields import Field
 
 class UserModel(BaseModel):
     username: str = None
-    email: str = Field(default="email@email.com")
+    email: str = Field(default='email@email.com')
     password: str = None
 
 
 class UserPublic(UserModel):
     username: str
-    emai: str = Field(default="email@email.com")
+    emai: str = Field(default='email@email.com')
 
 
 class Token(BaseModel):
@@ -27,6 +27,5 @@ class UserInfo(BaseModel):
     username: str
     email: str
     number_of_books: int
-    created_books: list 
+    created_books: list
     profile_picture: str = None
-

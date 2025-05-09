@@ -9,9 +9,7 @@ readme = "README.md"
 python = "^3.11"
 fastapi = {extras = ["standard"], version = "^0.115.0"}
 sqlalchemy = "^2.0.35"
-taskipy = "^1.13.0"
 pydantic = "^2.9.2"
-pytest = "^8.3.3"
 testcontainers = {extras = ["postgres"], version = "^4.8.1"}
 alembic = "^1.13.3"
 sqlacodegen = "3.0.0rc1"
@@ -26,10 +24,30 @@ uvicorn = "^0.34.0"
 psycopg = "^3.2.4"
 cloudinary = "^1.42.2"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+taskipy = "^1.14.1"
+ruff = "^0.11.8"
+
 [tool.taskipy.tasks]
 run = 'fastapi dev fast_madr/main.py'
-test = 'pytest -vv'
+test = 'pytest -s --cov=fast_madr -vv'
+lint = 'ruff check'
+format = 'ruff format'
+post_test = 'coverage html'
 
+[tool.ruff]
+line-length = 79
+extend-exclude = ["alembic"]
+
+[tool.ruff.lint]
+preview =true
+select = ['I','F','E','W','PL', 'PT']
+
+[tool.ruff.format]
+preview= true
+quote-style = 'single'
 
 [build-system]
 requires = ["poetry-core"]
