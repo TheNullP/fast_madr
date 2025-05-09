@@ -37,7 +37,7 @@ O projeto está dividido em três principais seções:
 2. Instale as dependências:
 
     ```bash
-    pip install -r requirements.txt
+    poetry install 
     ```
 
 3. Configure as variáveis de ambiente no arquivo `.env` (exemplo fornecido no `.env.example`).
@@ -58,12 +58,6 @@ O projeto está dividido em três principais seções:
 
    - Documentação interativa (Swagger UI): [http://localhost:8000/docs](http://localhost:8000/docs)
    - OpenAPI schema: [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json)
-
-## Endpoints Principais
-
-- **/contas/**: Gerenciamento de contas e autenticação.
-- **/livros/**: CRUD de livros.
-- **/romancistas/**: CRUD de romancistas.
 
 
 ## Licença
