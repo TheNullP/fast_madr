@@ -19,3 +19,11 @@ class BookResponse(BaseModel):
 class PaginatedBooksResponse(BaseModel):
     books: List[BookResponse]
     total_books: int
+
+
+class InfoBook(BaseModel):
+    titulo: str
+    ano: int
+    author: str
+    criado_por: str
+    url: str

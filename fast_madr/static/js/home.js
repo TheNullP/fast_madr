@@ -16,9 +16,7 @@ function renderBooks(books) {
 		const bookElement = document.createElement("div");
 		bookElement.classList.add("book");
 
-		bookElement.setAttribute("data-title", book.titulo);
-		bookElement.setAttribute("data-author", book.author);
-		bookElement.setAttribute("data-ano", book.ano);
+		bookElement.setAttribute("data-id", book.id);
 
 
 		bookElement.innerHTML = `

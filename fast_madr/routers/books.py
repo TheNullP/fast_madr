@@ -1,10 +1,15 @@
+from http import HTTPStatus
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import Book, User, get_db
 from fast_madr.core.security import token_verify
-from fast_madr.schemas.book_schema import BookModel, PaginatedBooksResponse
+from fast_madr.schemas.book_schema import (
+    BookModel,
+    InfoBook,
+    PaginatedBooksResponse,
+)
 
 router = APIRouter()
 
@@ -14,33 +19,6 @@ def read_books(db: Session = Depends(get_db)):
     q = db.query(Book).order_by(Book.id).all()
 
     return q
-
-
-# @router.post("/create_book", tags=["books"], status_code=HTTPStatus.CREATED)
-# def create_book(
-#     book: BookModel,
-#     db: Session = Depends(get_db),
-#     user_auth: User = Depends(token_verify),
-# ):
-#     exists_book = db.query(Book).filter_by(titulo=book.titulo).first()
-#
-#     if exists_book:
-#         raise HTTPException(status_code=400, detail="Book already exists.")
-#
-#     new_book = Book(
-#         titulo=book.titulo,
-#         ano=book.ano,
-#         author=book.author,
-#         id_user=user_auth.id,
-#     )
-#     db.add(new_book)
-#     db.commit()
-#     db.refresh(new_book)
-#
-#     return JSONResponse(
-#         content={'msg': 'success.'},
-#         status_code=201,
-#     )
 
 
 @router.put('/book/{user_id}/{book_id}', tags=['books'])
@@ -98,3 +76,30 @@ def get_books(
     total_books = db.query(Book).count()
 
     return {'books': books, 'total_books': total_books}
+
+
+@router.get('/page_book', tags=['books'])
+def get_page_book(
+    id_book: int,
+    db: Session = Depends(get_db),
+):
+    inf_book = db.query(Book).filter_by(id=id_book).first()
+    if not inf_book:
+        return JSONResponse(
+            content={'msg': 'Livro não encontrado.'},
+            status_code=HTTPStatus.NOT_FOUND,
+        )
+    try:
+        creator = db.query(User).filter_by(id=inf_book.id_user).first()
+        book = InfoBook(
+            titulo=inf_book.titulo,
+            ano=inf_book.ano,
+            author=inf_book.author,
+            criado_por=creator.username,
+            url=inf_book.file_book,
+        )
+
+        return book
+
+    except Exception as e:
+        raise e

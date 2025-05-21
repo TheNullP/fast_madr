@@ -22,7 +22,7 @@ def test_livro_ja_criado(client, access_token, book, user):
         },
         files={
             'file': open(
-                '/home/marcos/Documentos/computer_science/repositorios/fast_madr/fast_madr/static/image/default.png',
+                '/home/marcos/Documentos/computer_science/repositorios/FastApi/fast_madr/fast_madr/static/image/default.png',
                 'rb',
             )
         },
