@@ -30,3 +30,15 @@ def test_livro_ja_criado(client, access_token, book, user):
 
     assert response.status_code == HTTPStatus.BAD_REQUEST
     assert response.json() == {'detail': 'Book already exists.'}
+
+
+def test_upload_de_livro_criado():
+    pass
+
+
+def test_livros_por_pagina():
+    pass
+
+
+def test_informacao_do_livro_selecionado():
+    pass

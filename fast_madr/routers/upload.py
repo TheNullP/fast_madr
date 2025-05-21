@@ -76,7 +76,7 @@ async def upload_profile_picture(
 
 
 @router.post('/create_book', tags=['books'], status_code=HTTPStatus.CREATED)
-def create_book(
+def upload_created_book(
     titulo: str = Form(...),
     ano: int = Form(...),
     author: str = Form(...),
@@ -91,7 +91,9 @@ def create_book(
             status_code=HTTPStatus.BAD_REQUEST, detail='Book already exists.'
         )
 
-    result = cloudinary.uploader.upload(file.file, folder='/media/book/')
+    result = cloudinary.uploader.upload(
+        file.file, resource_type='raw', folder='/media/book/'
+    )
     book_url = result['secure_url']
 
     new_book = Book(
