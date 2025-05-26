@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async function() {
     const token = localStorage.getItem("access_token");
 
     if (!token) {
@@ -47,12 +47,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     const profilePicture = document.getElementById("profile-picture");
     const uploadPhoto = document.getElementById("upload-photo");
 
-    profilePicture.addEventListener("mousedown", function (e) {
+    profilePicture.addEventListener("mousedown", function(e) {
         e.preventDefault();
         uploadPhoto.click();
     });
 
-    uploadPhoto.addEventListener("change", async function (event) {
+    uploadPhoto.addEventListener("change", async function(event) {
         if (!event.target.files || event.target.files.length === 0) {
             console.warn("Nenhum arquivo selecionado.");
             return;
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Atualiza o preview da imagem antes do upload
         const reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = function(e) {
             profilePicture.src = e.target.result;
         };
         reader.readAsDataURL(file);

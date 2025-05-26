@@ -10,7 +10,7 @@ document.getElementById("books-container").addEventListener("click", async (e) =
     const id_book = book.dataset.id;
 
     try {
-      const response =  await fetch(`/page_book?id_book=${id_book}`);
+      const response = await fetch(`/page_book?id_book=${id_book}`);
 
       if (!response.ok) {
         console.error('Erro ao buscar livro: ', response.status);
@@ -27,7 +27,7 @@ document.getElementById("books-container").addEventListener("click", async (e) =
       const sinopse = document.getElementById('sinopse');
 
 
-      
+
       url.href = inf_modal.url;
       title.innerText = inf_modal.titulo;
       author.innerText = inf_modal.author;

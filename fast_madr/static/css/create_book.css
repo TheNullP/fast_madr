@@ -56,6 +56,18 @@ input {
   color: red;
 }
 
+.close-edit-book {
+  float: right;
+  font-size: 25px;
+  cursor: pointer;
+  color: #333;
+  padding: 5px;
+}
+
+.close-edit-book:hover {
+  color: red;
+}
+
 #open-modal {
   padding: 10px 15px;
   background-color: green;
