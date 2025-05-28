@@ -1,0 +1,187 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+
+
+  display: flex;
+  justify-content: center;
+  
+  opacity: 0;
+  transition: opacity 0.3 ease;
+
+  pointer-events: none;
+
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  width: 90%;
+  max-width: 650px;
+}
+
+.close, close-edit-book {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.3 ease;
+}
+
+.close:hover,
+.close:focus,
+.close-edit-book:hover,
+.close-edit-book:focus {
+  color: #555;
+  text-decoration: none;
+}
+
+/* Estilo do Form 'Adicionar novo livro' */
+#book-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#book-form label {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+}
+
+#form-form input[type='text'],
+#form-form input[type='number'],
+#form-form input[type='file'] {
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+#book-form button[type='submiut']{
+   padding: 12px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+#book-form button[type='submit']:hover {
+  background-color: #218838;
+}
+
+/* Estilos do corpo moda (inf-modal) */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding:  20px;
+  gap: 25px;
+}
+
+.modal-content h2#modal-title {
+  margin-top:10px;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+  width: 100%;
+  font-size: 1.8em;;
+}
+
+.modal-body img#modal-cover {
+  height: auto;
+  max-height: 350px;
+  width: 100%;
+  max-width: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+  margin: 0 auto 20px auto;
+}
+
+.modal-body .book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.modal-body h3#modal-author,
+.modal-body h3#modal-year {
+  margin: 0;
+  color: #555;
+  font-size: 1.2em;
+}
+
+.modal-body p#modal-sinopse {
+  margin-top: 5px;
+  color: #666;
+  line-height: 1.5;
+}
+
+#download a {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 14px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  width: auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#download a:hover {
+  background-color: #0056b3;
+}
+
+
+/* Responsividade para Modais */
+@media (min-width: 768px){
+  .modal-content {
+    width: 70%;
+    max-width: 850px;
+  }
+  .modal-body {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .modal-body img#modal-cover {
+    margin: 0 30px 0 0;
+    width: auto;
+    flex-shrink: 0;
+  }
+  .modal-body .book-details {
+    text-align: left;
+  }
+}

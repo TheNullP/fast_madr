@@ -3,65 +3,173 @@ body {
   margin: 0;
   padding: 0;
   background: linear-gradient(to right, #4a90e2, #9b59b6);
+  min-height: 100vh;
+  font-family: 'Segoe Ui', Tahomaa, Geneca, Verdana, sans-serif;
+  color: #333;
+
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  /* Corrigindo alinhamento para o início da página */
-  height: 100vh;
-  font-family: Arial, sans-serif;
+  align-items: center;
 }
 
 header {
   width: 100%;
-  background: #333;
-  padding: 9px 0;
+  background: #2c3e50;
+  padding: 15px 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .2);
+  position: sticky; /* faz o cabeçalho 'GRUDAr' no topo da tela*/
+  top: 0; /*comeca grudado no top*/
+  z-index: 100;
 }
 
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+header nav ul li a:hover {
+  background-color: #34495e;
+  border-radius: 5px;
+}
+
+/* Estilos do container Pricipal da Página */
+#main-content-wrapper {
+  width: 95%;
+  max-width: 1100px;
+  margin: 30px 0;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+
+  display: flex;
+  flex-direction: column;
+  gap:40px;
+  align-items: center;
+}
+
+/* Estilos da Seção de Perfil */
 #profile-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
+  text-align: center;
+  width: 100%;
 }
 
 #profile-picture {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  border: 3px solid #444;
+  border: 5px solid #4a90e2;
   object-fit: cover;
   cursor: pointer;
-  transition: opacity 0.3s;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 #profile-picture:hover {
-  opacity: 0.7;
+  transform scale(1.08)
+  border-color: #2e6cb3;
 }
 
 #user-info {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: bold;
-  color: #333;
+  color: #2c3e50;
   margin: 0;
   white-space: nowrap;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos da Seção 'Livros Adicionados' */
 #number_books {
-  text-align: left;
-  margin-top: 150px;
+  text-align: center;
+  color: #555;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
 }
 
+#number_books h3 {
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-size: 1.5em;
+}
+
+#number_of_books {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #4a90e2;
+  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, .1);
+}
+
+
+/* Titulo 'Meus Livros' */
+h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  text-align: center;
+  width:  100%;
+  font-size: 1.8em;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+
+/* Estilos da Grade de livros Criados  */
 #created_books {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: max-content;
-  gap: 20px;
+  grid-auto-columns: minmax(180px, 1fr);
+  gap: 25px;
   overflow-x: auto;
-  padding: 10px;
+  padding: 15px;
   scroll-behavior: smooth;
-  max-width: 100%;
-  /* box-sizing: border-box; */
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, .1);
+  background-color: #fff;
 }
 
+/* --- Personalização da Barra de Rolagem  */
+#created_books::-webkit-scrollbar {
+    height: 10px; 
+}
+
+#created_books::-webkit-scrollbar-track {
+    background: #e0e0e0; 
+    border-radius: 10px;
+}
+
+#created_books::-webkit-scrollbar-thumb {
+    background: #a0a0a0; 
+    border-radius: 10px;
+}
+
+#created_books::-webkit-scrollbar-thumb:hover {
+    background: #777; 
+}
+
+
+/* Estilos de Cada Livro Individual */
 .book {
   border: 2px solid #ccc;
   padding: 10px;
@@ -70,36 +178,175 @@ header {
   text-align: center;
   border-radius: 5px;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 10px rgb(0, 0, 0, 0.8);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  flex-shrink: 0;
+}
+
+.book h2 {
+  font-size: 1.3em;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  white-space: normal; 
+  word-wrap: break-word;
+}
+
+.book p {
+  font-size: 0.95em;
+  color: #666;
+  margin-top: 5px;
+  line-height: 1.4;
 }
 
 .book:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, .2);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0px 12px 25px rgba(0, 0, 0, .2);
 }
 
 
+/* Estilo do botao 'Novo Livro' */
+button#open-modal {
+  padding: 15px 30px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-items: center;
+  width: fit-content;
+}
+
+button#open-modal:hover {
+  background-color: #218838;
+  transform: translateY(-2px) /*pequeno efeito de pressionar'*/
+}
+
+
+/* Estilo do Botão de Logout */
+#container-logout {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  align-items: center;
+}
 
 #logout {
-  margin-top: 20px;
-  /* Para não colidir com outros elementos */
-}
-
-/* Estilo do botão */
-button {
-  padding: 10px 15px;
-  background-color: #d9534f;
-  margin-top: 100px;
+  padding: 12px 25px;
+  background-color: #dc3545;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3 ease, transform 0.2 ease;
 }
 
-button:hover {
-  background-color: #c9302c;
+#logout:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
 }
+
+
+/* --- Responsividade Geral da Página de Perfil --- */
+@media (max-width: 768px) {
+    #main-content-wrapper {
+        width: 98%; /* Ocupa mais largura em telas menores */
+        padding: 25px;
+        gap: 30px; /* Espaço entre seções */
+    }
+
+    #profile-container {
+        flex-direction: column; /* Mantém em coluna */
+        gap: 15px;
+    }
+
+    #profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+
+    #user-info {
+        font-size: 26px;
+    }
+
+    #number_books h3 {
+        font-size: 1.3em;
+    }
+
+    #number_of_books {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.6em;
+    }
+
+    #created_books {
+        grid-auto-columns: minmax(140px, 1fr); /* Livros menores em telas menores */
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .book {
+        width: 140px; /* Largura menor para livros */
+        padding: 10px;
+    }
+
+    button#open-modal, #logout {
+        width: 90%; /* Botões maiores para melhor toque */
+        max-width: 300px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-content-wrapper {
+        padding: 15px;
+        gap: 20px;
+    }
+
+    #profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    #user-info {
+        font-size: 22px;
+    }
+
+    #number_books h3 {
+        font-size: 1.1em;
+    }
+
+    #number_of_books {
+        font-size: 1.3em;
+    }
+
+    h3 {
+        font-size: 1.4em;
+    }
+
+    #created_books {
+        grid-auto-columns: minmax(110px, 1fr);
+        gap: 10px;
+    }
+
+    .book {
+        width: 110px;
+        padding: 8px;
+    }
+
+    button#open-modal, #logout {
+        width: 95%;
+        max-width: 250px;
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
+
