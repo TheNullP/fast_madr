@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>Registrar</title> <link rel="stylesheet" href="/static/css/header.css">
     <link rel="stylesheet" href="/static/css/form_register_and_login.css">
-    <link rel="stylesheet" href="/static/css/modal_styles.css">
-  </head>
-  <body>
-  
+    </head>
+
+<body>
+    
     <header>
         <nav>
             <ul>
@@ -18,28 +19,26 @@
         </nav>
     </header>
 
-
     <div id='divForm'>
-      <form id="loginForm">
-      <h2><span style="color: blue">Registra-se</span></h2>
-        <div>
-          <label for="username">Username:</label> 
-          <input type="text" name="username" id="username" required>
-        </div>
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" name="email" id="email" required>
-        </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" name="password" id="password" required>
-        </div>
-        <button type="submit" class="button">Cadastra-se</button>
-        <p id="errorMessage" style="display: none"></p>
-      </form>
+        <form id="registerForm"> <h2><span style="color: blue">Registrar</span></h2> <div>
+                <label for="username">Username:</label> 
+                <input type="text" name="username" id="username" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit" class="button">Cadastrar</button>
+            <p id="errorMessage" style="display: none; color: red; margin-top: 10px;"></p>
+        </form>
     </div>
 
     <script src="/static/js/nav-logged-user.js"> </script>
     <script src='/static/js/register.js'> </script>
-  </body>
+</body>
+
 </html>

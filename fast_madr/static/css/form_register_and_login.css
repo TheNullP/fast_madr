@@ -1,71 +1,163 @@
+#divForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
 body {
   margin: 0;
-}
-
-#divForm {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
+  padding: 0;
   background: linear-gradient(to right, #4a90e2, #4b443a);
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #333
 }
 
-
-#loginForm {
-  background-color: #808080;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
-  width: 300px;
-  transform: translateY(-20%);
-  border-radius: 10px;
+#loginForm, #registerForm {
+    background-color: #f7f7f7;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    text-align: center;
 }
 
-
-.button {
-  display: inline-block;
-  padding: 5px 16px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 12px;
-  text-align: center;
-  border: 1px solid #0056b3;
-  cursor: pointer;
+#loginForm h2, #registerForm h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 28px;
 }
 
-.button:hover {
-  background-color: #0056b3;
-  border-color: #003f7f;
+#loginForm h2 span, #registerForm h2 span {
+    color: #007bff;
 }
 
-
-label {
-  width: 100px;
-  text-align: right;
-  margin-right: 10px;
-  font-size: 14px;
+#loginForm div, #registerForm div {
+    margin-bottom: 15px;
+    text-align: left;
 }
 
-
-input {
-  flex: 1;
-  padding: 8px;
-  width: 300px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  box-sizing: border-box;
-  border-radius: 5px;
+#loginForm label, #registerForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+    width: auto;
+    text-align: left;
 }
 
-input:focus {
-  border-color: #007bff;
-  outline: none;
+#loginForm input[type='text'],
+#loginForm input[type='password'],
+#loginForm input[type='email'],
+#loginForm input[type='number'],
+#registerForm input[type='text'],
+#registerForm input[type='password'],
+#registerForm input[type='email'],
+#registerForm input[type='number'] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
+#loginForm input:focus, #registerForm input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+#loginForm .button, #registerForm .button {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#loginForm .button:hover, #registerForm .button:hover {
+    background-color: #0056b3;
+}
+
+#loginForm button#register {
+    background-color: #28a745;
+    margin-top: 10px;
+}
+
+#loginForm button#register:hover {
+    background-color: #218838;
+}
 
 #do_you_have_registration {
-  color: #fff;
-  background-color: #333;
+    color: #666;
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    display: block;
+    text-align: center;
+}
+
+p#errorMessage {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    #loginForm, #registerForm {
+        max-width: 90%;
+        padding: 25px;
+    }
+    #loginForm h2, #registerForm h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    #loginForm label, #registerForm label {
+        font-size: 16px;
+    }
+    #loginForm input, #registerForm input {
+        padding: 10px;
+        font-size: 15px;
+    }
+    #loginForm .button, #registerForm .button {
+        padding: 10px 15px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #loginForm, #registerForm {
+        max-width: 95%;
+        padding: 20px;
+    }
+    #loginForm h2, #registerForm h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    #loginForm label, #registerForm label {
+        font-size: 15px;
+    }
+    #loginForm input, #registerForm input {
+        padding: 8px;
+        font-size: 14px;
+    }
+    #loginForm .button, #registerForm .button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
 }
