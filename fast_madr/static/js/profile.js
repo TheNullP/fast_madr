@@ -101,4 +101,6 @@ document.addEventListener("DOMContentLoaded", async function() {
             }, 100); // pequeno atraso para evitar comportamento estranho no nav
         }
     });
+
+
 });

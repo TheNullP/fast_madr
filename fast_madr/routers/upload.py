@@ -59,6 +59,7 @@ async def upload_profile_picture(
         )
         if public_id:
             cloudinary.uploader.destroy(public_id)
+
         result = cloudinary.uploader.upload(
             file.file, folder='media/profile_pictures/'
         )

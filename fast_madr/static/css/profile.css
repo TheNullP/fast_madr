@@ -227,6 +227,45 @@ button#open-modal:hover {
   transform: translateY(-2px) /*pequeno efeito de pressionar'*/
 }
 
+.modal-action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: -20px;
+    padding-right: 40px;
+}
+
+.modal-action-btn {
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3 ease;
+    position: relative;
+  }
+
+#editBtn{
+    background-color: #007bff;
+    color: white;
+}
+
+#deleteBtn {
+    background-color: #dc3545
+    color: white;
+  }
+
+#editBtn:hover {
+    background-color: #ffd700 ;
+    transform: translateY(-2px)
+}
+
+#deleteBtn:hover {
+    background-color: #ff8c00 ;
+    transform: translateY(-2px)
+}
+
+.modal-action-btn
 
 /* Estilo do Botão de Logout */
 #container-logout {

@@ -59,16 +59,18 @@
                 <label for="year">Ano:</label>
                 <input type="number" id="year" required placeholder="Digite o ano do livro.">
 
-                <label for="sinopse">Sinopse:</label>
-                <input type="text" id="sinopse">
+                <!-- <label for="sinopse">Sinopse:</label> -->
+                <!-- <input type="text" id="sinopse"> -->
 
-                <label for="cover">Capa:</label>
-                <input type="file" id='file_cover' accept='image/*'>
+                <!-- <label for="cover">Capa:</label> -->
+                <!-- <input type="file" id='file_cover' accept='image/*'> -->
 
                 <label for="file_book">Livro:</label>
                 <input type="file" id="file_book" accept='.pdf'>
 
-                <button type="submit">Adicionar</button>
+                <input type="hidden" id="book-id-to-edit">
+
+                <button type="submit-book-form">Adicionar</button>
             </form>
         </div>
     </div>
@@ -76,6 +78,10 @@
     <div id="inf-modal" class="modal">
         <div class="modal-content">
             <span class="close-edit-book">&times;</span>
+            <div class='modal-action-buttons'>
+                <button type="button" id='editBtn' class='modal-action-btn'></button>
+                <button type="button" id='deleteBtn' class='modal-action-btn'></button>
+            </div>
             <h2 id="modal-title"></h2> 
 
             <div class="modal-body">

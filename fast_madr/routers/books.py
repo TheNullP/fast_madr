@@ -1,16 +1,15 @@
 from http import HTTPStatus
+from math import log
 
-from fastapi import APIRouter, Depends, HTTPException
+from alembic.util import err
+import cloudinary
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import Book, User, get_db
 from fast_madr.core.security import token_verify
-from fast_madr.schemas.book_schema import (
-    BookModel,
-    InfoBook,
-    PaginatedBooksResponse,
-)
+from fast_madr.schemas.book_schema import InfoBook, PaginatedBooksResponse
 
 router = APIRouter()
 
@@ -22,26 +21,49 @@ def read_books(db: Session = Depends(get_db)):
     return q
 
 
-@router.put('/book/{user_id}/{book_id}', tags=['books'])
+@router.put('/book/update', tags=['books'])
 def update_book(
     book_id: int,
-    book: BookModel,
+    book_title: str = Form(None),
+    book_year: str = Form(None),
+    book_author: str = Form(None),
+    book_file: UploadFile = File(None),
     db: Session = Depends(get_db),
     user_auth: User = Depends(token_verify),
 ):
-    existed_user_and_book = (
+    current_book = (
         db.query(Book)
         .where(Book.id == book_id and Book.id_user == user_auth.id)
         .first()
     )
-    if not existed_user_and_book:
+    if not current_book:
         raise HTTPException(status_code=404, detail='Book or User not found.')
 
-    existed_user_and_book.titulo = book.titulo
-    existed_user_and_book.ano = book.ano
+    try:
+        if book_title is not None:
+            current_book.titulo = book_title
+        if book_year is not None:
+            current_book.ano = book_year
+        if book_author is not None:
+            current_book.author = book_author
+        if book_file:
+            print('Deu certo Até Aqui!!')
+            cloudinary.uploader.destroy(current_book.file_book)
+            result = cloudinary.uploader.upload(
+                book_file.file,
+                resource_type='raw',
+                folder='/media/book/',
+            )
+            url = result['secure_url']
+
+            current_book.file_book = url
+
+    except Exception as e:
+        print(f'Erro ao tentar Atualizar livro: {e}')
+        return e
 
     db.commit()
-    db.refresh(existed_user_and_book)
+    db.refresh(current_book)
 
     return JSONResponse(content={}, status_code=200)
 
