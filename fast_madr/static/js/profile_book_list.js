@@ -14,7 +14,7 @@ async function fetchUserBooks() {
       return [];
     }
     const data = await response.json();
-    console.log("livros recebidos: ", data.created_books);
+    // console.log("livros recebidos: ", data.created_books);
     return data.created_books || [];
   } catch (error) {
     console.error("erro ao buscar os livros: ", error);
@@ -41,7 +41,6 @@ function renderUserBooks(books) {
 
     // Adiciona o evento de clique a cada livro criado dinamicamente
     bookElement.addEventListener('click', () => {
-      console.log(`Livro com ID ${bookElement.dataset.id} clicado!`);
 
       document.getElementById('modal-title').textContent = book.titulo;
       document.getElementById('modal-author').textContent = `Autor: ${book.author}`;
@@ -107,7 +106,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   if (editBtnInInfModal) {
     editBtnInInfModal.addEventListener('click', async () => {
       const bookIdToEdit = editBtnInInfModal.dataset.bookId;
-      console.log("DEBUG: Botão 'Editar' clicado. ID para edição (lido do dataset):", bookIdToEdit);
 
       if (!bookIdToEdit) {
         console.error('Erro: ID do livro para editar não encontrado no dataset do botão.');
@@ -135,7 +133,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   if (deleteBtnInInfModal) {
     deleteBtnInInfModal.addEventListener('click', async () => {
       const bookIdToDelete = deleteBtnInInfModal.dataset.bookId;
-      console.log("DEBUG: Botão 'Deletar' clicado. ID para deleção:", bookIdToDelete);
 
       if (!bookIdToDelete) {
         console.error('Erro: ID do livro para deletar não encontrado no dataset do botão.');

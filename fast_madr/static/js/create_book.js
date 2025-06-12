@@ -3,49 +3,60 @@ window.prepareBookModalForEdit = async function(bookId) {
   const bookForm = document.getElementById('book-form');
   const submitButton = document.getElementById('submit-book-form');
   const bookIdInput = document.getElementById('book-id-to-edit');
-  // const sinopseInput = document.getElementById('sinopse');
-  // const fileCoverInput = document.getElementById('file_cover');
+
+  // Campos de formulário (apenas se existirem no HTML, para evitar erros se estiverem comentados)
+  const titleInput = document.getElementById('title');
+  const authorInput = document.getElementById('author');
+  const yearInput = document.getElementById('year');
+  const sinopseInput = document.getElementById('sinopse');
+  const fileCoverInput = document.getElementById('file_cover');
   const fileBookInput = document.getElementById('file_book');
 
+  // Limpar o formulário para garantir que não haja dados de uma operação anterior
   bookForm.reset();
-  // file_cover.value = '';
-  fileBookInput.value = '';
-  document.getElementById('file_book').value = '';
+  if (fileCoverInput) fileCoverInput.value = '';
+  if (fileBookInput) fileBookInput.value = '';
 
+  if (bookModal.querySelector('h2')) {
+    bookModal.querySelector('h2').textContent = 'Editar Livro';
+  }
 
-  bookModal.querySelector('h2').textContent = 'Editar Livro.';
-
+  // Buscar os dados completos do livro da sua API
   try {
-    const response = await fetch(`/page_book?id_book=${bookId}`)
+    const response = await fetch(`/page_book?id_book=${bookId}`);
     if (!response.ok) {
       throw new Error(`Erro ao buscar detalhes do Livro: ${response.status}`);
     }
-    const bookData = await response.json(); // provavel ficar como respose.BookList
-    console.log("Dados do livro para edição:", bookData);
+    const bookData = await response.json();
 
-    //Preencher os campos do Form
-    document.getElementById('title').value = bookData.titulo;
-    document.getElementById('author').value = bookData.author;
-    document.getElementById('year').value = bookData.ano;
-    // sinopseInput.value = bookData.sinopse || '';
+    //  Preencher os campos do formulário com os dados do livro
+    if (titleInput) titleInput.value = bookData.titulo || '';
+    if (authorInput) authorInput.value = bookData.author || '';
+    if (yearInput) yearInput.value = bookData.ano || '';
+    // if (sinopseInput) sinopseInput.value = bookData.sinopse || ''; // Preenche a sinopse se o campo existe
 
-    bookIdInput.value = bookData.id;
-    // submitButton.textContent = 'Salvar Alterações.';
+    // --- ATRIBUIÇÃO DO ID ---
+    if (bookIdInput) {
+      bookIdInput.value = bookData.id;
+    } else {
+      console.error("ERRO: bookIdInput (#book-id-to-edit) não encontrado em prepareBookModalForEdit.");
+    }
+    submitButton.textContent = 'Salvar Alterações.';
 
-    bookModal.style.display = 'flex';
-    setTimeout(() => {
-      bookModal.classList.add('show');
-    }, 10);
+    //  Abrir o book-modal com transição
+    if (bookModal) {
+      bookModal.style.display = 'flex';
+      setTimeout(() => {
+        bookModal.classList.add('show');
+      }, 10);
+    }
 
   } catch (error) {
     console.error('Erro ao preparar modal de Edição: ', error);
-    alert(`Não foi possivel carregar os dados do livro para Edição: ${error.message}`)
+    alert(`Não foi possível carregar os dados do livro para Edição: ${error.message}`);
   }
 };
 
-
-// --- FUNÇÃO GLOBAL PARA DELETAR LIVRO ---
-// Garante que a função deleteBook também esteja global
 window.deleteBook = async function(bookId) {
   const access_token = localStorage.getItem("access_token");
 
@@ -93,94 +104,97 @@ window.deleteBook = async function(bookId) {
 };
 
 
+// --- CÓDIGO PRINCIPAL EXECUTADO APÓS O DOM ESTAR TOTALMENTE CARREGADO ---
 document.addEventListener('DOMContentLoaded', function() {
-
   const bookModal = document.getElementById("book-modal");
   const openModalBtn = document.getElementById('open-modal');
-  const closeModalBtn = document.querySelector(".close");
+  const closeModalBtn = bookModal ? bookModal.querySelector(".close") : null; // Verificação de existência
   const bookForm = document.getElementById('book-form');
   const submitButton = document.getElementById("submit-book-form");
   const bookIdInput = document.getElementById("book-id-to-edit");
 
+  const titleInput = document.getElementById("title");
+  const authorInput = document.getElementById("author");
+  const yearInput = document.getElementById("year");
+  const sinopseInput = document.getElementById("sinopse");
+  const fileCoverInput = document.getElementById('file_cover');
+  const fileBookInput = document.getElementById('file_book');
+
+  // Lógica para abrir o modal de "Novo Livro"
   if (openModalBtn) {
     openModalBtn.addEventListener("click", () => {
-      bookModal.style.display = "flex";
-      setTimeout(() => {
-        bookModal.classList.add('show');
-      }, 10);
-      bookForm.reset();
-      fileBookInput.value = '';
-      // document.getElementById('file_cover').value = '';
-      bookIdInput.value = "";
-      submitButton.textContent = "Adicionar";
-      bookModal.querySelector('h2').textContent = "Adicionar Novo Livro.";
+      if (bookModal) {
+        bookModal.style.display = "flex";
+        setTimeout(() => { bookModal.classList.add('show'); }, 10);
+      }
+      if (bookForm) bookForm.reset();
+      if (fileCoverInput) fileCoverInput.value = '';
+      if (fileBookInput) fileBookInput.value = '';
+      if (bookIdInput) bookIdInput.value = "";
+      if (submitButton) submitButton.textContent = "Adicionar";
+      if (bookModal && bookModal.querySelector('h2')) bookModal.querySelector('h2').textContent = "Adicionar Novo Livro.";
     });
-  } else {
-    console.warn('Elemento (Novo Livro) não encontrado.')
-  }
+  } else { console.warn('Elemento "open-modal" (botão Novo Livro) não encontrado.'); }
 
+  // Lógica para fechar o modal pelo botão "X"
   if (closeModalBtn) {
     closeModalBtn.addEventListener("click", () => {
-      bookModal.classList.remove('show');
-      setTimeout(() => {
-        bookModal.style.display = 'none';
-      }, 300);
+      if (bookModal) {
+        bookModal.classList.remove('show');
+        setTimeout(() => { bookModal.style.display = 'none'; }, 300);
+      }
     });
-  } else {
-    console.warn('Elemento (Fechar) não encontrado.')
-  }
+  } else { console.warn('Elemento ".close" (botão de fechar do book-modal) não encontrado.'); }
 
-  // Fecha modal ao clicar fora
+  // Lógica para fechar o modal ao clicar fora
   window.addEventListener("click", (e) => {
     if (bookModal && e.target === bookModal) {
       bookModal.classList.remove('show');
-      setTimeout(() => {
-        bookModal.style.display = "none";
-      }, 300);
+      setTimeout(() => { bookModal.style.display = "none"; }, 300);
     }
   });
 
-
-
+  // --- LÓGICA DE SUBMISSÃO DO FORMULÁRIO (PARA ADICIONAR OU EDITAR) ---
   if (bookForm) {
-
     bookForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const bookId = bookIdInput.value;
-      const isEditing = !!bookId;
-      console.log('ESSE É O RESULTADO DO BOLEANO PARA EDITA: ', isEditing);
+      // console.log("DEBUG (Submit Handler): bookIdInput element ANTES do submit:", bookIdInput);
+      // console.log("DEBUG (Submit Handler): bookIdInput.value ANTES do submit:", bookIdInput.value);
 
-      const title = document.getElementById("title").value;
-      const author = document.getElementById("author").value;
-      const year = parseInt(document.getElementById("year").value, 10);
-      const fileBookInput = document.getElementById("file_book");
+      const bookId = bookIdInput ? bookIdInput.value : ''; // bookIdInput pode ser null se o campo não existir
+      const isEditing = !!bookId;
+
+
+      // Coleta os valores dos campos de texto/número, com segurança
+      const title = titleInput ? titleInput.value : '';
+      const author = authorInput ? authorInput.value : '';
+      const year = yearInput ? parseInt(yearInput.value, 10) : 0;
+      const sinopse = sinopseInput ? sinopseInput.value : '';
+
       const access_token = localStorage.getItem("access_token");
 
-      // const file = fileBookInput.files[0];
-
-
       const formData = new FormData();
-      formData.append("book_id", bookId);
-      formData.append("book_title", title);
-      formData.append("book_author", author);
-      formData.append("book_year", year);
-      // formData.append("book_sinopse", sinopse);
+
+      if (bookIdInput) formData.append("book_id", bookId);
+      if (titleInput) formData.append("book_title", title);
+      if (authorInput) formData.append("book_author", author);
+      if (yearInput) formData.append("book_year", year);
 
 
-      if (fileBookInput.files && fileBookInput.files.length > 0) {
+      if (fileBookInput && fileBookInput.files && fileBookInput.files.length > 0) {
         formData.append("book_file", fileBookInput.files[0]);
-        console.log("DEBUG: Novo arquivo de livro selecionado e adicionado ao FormData.");
+        console.log("DEBUG: Novo arquivo de livro (PDF) selecionado e adicionado ao FormData.");
       }
-      // if (fileCoverInput.files && fileCoverInput.files.length > 0) {
-      //   formData.append('cover_file', fileCoverInput.files[0]);
-      // }
+
+      if (fileCoverInput && fileCoverInput.files && fileCoverInput.files.length > 0) {
+        formData.append("book_cover", fileCoverInput.files[0]);
+      }
 
       const method = isEditing ? "PUT" : "POST";
       const url = isEditing ? `/book/update` : "/create_book";
 
       try {
-
         const response = await fetch(url, {
           method: method,
           headers: { "Authorization": `Bearer ${access_token}` },
@@ -194,11 +208,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         alert(isEditing ? "Livro atualizado com sucesso!" : "Livro adicionado com sucesso!");
 
-        bookModal.classList.remove('show');
-        setTimeout(() => { bookModal.style.display = "none"; }, 300);
+        // Fechar modal e recarregar lista
+        if (bookModal) bookModal.classList.remove('show');
+        if (bookModal) setTimeout(() => { bookModal.style.display = "none"; }, 300);
 
-
-        // Recarrega a lista de livros (usando as funções globais)
         if (window.fetchUserBooks && window.renderUserBooks) {
           const updatedBooks = await window.fetchUserBooks();
           window.renderUserBooks(updatedBooks);
@@ -206,18 +219,16 @@ document.addEventListener('DOMContentLoaded', function() {
           console.warn("Funções de renderização de livros não acessíveis. Recarregue a página manualmente.");
         }
 
-        bookForm.reset(); // Limpa o formulário
-        bookIdInput.value = ""; // Limpa o ID oculto
-        submitButton.textContent = "Adicionar"; // Volta o texto do botão
-        bookModal.querySelector('h2').textContent = "Adicionar Novo Livro"; // Volta o título do modal
-
+        // Resetar formulário e estado do modal
+        if (bookForm) bookForm.reset();
+        if (bookIdInput) bookIdInput.value = "";
+        if (submitButton) submitButton.textContent = "Adicionar";
+        if (bookModal && bookModal.querySelector('h2')) bookModal.querySelector('h2').textContent = "Adicionar Novo Livro";
 
       } catch (error) {
         console.error("Erro na operação do livro:", error);
         alert(`Falha na operação: ${error.message}`);
       }
     });
-  } else {
-    console.warn('Elemento (book-form) não encontrado.');
-  }
-}); 
+  } else { console.warn('Elemento (book-form) não encontrado.'); }
+});

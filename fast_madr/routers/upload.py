@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import Optional
 from urllib.parse import urlparse
 
 import cloudinary.uploader
@@ -78,14 +79,14 @@ async def upload_profile_picture(
 
 @router.post('/create_book', tags=['books'], status_code=HTTPStatus.CREATED)
 def upload_created_book(
-    titulo: str = Form(...),
-    ano: int = Form(...),
-    author: str = Form(...),
-    file: UploadFile = File(...),
+    book_title: str = Form(...),
+    book_year: int = Form(...),
+    book_author: str = Form(...),
+    book_file: UploadFile = File(...),
     db: Session = Depends(get_db),
     user_auth: User = Depends(token_verify),
 ):
-    exists_book = db.query(Book).filter_by(titulo=titulo).first()
+    exists_book = db.query(Book).filter_by(titulo=book_title).first()
 
     if exists_book:
         raise HTTPException(
@@ -93,14 +94,14 @@ def upload_created_book(
         )
 
     result = cloudinary.uploader.upload(
-        file.file, resource_type='raw', folder='/media/book/'
+        book_file.file, resource_type='raw', folder='/media/book/'
     )
     book_url = result['secure_url']
 
     new_book = Book(
-        titulo=titulo,
-        ano=ano,
-        author=author,
+        titulo=book_title,
+        ano=book_year,
+        author=book_author,
         id_user=user_auth.id,
         file_book=book_url,
     )
@@ -110,6 +111,9 @@ def upload_created_book(
     db.refresh(new_book)
 
     return JSONResponse(
-        content={'msg': 'success.'},
-        status_code=201,
+        content={
+            'msg': 'Livro criado com sucesso!',
+            'book_id': new_book.id,
+        },
+        status_code=HTTPStatus.CREATED,  # 201
     )

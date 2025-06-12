@@ -22,6 +22,7 @@ class PaginatedBooksResponse(BaseModel):
 
 
 class InfoBook(BaseModel):
+    id: int
     titulo: str
     ano: int
     author: str

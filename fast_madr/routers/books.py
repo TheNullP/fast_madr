@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from math import log
+from typing import Optional
 
 from alembic.util import err
 import cloudinary
@@ -23,11 +24,11 @@ def read_books(db: Session = Depends(get_db)):
 
 @router.put('/book/update', tags=['books'])
 def update_book(
-    book_id: int,
-    book_title: str = Form(None),
-    book_year: str = Form(None),
-    book_author: str = Form(None),
-    book_file: UploadFile = File(None),
+    book_id: int = Form(...),
+    book_title: Optional[str] = Form(None),
+    book_year: Optional[int] = Form(None),
+    book_author: Optional[str] = Form(None),
+    book_file: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     user_auth: User = Depends(token_verify),
 ):
@@ -60,12 +61,16 @@ def update_book(
 
     except Exception as e:
         print(f'Erro ao tentar Atualizar livro: {e}')
-        return e
+        raise HTTPException(
+            status_code=500, detail=f'Erro interno do servidor: {e}'
+        )
 
     db.commit()
     db.refresh(current_book)
 
-    return JSONResponse(content={}, status_code=200)
+    return JSONResponse(
+        content={'message': 'Livro atualizado com sucesso!'}, status_code=200
+    )
 
 
 @router.delete('/book/{user_id}/{book_id}', tags=['books'])
@@ -115,6 +120,7 @@ def get_page_book(
     try:
         creator = db.query(User).filter_by(id=inf_book.id_user).first()
         book = InfoBook(
+            id=inf_book.id,
             titulo=inf_book.titulo,
             ano=inf_book.ano,
             author=inf_book.author,
