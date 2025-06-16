@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from typing import Optional
 from urllib.parse import urlparse
 
 import cloudinary.uploader

@@ -1,11 +1,10 @@
 from http import HTTPStatus
-from math import log
 from typing import Optional
 
-from alembic.util import err
 import cloudinary
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
+from sqlalchemy import JSON
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import Book, User, get_db
@@ -73,7 +72,7 @@ def update_book(
     )
 
 
-@router.delete('/book/{user_id}/{book_id}', tags=['books'])
+@router.delete('/delete_book', tags=['books'])
 def delete_book(
     book_id: int,
     db: Session = Depends(get_db),
@@ -84,13 +83,13 @@ def delete_book(
         .where(Book.id == book_id and Book.id_user == user_auth.id)
         .first()
     )
-
     if not existed_user_and_book:
         raise HTTPException(status_code=404, detail='Book or User not found.')
+
     db.delete(existed_user_and_book)
     db.commit()
 
-    return {'detail': 'Book deleted.'}
+    return JSONResponse(content={'message': 'Book deleted.'}, status_code=200)
 
 
 @router.get('/books', response_model=PaginatedBooksResponse, tags=['books'])

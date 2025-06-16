@@ -2,9 +2,12 @@ from decouple import config
 from sqlalchemy import ForeignKey, String, create_engine
 from sqlalchemy.orm import Mapped, mapped_column, registry, sessionmaker
 
-reg = registry()
+from fast_madr.core.settings import Settings
 
-engine = create_engine(config('DB_URL'))
+reg = registry()
+settings = Settings()
+
+engine = create_engine(settings.DB_URL)
 
 
 @reg.mapped_as_dataclass

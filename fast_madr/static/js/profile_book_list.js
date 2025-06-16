@@ -140,11 +140,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
       }
 
-      if (confirm(`Tem certeza que deseja deletar o livro (ID: ${bookIdToDelete})? Esta ação é irreversível.`)) {
+      if (confirm(`Tem certeza que deseja deletar este livro? Esta ação é irreversível.`)) {
         if (typeof window.deleteBook === 'function') {
           await window.deleteBook(bookIdToDelete);
         } else {
-          console.error("Função 'window.deleteBook' não encontrada. Verifique o escopo em create_book.js.");
+          console.error("Função 'window.deleteBook' não encontrada.");
           alert("Erro: A função de deleção não está disponível. Contate o suporte.");
         }
       }

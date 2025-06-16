@@ -7,6 +7,8 @@ from alembic import context
 from fast_madr.core.database import reg
 from decouple import config as decouple_conf
 
+from fast_madr.core.settings import Settings
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -16,7 +18,7 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option('sqlalchemy.url', decouple_conf('DB_URL'))
+config.set_main_option('sqlalchemy.url', Settings().DB_URL)
 
 # add your model's MetaData object here
 # for 'autogenerate' support

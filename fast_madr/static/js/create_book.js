@@ -65,12 +65,8 @@ window.deleteBook = async function(bookId) {
     return;
   }
 
-  if (!confirm(`Tem certeza que deseja deletar o livro (ID: ${bookId})? Esta ação é irreversível.`)) {
-    return;
-  }
-
   try {
-    const response = await fetch(`/delete_book/${bookId}`, {
+    const response = await fetch(`/delete_book?book_id=${bookId}`, {
       method: "DELETE",
       headers: { "Authorization": `Bearer ${access_token}` },
     });
