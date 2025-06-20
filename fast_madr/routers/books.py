@@ -4,7 +4,6 @@ from typing import Optional
 import cloudinary
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
-from sqlalchemy import JSON
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import Book, User, get_db
