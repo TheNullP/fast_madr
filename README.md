@@ -68,8 +68,8 @@ O projeto está dividido em três principais seções:
 
 Você pode acessar a versão mais recente do projeto implantada no Fly.io, bem como sua documentação interativa:
 
-* **Acesso à Aplicação:** `https://fast-madr.fly.dev/`
-* **Documentação Interativa (Swagger UI):** `https://fast-madr.fly.dev/docs`
+* **Acesso à Aplicação:** [https://fast-madr.fly.dev/](https://fast-madr.fly.dev/)
+* **Documentação Interativa (Swagger UI):** [https://fast-madr.fly.dev/docs](https://fast-madr.fly.dev/docs)
 
 ---
 
