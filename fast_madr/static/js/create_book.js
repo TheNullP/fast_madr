@@ -196,11 +196,13 @@ document.addEventListener('DOMContentLoaded', function() {
           headers: { "Authorization": `Bearer ${access_token}` },
           body: formData,
         });
+        console.log("CRIANDO: deu certo até: usar o fetch")
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({ message: "Erro desconhecido." }));
           throw new Error(`Erro na requisição: ${response.status} - ${errorData.message || response.statusText}`);
         }
+        console.log("CRIANDO: deu certo até: usar o '!response.ok'")
 
         alert(isEditing ? "Livro atualizado com sucesso!" : "Livro adicionado com sucesso!");
 
