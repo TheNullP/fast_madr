@@ -2,6 +2,7 @@ import cloudinary
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.templating import Jinja2Templates
 from passlib.context import CryptContext
+
 from fast_madr.core.settings import Settings
 
 ALGORITHM = Settings().ALGORITHM

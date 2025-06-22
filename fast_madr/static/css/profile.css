@@ -236,27 +236,28 @@ button#open-modal:hover {
 }
 
 .modal-action-btn {
-    padding: 8px 15px;
+    padding: 10px 20px;
     margin-left: 10px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
     transition: background-color 0.3 ease;
     position: relative;
   }
 
 #editBtn{
-    background-color: #007bff;
+    background-color: #009900;
     color: white;
 }
 
 #deleteBtn {
-    background-color: #dc3545
+    background-color: #dc3545;
     color: white;
   }
 
 #editBtn:hover {
-    background-color: #ffd700 ;
+    background-color: #66ff66 ;
     transform: translateY(-2px)
 }
 
