@@ -38,6 +38,7 @@ class Book:
     author: Mapped[str]
     id_user: Mapped[int] = mapped_column(ForeignKey('users.id'))
     file_book: Mapped[str] = mapped_column(unique=True)
+    cover_book: Mapped[str] = mapped_column(String, init=False, nullable=True)
 
 
 Session = sessionmaker(engine)

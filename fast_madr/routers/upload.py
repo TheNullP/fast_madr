@@ -12,7 +12,7 @@ from fast_madr.core.security import token_verify
 
 router = APIRouter()
 
-MAX_FILE_SIZE = 2 * 1024 * 1024  # 2BM em bytes
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 2BM em bytes
 ALLOWED_EXTENSIONS = {'image/jpeg', 'image/png', 'image/jpg'}
 
 
