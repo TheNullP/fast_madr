@@ -1,4 +1,6 @@
 from http import HTTPStatus
+from inspect import trace
+from typing import Optional
 from urllib.parse import urlparse
 
 import cloudinary.uploader
@@ -12,7 +14,7 @@ from fast_madr.core.security import token_verify
 
 router = APIRouter()
 
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 2BM em bytes
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10BM em bytes
 ALLOWED_EXTENSIONS = {'image/jpeg', 'image/png', 'image/jpg'}
 
 
@@ -45,7 +47,8 @@ async def upload_profile_picture(
     file_size = await file.read()
     if len(file_size) > MAX_FILE_SIZE:
         raise HTTPException(
-            status_code=400, detail='O arquivo é muito grande. O limite é 2MB.'
+            status_code=400,
+            detail='O arquivo é muito grande. O limite é 10MB.',
         )
 
     await file.seek(0)
@@ -77,11 +80,12 @@ async def upload_profile_picture(
 
 
 @router.post('/create_book', tags=['books'], status_code=HTTPStatus.CREATED)
-def upload_created_book(
+async def upload_created_book(
     book_title: str = Form(...),
     book_year: int = Form(...),
     book_author: str = Form(...),
     book_file: UploadFile = File(...),
+    book_cover: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     user_auth: User = Depends(token_verify),
 ):
@@ -92,22 +96,40 @@ def upload_created_book(
             status_code=HTTPStatus.BAD_REQUEST, detail='Book already exists.'
         )
 
-    result = cloudinary.uploader.upload(
-        book_file.file, resource_type='raw', folder='/media/book/'
-    )
-    book_url = result['secure_url']
+    try:
+        result = cloudinary.uploader.upload(
+            book_file.file,
+            resource_type='raw',
+            folder='/media/book/',
+        )
+        book_url = result['secure_url']
 
-    new_book = Book(
-        titulo=book_title,
-        ano=book_year,
-        author=book_author,
-        id_user=user_auth.id,
-        file_book=book_url,
-    )
+        book_cover_url = None
+        if book_cover:
+            result_cover = cloudinary.uploader.upload(
+                book_cover.file,
+                folder='/media/book_cover/',
+            )
+            book_cover_url = result_cover['secure_url']
 
-    db.add(new_book)
-    db.commit()
-    db.refresh(new_book)
+        new_book = Book(
+            titulo=book_title,
+            ano=book_year,
+            author=book_author,
+            id_user=user_auth.id,
+            file_book=book_url,
+            book_cover=book_cover_url,
+        )
+
+        db.add(new_book)
+        db.commit()
+        db.refresh(new_book)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={f'Erro na criação do livro: {e}'},
+        )
 
     return JSONResponse(
         content={

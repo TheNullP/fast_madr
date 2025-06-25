@@ -8,7 +8,7 @@ window.prepareBookModalForEdit = async function(bookId) {
   const titleInput = document.getElementById('title');
   const authorInput = document.getElementById('author');
   const yearInput = document.getElementById('year');
-  const sinopseInput = document.getElementById('sinopse');
+  // const sinopseInput = document.getElementById('sinopse');
   const fileCoverInput = document.getElementById('file_cover');
   const fileBookInput = document.getElementById('file_book');
 
@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (bookForm) bookForm.reset();
       if (fileCoverInput) fileCoverInput.value = '';
-      if (fileBookInput) fileBookInput.value = '';
       if (bookIdInput) bookIdInput.value = "";
       if (submitButton) submitButton.textContent = "Adicionar";
       if (bookModal && bookModal.querySelector('h2')) bookModal.querySelector('h2').textContent = "Adicionar Novo Livro.";
@@ -155,8 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
     bookForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // console.log("DEBUG (Submit Handler): bookIdInput element ANTES do submit:", bookIdInput);
-      // console.log("DEBUG (Submit Handler): bookIdInput.value ANTES do submit:", bookIdInput.value);
 
       const bookId = bookIdInput ? bookIdInput.value : ''; // bookIdInput pode ser null se o campo não existir
       const isEditing = !!bookId;
@@ -168,24 +165,19 @@ document.addEventListener('DOMContentLoaded', function() {
       const year = yearInput ? parseInt(yearInput.value, 10) : 0;
       const sinopse = sinopseInput ? sinopseInput.value : '';
 
+
       const access_token = localStorage.getItem("access_token");
 
       const formData = new FormData();
+
 
       if (bookIdInput) formData.append("book_id", bookId);
       if (titleInput) formData.append("book_title", title);
       if (authorInput) formData.append("book_author", author);
       if (yearInput) formData.append("book_year", year);
+      if (fileBookInput) formData.append("book_file", fileBookInput.files[0]);
+      if (fileCoverInput) formData.append("book_cover", fileCoverInput.files[0]);
 
-
-      if (fileBookInput && fileBookInput.files && fileBookInput.files.length > 0) {
-        formData.append("book_file", fileBookInput.files[0]);
-        console.log("DEBUG: Novo arquivo de livro (PDF) selecionado e adicionado ao FormData.");
-      }
-
-      if (fileCoverInput && fileCoverInput.files && fileCoverInput.files.length > 0) {
-        formData.append("book_cover", fileCoverInput.files[0]);
-      }
 
       const method = isEditing ? "PUT" : "POST";
       const url = isEditing ? `/book/update` : "/create_book";
@@ -196,13 +188,11 @@ document.addEventListener('DOMContentLoaded', function() {
           headers: { "Authorization": `Bearer ${access_token}` },
           body: formData,
         });
-        console.log("CRIANDO: deu certo até: usar o fetch")
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({ message: "Erro desconhecido." }));
           throw new Error(`Erro na requisição: ${response.status} - ${errorData.message || response.statusText}`);
         }
-        console.log("CRIANDO: deu certo até: usar o '!response.ok'")
 
         alert(isEditing ? "Livro atualizado com sucesso!" : "Livro adicionado com sucesso!");
 
@@ -224,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (bookModal && bookModal.querySelector('h2')) bookModal.querySelector('h2').textContent = "Adicionar Novo Livro";
 
       } catch (error) {
-        console.error("Erro na operação do livro:", error);
         alert(`Falha na operação: ${error.message}`);
       }
     });

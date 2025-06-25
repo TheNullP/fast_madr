@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         const response = await fetch("/user/info_user", {
             headers: {
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`, // Adiciona o token ao cabeçalho
+                Authorization: `Bearer ${token}`,
             },
         });
 
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             throw new Error("Invalid or expired token");
         }
 
-        const data = await response.json(); // Converte a resposta para JSON
+        const data = await response.json();
 
         // Atualiza as informações do usuário
         document.getElementById("user-info").innerText = `${data.username}`;

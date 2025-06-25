@@ -25,7 +25,7 @@ async function fetchUserBooks() {
 function renderUserBooks(books) {
   const modalInf = document.getElementById('inf-modal'); // Referência ao modal de informações
   const container = document.getElementById("created_books");
-  container.innerHTML = ""; // Limpa antes de adicionar
+  container.innerHTML = "";
 
 
   // GUARDA O ID DO LIVRO NO BOTÃO ED/DEL DENTRO DO 'inf-modal'
@@ -47,7 +47,7 @@ function renderUserBooks(books) {
       document.getElementById('modal-year').textContent = `Ano: ${book.ano}`;
       document.getElementById('modal-sinopse').textContent = book.sinopse;
       document.getElementById('link').href = book.file_book;
-      // document.getElementById('modal-cover').src = book.cover_url; 
+      document.getElementById('modal-cover').src = book.book_cover;
 
       if (editBtn) {
         editBtn.dataset.bookId = book.id;
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // Lógica para fechar o modal clicando fora dele (no overlay)
   window.addEventListener('click', (event) => {
-    if (modalInf && event.target === modalInf) { // Verifica se o clique foi no próprio overlay do modal
+    if (modalInf && event.target === modalInf) {
       modalInf.classList.remove('show');
       setTimeout(() => { modalInf.style.display = 'none'; }, 300);
     }
