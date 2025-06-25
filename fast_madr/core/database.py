@@ -1,4 +1,3 @@
-from decouple import config
 from sqlalchemy import ForeignKey, String, create_engine
 from sqlalchemy.orm import Mapped, mapped_column, registry, sessionmaker
 

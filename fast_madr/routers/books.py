@@ -27,6 +27,7 @@ def update_book(
     book_year: Optional[int] = Form(None),
     book_author: Optional[str] = Form(None),
     book_file: Optional[UploadFile] = File(None),
+    book_cover: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     user_auth: User = Depends(token_verify),
 ):
@@ -46,7 +47,6 @@ def update_book(
         if book_author is not None:
             current_book.author = book_author
         if book_file:
-            print('Deu certo Até Aqui!!')
             cloudinary.uploader.destroy(current_book.file_book)
             result = cloudinary.uploader.upload(
                 book_file.file,
@@ -56,15 +56,26 @@ def update_book(
             url = result['secure_url']
 
             current_book.file_book = url
+        if book_cover:
+            if current_book.book_cover:
+                cloudinary.uploader.destroy(current_book.book_cover)
+            result_cover = cloudinary.uploader.upload(
+                book_cover.file,
+                resource_type='raw',
+                folder='/media/book_cover/',
+            )
+            url_cover = result_cover['secure_url']
+
+            current_book.book_cover = url_cover
+
+        db.commit()
+        db.refresh(current_book)
 
     except Exception as e:
         print(f'Erro ao tentar Atualizar livro: {e}')
         raise HTTPException(
             status_code=500, detail=f'Erro interno do servidor: {e}'
         )
-
-    db.commit()
-    db.refresh(current_book)
 
     return JSONResponse(
         content={'message': 'Livro atualizado com sucesso!'}, status_code=200

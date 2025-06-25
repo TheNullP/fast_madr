@@ -18,6 +18,10 @@ function renderBooks(books) {
 
 		bookElement.setAttribute("data-id", book.id);
 
+		bookElement.addEventListener('click', () => {
+			document.getElementById("modal-cover").src = book.book_cover;
+		})
+
 
 		bookElement.innerHTML = `
       <h2>${book.titulo}</h2>

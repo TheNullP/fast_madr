@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from inspect import trace
 from typing import Optional
 from urllib.parse import urlparse
 

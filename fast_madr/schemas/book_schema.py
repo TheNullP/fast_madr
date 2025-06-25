@@ -14,6 +14,7 @@ class BookResponse(BaseModel):
     ano: int
     author: str
     id_user: int
+    book_cover: str
 
 
 class PaginatedBooksResponse(BaseModel):

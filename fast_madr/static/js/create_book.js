@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const sinopse = sinopseInput ? sinopseInput.value : '';
 
 
+
       const access_token = localStorage.getItem("access_token");
 
       const formData = new FormData();
@@ -175,8 +176,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (titleInput) formData.append("book_title", title);
       if (authorInput) formData.append("book_author", author);
       if (yearInput) formData.append("book_year", year);
-      if (fileBookInput) formData.append("book_file", fileBookInput.files[0]);
-      if (fileCoverInput) formData.append("book_cover", fileCoverInput.files[0]);
+
+      if (fileBookInput && fileBookInput.files.length > 0) {
+        formData.append("book_file", fileBookInput.files[0]);
+      }
+
+      if (fileCoverInput && fileCoverInput.files.length > 0) {
+        formData.append("book_cover", fileCoverInput.files[0]);
+      }
 
 
       const method = isEditing ? "PUT" : "POST";
