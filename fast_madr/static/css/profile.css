@@ -17,8 +17,8 @@ header {
   background: #2c3e50;
   padding: 15px 0;
   box-shadow: 0 3px 8px rgba(0, 0, 0, .2);
-  position: sticky; /* faz o cabeçalho 'GRUDAr' no topo da tela*/
-  top: 0; /*comeca grudado no top*/
+  position: sticky; 
+  top: 0; 
   z-index: 100;
 }
 
@@ -224,7 +224,7 @@ button#open-modal {
 
 button#open-modal:hover {
   background-color: #218838;
-  transform: translateY(-2px) /*pequeno efeito de pressionar'*/
+  transform: translateY(-2px) 
 }
 
 .modal-action-buttons {
@@ -272,6 +272,7 @@ button#open-modal:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.modal-action-btn
 
 /* Estilo do Botão de Logout */
 #container-logout {
@@ -301,13 +302,13 @@ button#open-modal:hover {
 /* --- Responsividade Geral da Página de Perfil --- */
 @media (max-width: 768px) {
     #main-content-wrapper {
-        width: 98%; /* Ocupa mais largura em telas menores */
+        width: 98%; 
         padding: 25px;
-        gap: 30px; /* Espaço entre seções */
+        gap: 30px; 
     }
 
     #profile-container {
-        flex-direction: column; /* Mantém em coluna */
+        flex-direction: column; 
         gap: 15px;
     }
 
@@ -333,18 +334,18 @@ button#open-modal:hover {
     }
 
     #created_books {
-        grid-auto-columns: minmax(140px, 1fr); /* Livros menores em telas menores */
+        grid-auto-columns: minmax(140px, 1fr); 
         gap: 15px;
         padding: 10px;
     }
 
     .book {
-        width: 140px; /* Largura menor para livros */
+        width: 140px; 
         padding: 10px;
     }
 
     button#open-modal, #logout {
-        width: 90%; /* Botões maiores para melhor toque */
+        width: 90%; 
         max-width: 300px;
         font-size: 16px;
     }

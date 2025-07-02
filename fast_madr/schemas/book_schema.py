@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 from typing_extensions import List
 
@@ -14,7 +15,7 @@ class BookResponse(BaseModel):
     ano: int
     author: str
     id_user: int
-    book_cover: str
+    book_cover: Optional[str] = None
 
 
 class PaginatedBooksResponse(BaseModel):
