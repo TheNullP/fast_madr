@@ -352,7 +352,9 @@ button#open-modal:hover {
 }
 
 @media (max-width: 480px) {
+
     #main-content-wrapper {
+        width: 90%;
         padding: 15px;
         gap: 20px;
     }
@@ -374,6 +376,11 @@ button#open-modal:hover {
         font-size: 1.3em;
     }
 
+    #modal-cover{
+      width: 90%;
+      justify-content: flex-start;
+    }
+
     h3 {
         font-size: 1.4em;
     }
@@ -384,8 +391,11 @@ button#open-modal:hover {
     }
 
     .book {
-        width: 110px;
+        width: 90px;
         padding: 8px;
+        max-width: 150px; 
+        margin: 0 auto; 
+        min-height: 120px; 
     }
 
     button#open-modal, #logout {
