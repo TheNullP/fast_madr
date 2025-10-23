@@ -4,6 +4,7 @@ from typing import Optional
 import cloudinary
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import Book, User, get_db
@@ -11,6 +12,25 @@ from fast_madr.core.security import token_verify
 from fast_madr.schemas.book_schema import InfoBook, PaginatedBooksResponse
 
 router = APIRouter()
+
+
+@router.get('/search')
+def search(
+    db: Session = Depends(get_db),
+    title: str | None = None,
+    author: str | None = None,
+):
+    response = select(Book)
+
+    if title:
+        response = response.where(Book.titulo.ilike(f'%{title}%'))
+    if author:
+        response = response.where(Book.author.ilike(f'%{author}%'))
+
+    response = response.offset(offset=0).limit(limit=10)
+    books = db.scalars(response).all()
+
+    return {'books': books}
 
 
 @router.get('/read-book', tags=['books'])
