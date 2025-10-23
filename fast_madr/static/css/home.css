@@ -1,9 +1,15 @@
+html {
+  height: 100%;
+} 
+
 body {
   margin: 0;
   background: linear-gradient(to right, #4a90e2, #4b443a);
   min-height: 100vh;
   font-family: Arial, sans-serif;
   color: #333;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 main h1 {
