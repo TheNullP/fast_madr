@@ -1,57 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Acervo de Livros</title>
+  
   <link href="/static/css/home.css" rel="stylesheet">
-  <link href="/static/css/modal_styles.css" rel="stylesheet">
-  <!-- <link href="/static/css/profile.css" rel="stylesheet"> -->
+  <link href="/static/css/header.css" rel="stylesheet"> <link href="/static/css/modal_styles.css" rel="stylesheet">
 </head>
 
 <body>
   <header>
     <nav>
+      <div class="nav-brand">📚 Acervo de Livros</div>
       <ul>
         <li><a href="/">Home</a></li>
         <li id="nav-login"></li>
       </ul>
     </nav>
   </header>
+
   <main>
-    <h1>Bem-vindo ao Acervo de Livros</h1>
+    <h1>Explore o nosso Acervo</h1>
     <div id="books-container">
-      <!-- livros carregados dinamicamente -->
-    </div>
-      <!-- botoes de navegacao -->
-    </div>
-    <div id="pagination">
+      </div>
   </main>
 
-  <div id="inf-modal" class="modal">
-      <div class="modal-content">
-          <span class="close">&times;</span> 
-          <h2 id="modal-title"></h2> 
-
-              <div class="modal-body">
-                  <img src="" id="modal-cover"> 
-                  <div class="book-details">
-                      <h3 id="modal-author"></h3> 
-                      <h3 id="modal-year"></h3> 
-                      <p id="modal-sinopse"></p> 
-                      <div id="download">
-                          <a href="" id="link" target='_blank'>Baixar</a>
-                      </div>
-                  </div>
-              </div>
+  <footer>
+    <div id="pagination">
       </div>
+  </footer>
+
+  <div id="inf-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span> 
+      
+      <div class="modal-body">
+        <div class="modal-image-wrapper">
+          <img src="" id="modal-cover" alt="Capa do livro"> 
+        </div>
+        
+        <div class="book-details">
+          <h2 id="modal-title"></h2> 
+          <h3 id="modal-author"></h3> 
+          <h4 id="modal-year"></h4> 
+          <p id="modal-sinopse"></p> 
+          
+          <div id="download">
+            <a href="" id="link" target="_blank" rel="noopener">Baixar Livro</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script src="/static/js/nav-logged-user.js">
-  </script>
-  <script src="static/js/home.js"> </script>
-  <script src="static/js/home_book.js"> </script>
+  <script src="/static/js/nav-logged-user.js"></script>
+  <script src="/static/js/home.js"></script>
+  <script src="/static/js/home_book.js"></script>
 </body>
 
 </html>

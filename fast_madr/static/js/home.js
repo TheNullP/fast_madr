@@ -11,23 +11,20 @@ async function fetchBooks(page = 1, perPage = 10) {
 
 function renderBooks(books) {
 	const container = document.getElementById("books-container");
-	container.innerHTML = ""; // limpa o container
+	container.innerHTML = "";
+
 	books.forEach((book) => {
 		const bookElement = document.createElement("div");
 		bookElement.classList.add("book");
 
 		bookElement.setAttribute("data-id", book.id);
-
-		bookElement.addEventListener('click', () => {
-			document.getElementById("modal-cover").src = book.book_cover;
-		})
-
+		bookElement.setAttribute("data-cover", book.book_cover);
 
 		bookElement.innerHTML = `
-      <h2>${book.titulo}</h2>
-      <p>Autor: ${book.author}</p>
-      <p>Ano: ${book.ano}</p>
-    `;
+            <h2>${book.titulo}</h2>
+            <p>Autor: ${book.author}</p>
+            <p>Ano: ${book.ano}</p>
+        `;
 
 		container.appendChild(bookElement);
 	});
@@ -41,7 +38,7 @@ function renderPagination(currentPage, totalPages) {
 		const button = document.createElement("button");
 		button.textContent = i;
 		button.disabled = i === currentPage;
-		button.addEventListener("click", () => loadBooks(i)); //recarregar os livros ao clicar
+		button.addEventListener("click", () => loadBooks(i));
 		paginationContainer.appendChild(button);
 	}
 }
@@ -55,7 +52,6 @@ async function loadBooks(page = 1) {
 	renderPagination(page, totalPages);
 }
 
-// Inicializa a pagina ao carregar o DOM
 document.addEventListener("DOMContentLoaded", () => {
 	loadBooks();
 });
