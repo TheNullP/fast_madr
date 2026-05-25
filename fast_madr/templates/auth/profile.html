@@ -1,107 +1,123 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Perfil</title>
-    <link rel="styleSheet" href="/static/css/profile.css">
-    <link rel="stylesheet" href="/static/css/modal_styles.css"> 
-    </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu Perfil - Acervo de Livros</title>
+  <link rel="stylesheet" href="/static/css/header.css">
+  <link rel="stylesheet" href="/static/css/profile.css">
+  <link rel="stylesheet" href="/static/css/modal_styles.css"> 
+</head>
 
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li id="nav-login"></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav>
+      <div class="nav-brand">📚 Acervo de Livros</div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li id="nav-login"></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div id="main-content-wrapper">
+  <main id="main-content-wrapper">
 
-        <div id="profile-container">
-            <img id="profile-picture" src="">
-            <input type="file" id="upload-photo" accept="image/*" style="display: none;">
-            <h1 id='user-info'></h1>
-        </div>
+    <section id="profile-container">
+      <div class="profile-avatar-wrapper">
+        <img id="profile-picture" src="" alt="Foto de perfil">
+        <div class="avatar-overlay">Editar</div>
+      </div>
+      <input type="file" id="upload-photo" accept="image/*" style="display: none;">
+      <h1 id="user-info"></h1>
+    </section>
 
-        <div id="number_books">
-            <p>Este é o seu Perfil.</p>
-            <h3>Livros Adicionados: </h3>
-            <p id="number_of_books"></p>
-        </div>
+    <section id="number_books">
+      <p>Bem-vindo ao seu painel de controle pessoal.</p>
+      <h3>Livros Adicionados</h3>
+      <p id="number_of_books"></p>
+    </section>
 
-        <h3>Meus Livros:</h3>
-        <div id="created_books"> </div>
+    <section class="books-section">
+      <h3>Meus Livros</h3>
+      <div id="created_books"></div>
+    </section>
 
-        <button id="open-modal">Novo Livro</button>
-
-        <div id="container-logout">
-            <button type="click" id="logout">Logout</button>
-        </div>
-
-    </div>
-    <div id="book-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Adicionar Novo Livro</h2>
-            <form id="book-form">
-                <label for="title">Título:</label>
-                <input type="text" id="title" required placeholder="Digite o titulo do Livro.">
-
-                <label for="author">Autor:</label>
-                <input type="text" id="author" required placeholder="Digite o nome do Autor.">
-
-                <label for="year">Ano:</label>
-                <input type="number" id="year" required placeholder="Digite o ano do livro.">
-
-                <!-- <label for="sinopse">Sinopse:</label> -->
-                <!-- <input type="text" id="sinopse"> -->
-
-                <label for="cover">Capa:</label>
-                <input type="file" id='file_cover' accept='image/*'>
-
-                <label for="file_book">Livro:</label>
-                <input type="file" id="file_book" accept='.pdf'>
-
-                <input type="hidden" id="book-id-to-edit">
-
-                <button type="submit" id="submit-book-form">Adicionar</button>
-            </form>
-        </div>
+    <div class="profile-actions">
+      <button id="open-modal" class="btn btn-success">✨ Novo Livro</button>
+      <button id="logout" class="btn btn-danger">Sair da Conta</button>
     </div>
 
-    <div id="inf-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-edit-book">&times;</span>
-            <div class='modal-action-buttons'>
-                <button type="button" id='editBtn' class='modal-action-btn'>Editar</button>
-                <button type="button" id='deleteBtn' class='modal-action-btn'>Deletar</button>
-            </div>
-            <h2 id="modal-title"></h2> 
+  </main>
 
-            <div class="modal-body">
-                <img src="" id="modal-cover"> 
-                <div class="book-details">
-                    <h3 id="modal-author"></h3>
-                    <h3 id="modal-year"></h3>
-                    <p id="modal-sinopse"></p> 
-                    <div id="download">
-                        <a href="" id="link" target='_blank'>Baixar</a>
-                    </div>
-                </div>
-            </div>
+  <div id="book-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Adicionar Novo Livro</h2>
+      <form id="book-form" autocomplete="off">
+        <div class="form-group">
+          <label for="title">Título</label>
+          <input type="text" id="title" required placeholder="Digite o título do livro">
         </div>
+
+        <div class="form-group">
+          <label for="author">Autor</label>
+          <input type="text" id="author" required placeholder="Digite o nome do autor">
+        </div>
+
+        <div class="form-group">
+          <label for="year">Ano de Publicação</label>
+          <input type="number" id="year" required placeholder="Ex: 2026">
+        </div>
+
+        <div class="form-group">
+          <label for="file_cover" class="file-label">📸 Capa do Livro (Imagem)</label>
+          <input type="file" id="file_cover" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="file_book" class="file-label">📂 Arquivo do Livro (PDF)</label>
+          <input type="file" id="file_book" accept=".pdf">
+        </div>
+
+        <input type="hidden" id="book-id-to-edit">
+
+        <button type="submit" id="submit-book-form" class="btn btn-submit">Adicionar</button>
+      </form>
     </div>
+  </div>
 
+  <div id="inf-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-edit-book" id="close-inf-modal">&times;</span>
+      
+      <div class="modal-action-buttons">
+        <button type="button" id="editBtn" class="modal-action-btn edit-btn">✏️ Editar</button>
+        <button type="button" id="deleteBtn" class="modal-action-btn delete-btn">🗑️ Deletar</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-image-wrapper">
+          <img src="" id="modal-cover" alt="Capa do livro"> 
+        </div>
+        <div class="book-details">
+          <h2 id="modal-title"></h2> 
+          <h3 id="modal-author"></h3>
+          <h4 id="modal-year"></h4>
+          <p id="modal-sinopse"></p> 
+          <div id="download">
+            <a href="" id="link" target="_blank" rel="noopener">Baixar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script src="/static/js/nav-logged-user.js"> </script>
-    <script src="/static/js/profile.js"> </script>
-    <script src="/static/js/profile_book_list.js"> </script>
-    <script src="/static/js/create_book.js" defer> </script>
+  <script src="/static/js/nav-logged-user.js"></script>
+  <script src="/static/js/profile.js"></script>
+  <script src="/static/js/profile_book_list.js"></script>
+  <script src="/static/js/create_book.js" defer></script>
 </body>
 
 </html>

@@ -1,163 +1,154 @@
-#divForm {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+:root {
+	--primary-color: #34495e;
+	--accent-color: #3498db;
+	--accent-hover: #2980b9;
+	--success-color: #2ecc71;
+	--success-hover: #27ae60;
+	--error-color: #e74c3c;
+	--bg-gradient: linear-gradient(135deg, #1e272e, #2c3e50);
+	--card-bg: #ffffff;
+	--text-main: #2c3e50;
+	--text-muted: #7f8c8d;
+	--transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+html,
 body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to right, #4a90e2, #4b443a);
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: #333
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	background: var(--bg-gradient);
+	color: var(--text-main);
 }
 
-#loginForm, #registerForm {
-    background-color: #f7f7f7;
-    padding: 30px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-    border-radius: 10px;
-    box-sizing: border-box;
-    text-align: center;
+#divForm {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 40px 20px;
+	min-height: calc(100vh - 80px); /* Desconta a altura aproximada do header */
+	box-sizing: border-box;
 }
 
-#loginForm h2, #registerForm h2 {
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 25px;
-    font-size: 28px;
+#loginForm,
+#registerForm {
+	background-color: var(--card-bg);
+	padding: 40px;
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+	width: 100%;
+	max-width: 420px;
+	border-radius: 12px;
+	box-sizing: border-box;
+	text-align: center;
+	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-#loginForm h2 span, #registerForm h2 span {
-    color: #007bff;
+#loginForm h2,
+#registerForm h2 {
+	color: var(--primary-color);
+	margin: 0 0 30px 0;
+	font-size: 2rem;
+	font-weight: 600;
 }
 
-#loginForm div, #registerForm div {
-    margin-bottom: 15px;
-    text-align: left;
+.input-group {
+	margin-bottom: 20px;
+	text-align: left;
 }
 
-#loginForm label, #registerForm label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-    width: auto;
-    text-align: left;
+.input-group label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: var(--primary-color);
 }
 
-#loginForm input[type='text'],
-#loginForm input[type='password'],
-#loginForm input[type='email'],
-#loginForm input[type='number'],
-#registerForm input[type='text'],
-#registerForm input[type='password'],
-#registerForm input[type='email'],
-#registerForm input[type='number'] {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+.input-group input {
+	width: 100%;
+	padding: 12px 16px;
+	font-size: 1rem;
+	border: 1.5px solid #dcdde1;
+	border-radius: 8px;
+	box-sizing: border-box;
+	background-color: #f5f6fa;
+	color: var(--text-main);
+	transition: var(--transition-smooth);
 }
 
-#loginForm input:focus, #registerForm input:focus {
-    border-color: #007bff;
-    outline: none;
+.input-group input:focus {
+	border-color: var(--accent-color);
+	background-color: #ffffff;
+	outline: none;
+	box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
 }
 
-#loginForm .button, #registerForm .button {
-    display: block;
-    width: 100%;
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+/* Botões Modernos */
+.button {
+	display: block;
+	width: 100%;
+	padding: 14px 20px;
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	transition: var(--transition-smooth);
+	box-sizing: border-box;
 }
 
-#loginForm .button:hover, #registerForm .button:hover {
-    background-color: #0056b3;
+.button-primary {
+	background-color: var(--accent-color);
+	color: #ffffff;
 }
 
-#loginForm button#register {
-    background-color: #28a745;
-    margin-top: 10px;
+.button-primary:hover {
+	background-color: var(--accent-hover);
+	transform: translateY(-1px);
 }
 
-#loginForm button#register:hover {
-    background-color: #218838;
+.form-divider {
+	margin-top: 30px;
+	padding-top: 20px;
+	border-top: 1px solid #f1f2f6;
 }
 
-#do_you_have_registration {
-    color: #666;
-    font-size: 14px;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    display: block;
-    text-align: center;
+.form-divider p {
+	color: var(--text-muted);
+	font-size: 0.9rem;
+	margin: 0 0 15px 0;
 }
 
-p#errorMessage {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
+.button-secondary {
+	background-color: var(--success-color);
+	color: #ffffff;
 }
 
-@media (max-width: 768px) {
-    #loginForm, #registerForm {
-        max-width: 90%;
-        padding: 25px;
-    }
-    #loginForm h2, #registerForm h2 {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-    #loginForm label, #registerForm label {
-        font-size: 16px;
-    }
-    #loginForm input, #registerForm input {
-        padding: 10px;
-        font-size: 15px;
-    }
-    #loginForm .button, #registerForm .button {
-        padding: 10px 15px;
-        font-size: 15px;
-    }
+.button-secondary:hover {
+	background-color: var(--success-hover);
+	transform: translateY(-1px);
 }
 
+/* Área de Erro Fluida */
+.error-message {
+	color: var(--error-color);
+	font-size: 0.9rem;
+	font-weight: 500;
+	margin-top: 15px;
+	margin-bottom: 0;
+	text-align: center;
+	min-height: 20px;
+}
+
+/* Responsividade Adaptada */
 @media (max-width: 480px) {
-    #loginForm, #registerForm {
-        max-width: 95%;
-        padding: 20px;
-    }
-    #loginForm h2, #registerForm h2 {
-        font-size: 22px;
-        margin-bottom: 15px;
-    }
-    #loginForm label, #registerForm label {
-        font-size: 15px;
-    }
-    #loginForm input, #registerForm input {
-        padding: 8px;
-        font-size: 14px;
-    }
-    #loginForm .button, #registerForm .button {
-        padding: 8px 12px;
-        font-size: 14px;
-    }
+	#loginForm,
+	#registerForm {
+		padding: 30px 20px;
+	}
+	#loginForm h2,
+	#registerForm h2 {
+		font-size: 1.6rem;
+	}
 }

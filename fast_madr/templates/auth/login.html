@@ -1,40 +1,53 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Entrar</title> <link rel="stylesheet" href="/static/css/header.css">
-    <link rel="stylesheet" href="/static/css/form_register_and_login.css">
-    </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar - Acervo de Livros</title>
+  <link rel="stylesheet" href="/static/css/header.css">
+  <link rel="stylesheet" href="/static/css/form_register_and_login.css">
+</head>
 
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li id="nav-login"></li>
-            </ul>
-        </nav>    
-    </header>
+  <header>
+    <nav>
+      <div class="nav-brand">📚 Acervo de Livros</div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li id="nav-login"></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div id="divForm">
-        <form id="loginForm" action="/user/token" method="POST">
-            <h2><span style="color: blue">Entrar</span></h2> <div>
-                <label for="username">Username:</label>
-                <input id='username' type="text" name="username" required placeholder="test"/>
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input id='password' type="password" name="password" required placeholder="test"/>
-            </div>
-            <button type="submit" class="button">Entrar</button>
-            <p id="errorMessage" style="display: none; color: red; margin-top: 10px;"></p> <p style="margin-top: 20px; margin-bottom: 10px;">Não possui cadastro?</p> <button type="button" id="register" class="button">Cadastre-se</button> </form>
-    </div>
+  <main id="divForm">
+    <form id="loginForm" autocomplete="off">
+      <h2>Entrar</h2>
+      
+      <div class="input-group">
+        <label for="username">Usuário</label>
+        <input id="username" type="text" name="username" required placeholder="Digite seu usuário">
+      </div>
+      
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input id="password" type="password" name="password" required placeholder="Digite sua senha">
+      </div>
+      
+      <button type="submit" class="button button-primary">Entrar</button>
+      
+      <p id="errorMessage" class="error-message" aria-live="polite"></p> 
+      
+      <div class="form-divider">
+        <p>Não possui cadastro?</p>
+        <button type="button" id="register" class="button button-secondary">Criar uma conta</button>
+      </div>
+    </form>
+  </main>
 
-    <script src="/static/js/nav-logged-user.js"> </script>
-    <script src="/static/js/validation.js"></script>
-    </body>
+  <script src="/static/js/nav-logged-user.js"></script>
+  <script src="/static/js/validation.js"></script>
+</body>
 
 </html>

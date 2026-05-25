@@ -1,408 +1,326 @@
-/* Definindo o layout básico da página */
+:root {
+	--primary-color: #34495e;
+	--accent-color: #3498db;
+	--success-color: #2ecc71;
+	--success-hover: #27ae60;
+	--error-color: #e74c3c;
+	--error-hover: #c82333;
+	--bg-gradient: linear-gradient(135deg, #1e272e, #2c3e50);
+	--card-bg: #ffffff;
+	--text-main: #2c3e50;
+	--text-muted: #7f8c8d;
+	--transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+html,
 body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to right, #4a90e2, #9b59b6);
-  min-height: 100vh;
-  font-family: 'Segoe Ui', Tahomaa, Geneca, Verdana, sans-serif;
-  color: #333;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	background: var(--bg-gradient);
+	color: var(--text-main);
 }
 
-header {
-  width: 100%;
-  background: #2c3e50;
-  padding: 15px 0;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, .2);
-  position: sticky; 
-  top: 0; 
-  z-index: 100;
-}
-
-header nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 20px;
-}
-
-header nav ul li a {
-  color: white;
-  text-decoration: none;
-  padding: 10px 15px;
-  font-size: 1.1em;
-  transition: background-color 0.3s ease;
-}
-
-header nav ul li a:hover {
-  background-color: #34495e;
-  border-radius: 5px;
-}
-
-/* Estilos do container Pricipal da Página */
 #main-content-wrapper {
-  width: 95%;
-  max-width: 1100px;
-  margin: 30px 0;
-  padding: 40px;
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-
-
-  display: flex;
-  flex-direction: column;
-  gap:40px;
-  align-items: center;
+	width: 95%;
+	max-width: 1100px;
+	margin: 40px auto;
+	padding: 40px;
+	background-color: rgba(255, 255, 255, 0.98);
+	border-radius: 16px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	box-sizing: border-box;
 }
 
-/* Estilos da Seção de Perfil */
+/* Bloco do Perfil e Avatar */
 #profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  text-align: center;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+}
+
+.profile-avatar-wrapper {
+	position: relative;
+	width: 140px;
+	height: 140px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 4px solid var(--accent-color);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+	cursor: pointer;
+	transition: var(--transition-smooth);
+}
+
+.profile-avatar-wrapper:hover {
+	transform: scale(1.05);
+	border-color: #2980b9;
 }
 
 #profile-picture {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 5px solid #4a90e2;
-  object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
-#profile-picture:hover {
-  transform scale(1.08)
-  border-color: #2e6cb3;
+.avatar-overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: rgba(44, 62, 80, 0.8);
+	color: #ffffff;
+	font-size: 0.8rem;
+	font-weight: 600;
+	text-align: center;
+	padding: 6px 0;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.profile-avatar-wrapper:hover .avatar-overlay {
+	opacity: 1;
 }
 
 #user-info {
-  font-size: 32px;
-  font-weight: bold;
-  color: #2c3e50;
-  margin: 0;
-  white-space: nowrap;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	font-size: 2rem;
+	font-weight: 700;
+	color: var(--primary-color);
+	margin: 0;
 }
 
-/* Estilos da Seção 'Livros Adicionados' */
+/* Indicador de livros adicionados */
 #number_books {
-  text-align: center;
-  color: #555;
-  background-color: #f8f8f8;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  box-sizing: border-box;
+	text-align: center;
+	background-color: #f8f9fa;
+	padding: 24px;
+	border-radius: 12px;
+	border: 1px solid #e9ecef;
+}
+
+#number_books p {
+	margin: 0 0 8px 0;
+	color: var(--text-muted);
+	font-size: 1rem;
 }
 
 #number_books h3 {
-    margin-bottom: 8px;
-    color: #2c3e50;
-    font-size: 1.5em;
+	margin: 0;
+	font-size: 1.25rem;
+	color: var(--primary-color);
+	border-none: none;
+	padding-bottom: 0;
 }
 
 #number_of_books {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #4a90e2;
-  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, .1);
+	font-size: 2.5rem;
+	font-weight: 700;
+	color: var(--accent-color);
+	margin: 10px 0 0 0;
 }
 
-
-/* Titulo 'Meus Livros' */
+/* Subtítulos de Seções */
 h3 {
-  color: #2c3e50;
-  margin-top: 0;
-  text-align: center;
-  width:  100%;
-  font-size: 1.8em;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
+	color: var(--primary-color);
+	font-size: 1.4rem;
+	font-weight: 600;
+	margin: 0 0 20px 0;
+	border-bottom: 2px solid #f1f2f6;
+	padding-bottom: 10px;
+	width: 100%;
 }
 
-
-/* Estilos da Grade de livros Criados  */
+/* Listagem em Carrossel Horizontal */
 #created_books {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(180px, 1fr);
-  gap: 25px;
-  overflow-x: auto;
-  padding: 15px;
-  scroll-behavior: smooth;
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: 10px;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, .1);
-  background-color: #fff;
+	display: flex;
+	gap: 20px;
+	overflow-x: auto;
+	padding: 15px;
+	background-color: #f1f2f6;
+	border-radius: 12px;
+	width: 100%;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
 
-/* --- Personalização da Barra de Rolagem  */
 #created_books::-webkit-scrollbar {
-    height: 10px; 
+	height: 8px;
 }
 
 #created_books::-webkit-scrollbar-track {
-    background: #e0e0e0; 
-    border-radius: 10px;
+	background: rgba(0, 0, 0, 0.05);
+	border-radius: 10px;
 }
 
 #created_books::-webkit-scrollbar-thumb {
-    background: #a0a0a0; 
-    border-radius: 10px;
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
 }
 
 #created_books::-webkit-scrollbar-thumb:hover {
-    background: #777; 
+	background: rgba(0, 0, 0, 0.3);
 }
 
-
-/* Estilos de Cada Livro Individual */
+/* Card Interno Pequeno do Perfil */
 .book {
-  border: 2px solid #ccc;
-  padding: 10px;
-  width: 152px;
-  height: 190px;
-  text-align: center;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 4px 10px rgb(0, 0, 0, 0.8);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.book h2 {
-  font-size: 1.3em;
-  margin-top: 0;
-  margin-bottom: 10px;
-  color: #333;
-  white-space: normal; 
-  word-wrap: break-word;
-}
-
-.book p {
-  font-size: 0.95em;
-  color: #666;
-  margin-top: 5px;
-  line-height: 1.4;
+	background-color: #ffffff;
+	padding: 16px;
+	width: 180px;
+	height: 140px;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex-shrink: 0;
+	transition: var(--transition-smooth);
+	border: 1px solid #e1e8ed;
 }
 
 .book:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0px 12px 25px rgba(0, 0, 0, .2);
+	transform: translateY(-4px);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
-
-/* Estilo do botao 'Novo Livro' */
-button#open-modal {
-  padding: 15px 30px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  font-size: 17px;
-  font-weight: bold;
-  margin-top: 20px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  align-items: center;
-  width: fit-content;
+.book h2 {
+	font-size: 1rem;
+	margin: 0 0 8px 0;
+	color: var(--primary-color);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
-button#open-modal:hover {
-  background-color: #218838;
-  transform: translateY(-2px) 
+.book p {
+	font-size: 0.85rem;
+	color: var(--text-muted);
+	margin: 2px 0;
 }
 
+/* Bloco Inferior de Ações */
+.profile-actions {
+	display: flex;
+	width: 100%;
+	gap: 20px;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.btn {
+	padding: 12px 28px;
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	transition: var(--transition-smooth);
+}
+
+.btn-success {
+	background-color: var(--success-color);
+	color: #ffffff;
+}
+
+.btn-success:hover {
+	background-color: var(--success-hover);
+	transform: translateY(-2px);
+}
+
+.btn-danger {
+	background-color: var(--error-color);
+	color: #ffffff;
+}
+
+.btn-danger:hover {
+	background-color: var(--error-hover);
+	transform: translateY(-2px);
+}
+
+/* Modais Estrutura Interna de Formulários */
+.form-group {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 16px;
+	text-align: left;
+}
+
+.form-group label {
+	font-size: 0.9rem;
+	font-weight: 600;
+	margin-bottom: 6px;
+	color: var(--primary-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"] {
+	padding: 10px 14px;
+	font-size: 0.95rem;
+	border: 1.5px solid #dcdde1;
+	border-radius: 6px;
+	outline: none;
+	transition: var(--transition-smooth);
+}
+
+.form-group input:focus {
+	border-color: var(--accent-color);
+	box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+}
+
+.btn-submit {
+	background-color: var(--accent-color);
+	color: #ffffff;
+	width: 100%;
+	margin-top: 10px;
+}
+
+/* Botões do Topo do Modal de Visualização */
 .modal-action-buttons {
-    display: flex; 
-    justify-content: flex-end; 
-    gap: 10px; 
-    margin-top: -10px; 
-    margin-right: 50px;
-    margin-bottom: 15px;
+	display: flex;
+	gap: 10px;
+	margin-bottom: 20px;
 }
 
 .modal-action-btn {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+	padding: 6px 14px;
+	border: none;
+	border-radius: 4px;
+	font-weight: 600;
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition: var(--transition-smooth);
 }
 
-#editBtn {
-    background-color: #007bff;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.edit-btn {
+	background-color: #ffeaa7;
+	color: #d63031;
+}
+.edit-btn:hover {
+	background-color: #fdcb6e;
+}
+.delete-btn {
+	background-color: #ff7675;
+	color: #ffffff;
+}
+.delete-btn:hover {
+	background-color: #d63031;
 }
 
-#editBtn:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-#deleteBtn {
-    background-color: #dc3545;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-#deleteBtn:hover {
-    background-color: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.modal-action-btn
-
-/* Estilo do Botão de Logout */
-#container-logout {
-  margin-top: 40px;
-  margin-bottom: 40px;
-  align-items: center;
-}
-
-#logout {
-  padding: 12px 25px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3 ease, transform 0.2 ease;
-}
-
-#logout:hover {
-  background-color: #c82333;
-  transform: translateY(-2px);
-}
-
-
-/* --- Responsividade Geral da Página de Perfil --- */
+/* Responsividade de Dispositivos Móveis */
 @media (max-width: 768px) {
-    #main-content-wrapper {
-        width: 98%; 
-        padding: 25px;
-        gap: 30px; 
-    }
-
-    #profile-container {
-        flex-direction: column; 
-        gap: 15px;
-    }
-
-    #profile-picture {
-        width: 120px;
-        height: 120px;
-    }
-
-    #user-info {
-        font-size: 26px;
-    }
-
-    #number_books h3 {
-        font-size: 1.3em;
-    }
-
-    #number_of_books {
-        font-size: 1.5em;
-    }
-
-    h3 {
-        font-size: 1.6em;
-    }
-
-    #created_books {
-        grid-auto-columns: minmax(140px, 1fr); 
-        gap: 15px;
-        padding: 10px;
-    }
-
-    .book {
-        width: 140px; 
-        padding: 10px;
-    }
-
-    button#open-modal, #logout {
-        width: 90%; 
-        max-width: 300px;
-        font-size: 16px;
-    }
+	#main-content-wrapper {
+		padding: 24px;
+	}
+	.profile-actions {
+		flex-direction: column;
+		align-items: center;
+	}
+	.btn {
+		width: 100%;
+		max-width: 320px;
+	}
 }
-
-@media (max-width: 480px) {
-
-    #main-content-wrapper {
-        width: 90%;
-        padding: 15px;
-        gap: 20px;
-    }
-
-    #profile-picture {
-        width: 100px;
-        height: 100px;
-    }
-
-    #user-info {
-        font-size: 22px;
-    }
-
-    #number_books h3 {
-        font-size: 1.1em;
-    }
-
-    #number_of_books {
-        font-size: 1.3em;
-    }
-
-    #modal-cover{
-      width: 90%;
-      justify-content: flex-start;
-    }
-
-    h3 {
-        font-size: 1.4em;
-    }
-
-    #created_books {
-        grid-auto-columns: minmax(110px, 1fr);
-        gap: 10px;
-    }
-
-    .book {
-        width: 90px;
-        padding: 8px;
-        max-width: 150px; 
-        margin: 0 auto; 
-        min-height: 120px; 
-    }
-
-    button#open-modal, #logout {
-        width: 95%;
-        max-width: 250px;
-        font-size: 14px;
-        padding: 10px 15px;
-    }
-}
-

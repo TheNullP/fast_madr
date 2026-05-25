@@ -1,44 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registrar</title> <link rel="stylesheet" href="/static/css/header.css">
-    <link rel="stylesheet" href="/static/css/form_register_and_login.css">
-    </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrar - Acervo de Livros</title>
+  <link rel="stylesheet" href="/static/css/header.css">
+  <link rel="stylesheet" href="/static/css/form_register_and_login.css">
+</head>
 
 <body>
-    
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li id="nav-login"></li>
-            </ul>
-        </nav>
-    </header>
+  
+  <header>
+    <nav>
+      <div class="nav-brand">📚 Acervo de Livros</div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li id="nav-login"></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div id='divForm'>
-        <form id="registerForm"> <h2><span style="color: blue">Registrar</span></h2> <div>
-                <label for="username">Username:</label> 
-                <input type="text" name="username" id="username" required>
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" required>
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required>
-            </div>
-            <button type="submit" class="button">Cadastrar</button>
-            <p id="errorMessage" style="display: none; color: red; margin-top: 10px;"></p>
-        </form>
-    </div>
+  <main id="divForm">
+    <form id="registerForm" autocomplete="off">
+      <h2>Registrar</h2>
+      
+      <div class="input-group">
+        <label for="username">Usuário</label> 
+        <input type="text" name="username" id="username" required placeholder="Escolha um nome de usuário">
+      </div>
+      
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <input type="email" name="email" id="email" required placeholder="Seu melhor e-mail">
+      </div>
+      
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" name="password" id="password" required placeholder="Crie uma senha segura">
+      </div>
+      
+      <button type="submit" class="button button-primary">Cadastrar</button>
+      
+      <p id="errorMessage" class="error-message" aria-live="polite"></p>
+    </form>
+  </main>
 
-    <script src="/static/js/nav-logged-user.js"> </script>
-    <script src='/static/js/register.js'> </script>
+  <script src="/static/js/nav-logged-user.js"></script>
+  <script src="/static/js/register.js"></script>
 </body>
 
 </html>
