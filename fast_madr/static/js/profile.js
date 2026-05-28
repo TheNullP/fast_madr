@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 	const token = localStorage.getItem("access_token");
 
 	if (!token) {
-		// Redireciona para o login caso não tenha token
 		window.location.href = "/";
 		return;
 	}
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 			document.getElementById("profile-picture").src = data.profile_picture;
 		}
 
-		// Evento de logout
 		document.getElementById("logout").addEventListener("click", () => {
 			localStorage.removeItem("access_token");
 			window.location.href = "/";
@@ -42,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 		window.location.href = "/user/login";
 	}
 
-	// 💾 Upload de imagem de perfil
 	const profilePicture = document.getElementById("profile-picture");
 	const uploadPhoto = document.getElementById("upload-photo");
 
@@ -60,14 +57,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 		const file = uploadPhoto.files[0];
 		console.log("Arquivo selecionado:", file.name);
 
-		// Atualiza o preview da imagem antes do upload
 		const reader = new FileReader();
 		reader.onload = function (e) {
 			profilePicture.src = e.target.result;
 		};
 		reader.readAsDataURL(file);
 
-		// Cria o FormData para enviar a imagem
 		const formData = new FormData();
 		formData.append("file", file);
 
@@ -96,8 +91,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 		} finally {
 			setTimeout(() => {
 				console.log("Resetando input após o upload...");
-				uploadPhoto.value = ""; // reseta o input para permitir outra selecao
-			}, 100); // pequeno atraso para evitar comportamento estranho no nav
+				uploadPhoto.value = "";
+			}, 100);
 		}
 	});
 });
