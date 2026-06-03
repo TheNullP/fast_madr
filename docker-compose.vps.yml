@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .  
+    container_name: madr-container
+    restart: always 
+    
+    networks:
+      - web-network
+      
+    env_file:
+      - .env
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastmadr.rule=Host(`thenullp.duckdns.org`)"
+      - "traefik.http.routers.fastmadr.tls.certresolver=myresolver"
+      - "traefik.http.services.fastmadr.loadbalancer.server.port=8000"
+
+networks:
+  web-network:
+    external: true

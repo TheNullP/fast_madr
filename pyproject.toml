@@ -2,7 +2,7 @@
 name = "fast-madr"
 version = "0.1.0"
 description = ""
-authors = ["Mfreitas0 <mfreitasc0@gmail.com>"]
+authors = ["TheNullP <mfreitasc0@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
