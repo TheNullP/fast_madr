@@ -15,7 +15,15 @@ function nav_logged() {
 			'<a href="/user/login">Login</a>';
 	}
 }
-
+const home = document.getElementById("home");
 document.addEventListener("DOMContentLoaded", () => {
 	nav_logged();
+
+	lucide.createIcons();
+});
+
+home.addEventListener("click", async (e) => {
+	e.preventDefault();
+
+	window.location.href = "/";
 });

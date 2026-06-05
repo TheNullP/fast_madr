@@ -54,4 +54,45 @@ async function loadBooks(page = 1) {
 
 document.addEventListener("DOMContentLoaded", () => {
 	loadBooks();
+
+	if (typeof lucide !== "undefined") {
+		lucide.createIcons();
+	}
+
+	const btn_search = document.getElementById("search-icon");
+	const inpt_search = document.getElementById("input-search");
+
+	if (btn_search && inpt_search) {
+		btn_search.addEventListener("click", async (e) => {
+			const queryValue = inpt_search.value.trim();
+
+			if (!queryValue) {
+				alert("Por favor, digite um termo para buscar.");
+				return;
+			}
+
+			try {
+				const response = await fetch(
+					`/search?q=${encodeURIComponent(queryValue)}`,
+					{
+						method: "GET",
+					},
+				);
+
+				if (!response.ok) {
+					const err = await response.json();
+					alert(err.message || "Erro ao realizar busca.");
+					return;
+				}
+
+				const data = await response.json();
+				renderBooks(data.books);
+
+				const totalPages = Math.ceil(data.total_books / 12);
+				renderPagination(1, totalPages);
+			} catch (error) {
+				console.error("Erro na requisição de busca:", error);
+			}
+		});
+	}
 });

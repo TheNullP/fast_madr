@@ -14,14 +14,8 @@ header nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 15px 20px;
+	padding: 12px 20px;
 	box-sizing: border-box;
-}
-
-header .nav-brand {
-	color: #ffffff;
-	font-size: 1.3rem;
-	font-weight: 600;
 }
 
 header nav ul {
@@ -45,4 +39,51 @@ header nav ul li a {
 header nav ul li a:hover {
 	background-color: rgba(255, 255, 255, 0.1);
 	color: #ffffff;
+}
+
+/* .nav-brand { */
+/* 	list-style: none; */
+/* 	margin: 0; */
+/* 	padding: 0; */
+/* 	display: flex; */
+/* 	gap: 10px; */
+/* } */
+
+.nav-brand {
+	color: #ecf0f1;
+	text-decoration: none;
+	font-size: 1.3rem;
+	font-weight: 600;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.nav-brand:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: #ffffff;
+}
+
+#search-icon {
+	color: black;
+	stroke-width: 3;
+	width: 20px;
+	height: 20px;
+	align-items: flex-end;
+	cursor: pointer;
+}
+
+.search-container {
+	display: flex;
+	background-color: white;
+	border-radius: 10px;
+	padding: 3px;
+	height: 1.2rem;
+	width: 40vh;
+}
+.search-container input {
+	padding: 5px;
+	appearance: none;
+	border: none;
+	width: 40vh;
 }

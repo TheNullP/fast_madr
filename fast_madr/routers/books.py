@@ -4,12 +4,13 @@ from typing import Optional
 import cloudinary
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import Book, User, get_db
 from fast_madr.core.security import token_verify
 from fast_madr.schemas.book_schema import InfoBook, PaginatedBooksResponse
+from typing import Dict, Any
 
 router = APIRouter()
 
@@ -18,19 +19,24 @@ router = APIRouter()
 def search(
     db: Session = Depends(get_db),
     title: str | None = None,
-    author: str | None = None,
-):
-    response = select(Book)
+) -> Dict[str, Any]:
+    query_books = select(Book)
+    query_total = select(func.count(Book.id))
 
     if title:
-        response = response.where(Book.titulo.ilike(f'%{title}%'))
-    if author:
-        response = response.where(Book.author.ilike(f'%{author}%'))
+        filtro = Book.titulo.ilike(f'%{title}%')
+        query_books = query_books.where(filtro)
+        query_total = query_total.where(filtro)
 
-    response = response.offset(offset=0).limit(limit=10)
-    books = db.scalars(response).all()
+    response_total = db.scalar(query_total)
 
-    return {'books': books}
+    query_books = query_books.offset(0).limit(10)
+    books = db.scalars(query_books).all()
+
+    return {
+        'books': books,
+        'total_books': response_total,
+    }
 
 
 @router.get('/read-book', tags=['books'])
@@ -52,7 +58,8 @@ def update_book(
     user_auth: User = Depends(token_verify),
 ):
     current_book = (
-        db.query(Book)
+        db
+        .query(Book)
         .where(Book.id == book_id and Book.id_user == user_auth.id)
         .first()
     )
@@ -109,7 +116,8 @@ def delete_book(
     user_auth: User = Depends(token_verify),
 ):
     existed_user_and_book = (
-        db.query(Book)
+        db
+        .query(Book)
         .where(Book.id == book_id and Book.id_user == user_auth.id)
         .first()
     )

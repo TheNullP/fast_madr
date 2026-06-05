@@ -13,9 +13,13 @@
 <body>
   <header>
     <nav>
-      <div class="nav-brand">📚 Acervo de Livros</div>
+      <div class="nav-brand" id="home">📚Acervo de Livros</div>
+      <div class="search-container">
+        <input type="text" name="search" id='input-search' placeholder="O que está procurando?">
+        <i data-lucide="search" id="search-icon"></i>
+      </div>
       <ul>
-        <li><a href="/">Home</a></li>
+        <!-- <li><a href="/">Home</a></li> -->
         <li id="nav-login"></li>
       </ul>
     </nav>
@@ -55,6 +59,7 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="/static/js/nav-logged-user.js"></script>
   <script src="/static/js/home.js"></script>
   <script src="/static/js/home_book.js"></script>
