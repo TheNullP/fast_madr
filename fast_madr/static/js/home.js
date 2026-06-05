@@ -62,8 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const btn_search = document.getElementById("search-icon");
 	const inpt_search = document.getElementById("input-search");
 
-	if (btn_search && inpt_search) {
-		btn_search.addEventListener("click", async (e) => {
+	async function DispararBusca() {
+		if (btn_search && inpt_search) {
 			const queryValue = inpt_search.value.trim();
 
 			if (!queryValue) {
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			try {
 				const response = await fetch(
-					`/search?q=${encodeURIComponent(queryValue)}`,
+					`/search?title=${encodeURIComponent(queryValue)}`,
 					{
 						method: "GET",
 					},
@@ -93,6 +93,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			} catch (error) {
 				console.error("Erro na requisição de busca:", error);
 			}
-		});
+		}
 	}
+
+	inpt_search.addEventListener("keydown", async (e) => {
+		if (e.key == "Enter") {
+			DispararBusca();
+			e.preventDefault();
+		}
+	});
+
+	btn_search.addEventListener("click", async (e) => {
+		e.preventDefault();
+
+		DispararBusca();
+	});
 });
