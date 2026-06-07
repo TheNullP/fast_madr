@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (bookElement) {
 				const id_book = bookElement.dataset.id;
 				const cover_url = bookElement.dataset.cover;
-
+				if (!cover_url) {
+					document.getElementById("modal-cover").src =
+						"/static/image/file-png.pgn";
+				}
 				document.getElementById("modal-cover").src = cover_url;
 
 				try {
