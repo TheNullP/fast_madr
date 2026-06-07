@@ -4,7 +4,7 @@ O objetivo principal deste projeto é criar uma API para gerenciar livros e seus
 
 ---
 
-### Estrutura do Projeto
+### 🏗️ Estrutura do Projeto
 
 O projeto está dividido em três principais seções:
 
@@ -14,49 +14,60 @@ O projeto está dividido em três principais seções:
 
 ---
 
-### Tecnologias Utilizadas
+### 💻 Tecnologias Utilizadas
 
 * **FastAPI:** Framework web para construção da API.
 * **SQLAlchemy:** ORM para o gerenciamento do banco de dados.
-* **PostgreSQL** (ou qualquer banco de dados relacional).
-* **JWT** para autenticação.
-* **Docker:** Para containerizar a aplicação.
+* **PostgreSQL:** Banco de dados relacional.
+* **JWT:** Padrão utilizado para a autenticação segura.
+* **Docker & Docker Compose:** Containerização e orquestração da aplicação.
 * **Cloudinary:** Serviço de nuvem para armazenamento e otimização de imagens e PDFs.
-
 
 ---
 
-### Instalação e Execução (Local)
+### 🚀 Projeto em Produção (VPS Autogerenciada)
+
+A aplicação está atualmente em produção, hospedada em um servidor privado virtual (VPS) com orquestração via Docker e roteamento seguro (HTTPS) gerido dinamicamente.
+
+Você pode acessar a versão mais recente e interagir com os *endpoints* através dos links abaixo:
+
+* **Acesso à Aplicação:** [https://madr-thenullp.duckdns.org/](https://madr-thenullp.duckdns.org/)
+* **Documentação Interativa (Swagger UI):** [https://madr-thenullp.duckdns.org/docs](https://madr-thenullp.duckdns.org/docs)
+
+---
+
+### 🛠️ Instalação e Execução (Ambiente Local)
 
 #### Pré-requisitos
 
-* Docker
+* Docker e Docker Compose
 * Python 3.10+
 
 #### Passos para rodar o projeto
 
 1.  **Clone o repositório:**
-    ```bash
-    git clone https://github.com/TheNullP/fast_madr.git
-    cd fast_madr
-    ```
+```bash
+git clone [https://github.com/TheNullP/fast_madr.git](https://github.com/TheNullP/fast_madr.git)
+cd fast_madr
+```
 
 2.  **Instale as dependências:**
-    ```bash
-    poetry install
-    ```
+```bash
+poetry install
+```
 
-3.  **Configure as variáveis de ambiente** no arquivo `.env` (exemplo fornecido no `.env.example`).
+3.  **Configure as variáveis de ambiente:**
+    Crie uma cópia do arquivo `.env.example` e renomeie para `.env`, preenchendo com as suas credenciais de desenvolvimento.
 
 4.  **Execute as migrações de banco de dados:**
-    ```bash
-    alembic upgrade head
-    ```
+```bash
+alembic upgrade head
+```
 
 5.  **Inicie a aplicação com o Docker:**
-    ```bash
-    docker-compose up
-    ```
+```bash
+docker-compose up
+```
 
 6.  **Acesse a API no navegador (localmente):**
     * **Documentação interativa (Swagger UI):** `http://localhost:8000/docs`
@@ -64,15 +75,6 @@ O projeto está dividido em três principais seções:
 
 ---
 
-### Projeto em Produção (Fly.io)
-
-Você pode acessar a versão mais recente do projeto implantada no Fly.io, bem como sua documentação interativa:
-
-* **Acesso à Aplicação:** [https://fast-madr.fly.dev/](https://fast-madr.fly.dev/)
-* **Documentação Interativa (Swagger UI):** [https://fast-madr.fly.dev/docs](https://fast-madr.fly.dev/docs)
-
----
-
-### Licença
+### 📄 Licença
 
 Este projeto está licenciado sob a licença MIT - veja o arquivo `LICENSE` para mais detalhes.
