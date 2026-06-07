@@ -1,4 +1,4 @@
-window.prepareBookModalForEdit = async function (bookId) {
+window.prepareBookModalForEdit = async function(bookId) {
 	const bookModal = document.getElementById("book-modal");
 	const bookForm = document.getElementById("book-form");
 	const submitButton = document.getElementById("submit-book-form");
@@ -55,7 +55,7 @@ window.prepareBookModalForEdit = async function (bookId) {
 	}
 };
 
-window.deleteBook = async function (bookId) {
+window.deleteBook = async function(bookId) {
 	const access_token = localStorage.getItem("access_token");
 
 	if (!access_token) {
@@ -102,7 +102,7 @@ window.deleteBook = async function (bookId) {
 	}
 };
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 	const bookModal = document.getElementById("book-modal");
 	const openModalBtn = document.getElementById("open-modal");
 	const closeModalBtn = bookModal ? bookModal.querySelector(".close") : null; // Verificação de existência
@@ -176,6 +176,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const formData = new FormData();
 
+			const btnSalvar = document.getElementById("submit-book-form");
+			const spinner = document.getElementById("loadingSpinner");
+
 			if (bookIdInput) formData.append("book_id", bookId);
 			if (titleInput) formData.append("book_title", title);
 			if (authorInput) formData.append("book_author", author);
@@ -191,6 +194,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const method = isEditing ? "PUT" : "POST";
 			const url = isEditing ? `/book/update` : "/create_book";
+
+			spinner.style.display = "flex";
+			btnSalvar.style.display = "none";
 
 			try {
 				const response = await fetch(url, {
@@ -208,11 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					);
 				}
 
-				alert(
-					isEditing
-						? "Livro atualizado com sucesso!"
-						: "Livro adicionado com sucesso!",
-				);
+				spinner.style.display = "none";
+				btnSalvar.style.display = "block";
 
 				if (bookModal) bookModal.classList.remove("show");
 				if (bookModal)
@@ -236,6 +239,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					bookModal.querySelector("h2").textContent = "Adicionar Novo Livro";
 			} catch (error) {
 				alert(`Falha na operação: ${error.message}`);
+			} finally {
+				alert(
+					isEditing
+						? "Livro atualizado com sucesso!"
+						: "Livro adicionado com sucesso!",
+				);
 			}
 		});
 	} else {

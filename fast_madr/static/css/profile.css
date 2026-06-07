@@ -273,6 +273,7 @@ h3 {
 
 .btn-submit {
 	background-color: var(--accent-color);
+	text-align: center;
 	color: #ffffff;
 	width: 100%;
 	margin-top: 10px;
