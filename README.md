@@ -47,7 +47,7 @@ Você pode acessar a versão mais recente e interagir com os *endpoints* atravé
 
 1.  **Clone o repositório:**
 ```bash
-git clone [https://github.com/TheNullP/fast_madr.git](https://github.com/TheNullP/fast_madr.git)
+git clone https://github.com/TheNullP/fast_madr.git
 cd fast_madr
 ```
 
