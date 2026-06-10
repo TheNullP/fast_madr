@@ -1,11 +1,17 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, BackgroundTasks, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from fast_madr.core.database import User, get_db
-from fast_madr.core.security import UserLogin, crypt_context, token_verify
+from fast_madr.core.security import (
+    UserLogin,
+    create_verification_token,
+    crypt_context,
+    send_activation_email,
+    token_verify,
+)
 from fast_madr.schemas.user_schema import UserModel
 
 router = APIRouter(prefix='/user')
@@ -18,14 +24,20 @@ def read_users(db: Session = Depends(get_db)):
 
 
 @router.post('/create', tags=['user'], status_code=HTTPStatus.CREATED)
-def create_user(user: UserModel, db: Session = Depends(get_db)):
+def create_user(
+    user: UserModel,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
     ul = UserLogin(db=db)
     ul.user_register(user=user)
 
-    return JSONResponse(
-        content={'msg': 'success.'},
-        status_code=201,
-    )
+    token = create_verification_token(user.email)
+    background_tasks.add_task(send_activation_email, user.email, token)
+
+    return {
+        'message': 'Usuário registrado! Verifique sua caixa de entrada para ativar a conta.'
+    }
 
 
 @router.put('/update/', tags=['user'], status_code=HTTPStatus.OK)

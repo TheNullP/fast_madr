@@ -1,8 +1,8 @@
-"""Att do campo book_cover
+"""Migracao inicial
 
-Revision ID: d3f1aa8241cf
-Revises: 09444f42c4b6
-Create Date: 2025-06-24 21:52:54.901731
+Revision ID: a6c908ad3eac
+Revises: 
+Create Date: 2026-06-09 20:53:47.959676
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'd3f1aa8241cf'
-down_revision: Union[str, None] = '09444f42c4b6'
+revision: str = 'a6c908ad3eac'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

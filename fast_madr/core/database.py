@@ -1,5 +1,10 @@
-from sqlalchemy import ForeignKey, String, create_engine
-from sqlalchemy.orm import Mapped, mapped_column, registry, sessionmaker
+from sqlalchemy import Boolean, ForeignKey, String, create_engine
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+    registry,
+    sessionmaker,
+)
 
 from fast_madr.core.settings import Settings
 
@@ -19,6 +24,7 @@ class User:
     profile_picture: Mapped[str] = mapped_column(
         String, init=False, nullable=True
     )
+    is_active: Mapped[bool] = mapped_column(default='false')
 
 
 @reg.mapped_as_dataclass

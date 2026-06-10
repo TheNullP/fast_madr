@@ -24,7 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
 				const data = await response.json();
 
 				if (response.ok) {
-					alert(data.msg || "Cadastro realizado com sucesso!");
+					alert(
+						data.msg ||
+							"Usuário registrado! Verifique sua caixa de entrada para ativar a conta.",
+					);
 					window.location.href = "/user/login"; // Redireciona para o login
 				} else {
 					console.error("Erro no cadastro:", data);

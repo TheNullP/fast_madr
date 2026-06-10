@@ -1,10 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from pydantic.fields import Field
 
 
 class UserModel(BaseModel):
     username: str = None
-    email: str = Field(default='email@email.com')
+    email: EmailStr = Field(default='email@email.com')
     password: str = None
 
 

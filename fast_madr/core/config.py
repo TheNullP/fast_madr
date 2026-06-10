@@ -8,6 +8,10 @@ from fast_madr.core.settings import Settings
 ALGORITHM = Settings().ALGORITHM
 SECRET_KEY = Settings().SECRET_KEY
 ACCESS_TOKEN_EXPIRE_MINUTES = Settings().ACCESS_TOKEN_EXPIRE_MINUTES
+
+MAILTRAP_USERNAME = Settings().MAILTRAP_USERNAME
+MAILTRAP_PASSWORD = Settings().MAILTRAP_PASSWORD
+
 crypt_context = CryptContext(schemes=['sha256_crypt'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='user/token')
 templates = Jinja2Templates(directory='fast_madr/templates')

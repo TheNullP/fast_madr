@@ -1,7 +1,10 @@
 from datetime import datetime, timedelta
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import smtplib
 from zoneinfo import ZoneInfo
 
-from fastapi import Depends
+from fastapi import Depends, status
 from fastapi.exceptions import HTTPException
 from jose import JWTError, jwt
 from sqlalchemy.exc import IntegrityError
@@ -10,6 +13,8 @@ from sqlalchemy.orm import Session
 from fast_madr.core.config import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
     ALGORITHM,
+    MAILTRAP_PASSWORD,
+    MAILTRAP_USERNAME,
     SECRET_KEY,
     crypt_context,
     oauth2_scheme,
@@ -27,12 +32,14 @@ class UserLogin:
             username=user.username,
             email=user.email,
             password=crypt_context.hash(user.password),
+            is_active=False,
         )
 
         try:
             self.db.add(db_user)
             self.db.commit()
             self.db.refresh(db_user)
+
         except IntegrityError:
             raise HTTPException(
                 status_code=400, detail='User or Email already exists.'
@@ -129,4 +136,112 @@ def token_verify(
     if user_data is None:
         raise HTTPException(status_code=401, detail='Invalid or Expire Token.')
 
+    if not user_data.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Esta conta ainda não foi ativada. Verifique seu e-mail.',
+        )
+
     return user_data
+
+
+def create_verification_token(email: str):
+
+    expire = datetime.now(tz=ZoneInfo('UTC')) + timedelta(minutes=15)
+    payload = {
+        'exp': expire,
+        'sub': str(email),
+        'scope': 'email_verification',
+    }
+    access_token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+    return {'access_token': access_token, 'token_type': 'bearer'}
+
+
+def verify_activation_token(token: str):
+
+    try:
+        if token is None:
+            raise HTTPException(status_code=401, detail='Token required')
+
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if payload.get('scope') != 'email_verification':
+            return None
+        return payload.get('sub')
+    except JWTError:
+        return None
+
+
+def send_activation_email(email: str, token: str):
+    verification_url = f'http://madr-thenullp.duckdns.org/auth/verify-email?token={token["access_token"]}'
+
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = 'Ativação de Conta - Acervo de Livros MADR'
+    msg['From'] = 'noreply@madr.com'
+    msg['To'] = email
+
+    html_content = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ative sua conta no MADR</title>
+    </head>
+    <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f6fa; color: #2c3e50;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" max-width="600px" style="border-collapse: collapse; background-color: #ffffff; margin: 40px auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e1e8ed;">
+            
+            <tr>
+                <td bgcolor="#2c3e50" align="center" style="padding: 30px 20px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                    <h1 style="color: #ffffff; margin: 0; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.5px;">
+                        📚 Acervo de Livros MADR
+                    </h1>
+                </td>
+            </tr>
+            
+            <tr>
+                <td style="padding: 40px 30px;">
+                    <h2 style="color: #34495e; font-size: 1.4rem; margin-top: 0; font-weight: 600;">Olá!</h2>
+                    <p style="font-size: 1rem; line-height: 1.6; color: #4f5d73; margin-bottom: 30px;">
+                        Seja muito bem-vindo ao nosso acervo. Para concluir o seu cadastro e liberar o seu acesso completo aos livros e downloads, precisamos apenas confirmar o seu endereço de e-mail.
+                    </p>
+                    
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 30px auto;">
+                        <tr>
+                            <td align="center" bgcolor="#3498db" style="border-radius: 8px;">
+                                <a href="{verification_url}" target="_blank" style="display: inline-block; padding: 14px 28px; font-size: 1rem; color: #ffffff; text-decoration: none; font-weight: 600; border-radius: 8px; transition: background-color 0.2s ease;">
+                                    Confirmar Meu E-mail
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <p style="font-size: 0.9rem; line-height: 1.6; color: #7f8c8d; margin-top: 30px; text-align: center;">
+                        Se o botão acima não funcionar, copie e cole o link abaixo no seu navegador:
+                        <br>
+                        <a href="{verification_url}" style="color: #3498db; word-break: break-all; font-size: 0.85rem;">{verification_url}</a>
+                    </p>
+                </td>
+            </tr>
+            
+            <tr>
+                <td bgcolor="#f8f9fa" align="center" style="padding: 20px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top: 1px solid #e1e8ed;">
+                    <p style="font-size: 0.8rem; color: #95a5a6; margin: 0;">
+                        Este é um e-mail automático enviado pelo sistema fast_madr. Por favor, não responda a esta mensagem.
+                    </p>
+                </td>
+            </tr>
+            
+        </table>
+    </body>
+    </html>
+    """
+
+    msg.attach(MIMEText(html_content, 'html', 'utf-8'))
+
+    try:
+        with smtplib.SMTP('sandbox.smtp.mailtrap.io', 2525) as server:
+            server.login(str(MAILTRAP_USERNAME), str(MAILTRAP_PASSWORD))
+            server.sendmail(msg['From'], [msg['To']], msg.as_string())
+    except Exception as e:
+        return f'Erro ao enviar e-mail: {e}'
