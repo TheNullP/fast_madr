@@ -1,26 +1,30 @@
 from datetime import datetime, timedelta
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import smtplib
 from zoneinfo import ZoneInfo
 
 from fastapi import Depends, status
 from fastapi.exceptions import HTTPException
 from jose import JWTError, jwt
+from sib_api_v3_sdk.models.body import pprint
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from fast_madr.core.config import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
     ALGORITHM,
-    MAILTRAP_PASSWORD,
-    MAILTRAP_USERNAME,
     SECRET_KEY,
     crypt_context,
     oauth2_scheme,
 )
 from fast_madr.core.database import Book, User, get_db
+from fast_madr.core.settings import Settings
 from fast_madr.schemas.user_schema import LoginModel, UserInfo, UserModel
+
+import time
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
+
+BREVO_KEY = Settings().BREVO_KEY
 
 
 class UserLogin:
@@ -145,7 +149,7 @@ def token_verify(
     return user_data
 
 
-def create_verification_token(email: str):
+def create_activation_token(email: str):
 
     expire = datetime.now(tz=ZoneInfo('UTC')) + timedelta(minutes=15)
     payload = {
@@ -172,76 +176,29 @@ def verify_activation_token(token: str):
         return None
 
 
-def send_activation_email(email: str, token: str):
+async def send_activation_email(email: str, token: str):
     verification_url = f'http://madr-thenullp.duckdns.org/auth/verify-email?token={token["access_token"]}'
 
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = 'Ativação de Conta - Acervo de Livros MADR'
-    msg['From'] = 'noreply@madr.com'
-    msg['To'] = email
+    html_template = (
+        f"""<html> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Ative sua conta no MADR</title> </head> <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f6fa; color: #2c3e50;"> <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" max-width="600px" style="border-collapse: collapse; background-color: #ffffff; margin: 40px auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e1e8ed;"> <tr> <td bgcolor="#2c3e50" align="center" style="padding: 30px 20px; border-top-left-radius: 12px; border-top-right-radius: 12px;"> <h1 style="color: #ffffff; margin: 0; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.5px;"> 📚 Acervo de Livros MADR </h1> </td> </tr> <tr> <td style="padding: 40px 30px;"> <h2 style="color: #34495e; font-size: 1.4rem; margin-top: 0; font-weight: 600;">Olá!</h2> <p style="font-size: 1rem; line-height: 1.6; color: #4f5d73; margin-bottom: 30px;"> Seja muito bem-vindo ao nosso acervo. Para concluir o seu cadastro e liberar o seu acesso completo aos livros e downloads, precisamos apenas confirmar o seu endereço de e-mail. </p> <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 30px auto;"> <tr> <td align="center" bgcolor="#3498db" style="border-radius: 8px;"><a href="{verification_url}" target="_blank" style="display: inline-block; padding: 14px 28px; font-size: 1rem; color: #ffffff; text-decoration: none; font-weight: 600; border-radius: 8px; transition: background-color 0.2s ease;"> Confirmar Meu E-mail </a> </td> </tr> </table> <p style="font-size: 0.9rem; line-height: 1.6; color: #7f8c8d; margin-top: 30px; text-align: center;"> Se o botão acima não funcionar, copie e cole o link abaixo no seu navegador: <br> <a href="{verification_url}" style="color: #3498db; word-break: break-all; font-size: 0.85rem;">{verification_url}</a> </p> </td> </tr> <tr> <td bgcolor="#f8f9fa" align="center" style="padding: 20px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top: 1px solid #e1e8ed;"> <p style="font-size: 0.8rem; color: #95a5a6; margin: 0;"> Este é um e-mail automático enviado pelo sistema fast_madr. Por favor, não responda a esta mensagem. </p> </td> </tr> </table> </body> </html>""",
+    )
 
-    html_content = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ative sua conta no MADR</title>
-    </head>
-    <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f6fa; color: #2c3e50;">
-        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" max-width="600px" style="border-collapse: collapse; background-color: #ffffff; margin: 40px auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e1e8ed;">
-            
-            <tr>
-                <td bgcolor="#2c3e50" align="center" style="padding: 30px 20px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
-                    <h1 style="color: #ffffff; margin: 0; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.5px;">
-                        📚 Acervo de Livros MADR
-                    </h1>
-                </td>
-            </tr>
-            
-            <tr>
-                <td style="padding: 40px 30px;">
-                    <h2 style="color: #34495e; font-size: 1.4rem; margin-top: 0; font-weight: 600;">Olá!</h2>
-                    <p style="font-size: 1rem; line-height: 1.6; color: #4f5d73; margin-bottom: 30px;">
-                        Seja muito bem-vindo ao nosso acervo. Para concluir o seu cadastro e liberar o seu acesso completo aos livros e downloads, precisamos apenas confirmar o seu endereço de e-mail.
-                    </p>
-                    
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 30px auto;">
-                        <tr>
-                            <td align="center" bgcolor="#3498db" style="border-radius: 8px;">
-                                <a href="{verification_url}" target="_blank" style="display: inline-block; padding: 14px 28px; font-size: 1rem; color: #ffffff; text-decoration: none; font-weight: 600; border-radius: 8px; transition: background-color 0.2s ease;">
-                                    Confirmar Meu E-mail
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                    
-                    <p style="font-size: 0.9rem; line-height: 1.6; color: #7f8c8d; margin-top: 30px; text-align: center;">
-                        Se o botão acima não funcionar, copie e cole o link abaixo no seu navegador:
-                        <br>
-                        <a href="{verification_url}" style="color: #3498db; word-break: break-all; font-size: 0.85rem;">{verification_url}</a>
-                    </p>
-                </td>
-            </tr>
-            
-            <tr>
-                <td bgcolor="#f8f9fa" align="center" style="padding: 20px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top: 1px solid #e1e8ed;">
-                    <p style="font-size: 0.8rem; color: #95a5a6; margin: 0;">
-                        Este é um e-mail automático enviado pelo sistema fast_madr. Por favor, não responda a esta mensagem.
-                    </p>
-                </td>
-            </tr>
-            
-        </table>
-    </body>
-    </html>
-    """
+    sib_api_v3_sdk.configuration.Configuration().api_key['api-key'] = BREVO_KEY
 
-    msg.attach(MIMEText(html_content, 'html', 'utf-8'))
-
+    api_instance = sib_api_v3_sdk.EmailCampaignsApi()
+    email_campaigns = sib_api_v3_sdk.CreateEmailCampaign(
+        name='Campaign via the API',
+        subject='TiTulo',
+        sender={'name': 'MADR', 'email': 'thenullp00@gmail.com'},
+        html_content=html_template,
+    )
     try:
-        with smtplib.SMTP('sandbox.smtp.mailtrap.io', 2525) as server:
-            server.login(str(MAILTRAP_USERNAME), str(MAILTRAP_PASSWORD))
-            server.sendmail(msg['From'], [msg['To']], msg.as_string())
+        api_response = api_instance.create_email_campaign(email_campaigns)
+        pprint(api_response)
+    except ApiException as e:
+        print(
+            'Exception when calling EmailCampaignsApi->create_email_campaign: %s\n',
+            e,
+        )
     except Exception as e:
-        return f'Erro ao enviar e-mail: {e}'
+        raise e

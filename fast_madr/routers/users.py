@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from fast_madr.core.database import User, get_db
 from fast_madr.core.security import (
     UserLogin,
-    create_verification_token,
+    create_activation_token,
     crypt_context,
     send_activation_email,
     token_verify,
@@ -32,7 +32,7 @@ def create_user(
     ul = UserLogin(db=db)
     ul.user_register(user=user)
 
-    token = create_verification_token(user.email)
+    token = create_activation_token(user.email)
     background_tasks.add_task(send_activation_email, user.email, token)
 
     return {
