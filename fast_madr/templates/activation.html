@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ativação de Conta</title>
+    <link href="/static/css/home.css" rel="stylesheet">
+    <style>
+        /* Estilos básicos para os estados */
+        .alert { padding: 20px; border-radius: 8px; margin: 50px auto; max-width: 500px; text-align: center; font-family: sans-serif; }
+        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+  </head>
+  <body>
+
+    <div class="alert
+      {%if status == 'sucess'%} alert-sucess
+      {%elif status == 'warning' %} alert-warning
+      {% else %}alert-error
+      {%endif%}"> 
+
+      <h2>Aviso do Sistema</h2>
+      <p>{{ detail }}</p>
+
+      {% if status == 'sucess' %}
+        <br>
+        <a href="/user/login" style="color: #155724; font-weight: bold;">Clique aqui para fazer login</a>
+      {% endif %}
+    </div> 
+
+  </body>
+</html>
