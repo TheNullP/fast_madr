@@ -17,10 +17,10 @@ from fast_madr.schemas.user_schema import UserModel
 router = APIRouter(prefix='/user')
 
 
-@router.get('/search', tags=['user'], status_code=HTTPStatus.OK)
-def read_users(db: Session = Depends(get_db)):
-    q = db.query(User).order_by(User.id).all()
-    return q
+# @router.get('/search', tags=['user'], status_code=HTTPStatus.OK)
+# def read_users(db: Session = Depends(get_db)):
+#     q = db.query(User).order_by(User.id).all()
+#     return q
 
 
 @router.post('/create', tags=['user'], status_code=HTTPStatus.CREATED)
